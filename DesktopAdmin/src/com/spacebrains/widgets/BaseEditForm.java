@@ -65,7 +65,7 @@ public class BaseEditForm<T extends INamed> extends JDialog {
     }
 
     private void initMainSettings() {
-        setTitle(object.getID() == 0 ? "Новый элемент" : "Редактировать");
+        setTitle((object == null || object.getID() == 0)? "Новый элемент" : "Редактировать");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         // смотрим размер экрана и размещаем окно чата в центре

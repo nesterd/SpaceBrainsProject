@@ -17,9 +17,9 @@ public class SitesDictionaryForm extends BaseWindow {
         editDialog = new BaseEditForm<>(new Site(""));
 
         ArrayList<Site> sites = new ArrayList<>();
-        sites.add(new Site(1, "lenta.ru"));
-        sites.add(new Site(2, "yandex.ru"));
-        sites.add(new Site(3, "goodle.ru"));
+//        sites.add(new Site(1, "lenta.ru"));
+//        sites.add(new Site(2, "yandex.ru"));
+//        sites.add(new Site(3, "goodle.ru"));
 
         BaseTable table = new BaseTable("Сайты", sites);
         table.getAddBtn().addActionListener(new ActionListener() {
