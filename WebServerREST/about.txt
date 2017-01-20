@@ -2,8 +2,9 @@ Method      Url                 Result
 GET   /persons    JSON( {'name': <person_name>} )
 GET   /persons/<name>    JSON( {'name': <person_name>} )
 GET   /sites    JSON( {'name': <site_name>} )
-GET   /sites/<name>    JSON( {'name': <site_name> } )
-POST  /sites/<name>    JSON( {'name': <site_name> } )
-DELETE  /sites/<name>    JSON( {'name': <site_name> } )
+GET   /sites/<name>    JSON( {'name': <site_name> } )  # Вывести данные по сайту
+POST  /sites/<name>    JSON( {'name': <site_name> } )  # Добавить сайт
+DEL  /sites/<name>    JSON( {'name': <site_name> } )   # Удалить сайт
+PUT  /sites/<name>    JSON( {'name': <site_name> } )   # Если сайт уже существует, обновить данные сайта. Если нет, добавить сайт.
 GET   /base_statistic/<name>    JSON( {'name': <name>, 'site': <site_name>, 'total_count': <number>} )
 GET   /day_statistic/<name>    JSON( {'name': <name>, 'site': <site_name>, {'data_1': <count_1>, 'data_2': <count_2>, ...}, 'total_count': <number>} )
