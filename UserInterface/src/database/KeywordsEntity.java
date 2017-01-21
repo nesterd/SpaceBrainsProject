@@ -1,18 +1,16 @@
-package DataBase;
+package database;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
  * Created by oldfox on 21.01.17.
  */
 @Entity
-@Table(name = "Persons", schema = "ratepersons", catalog = "")
-public class PersonsEntity {
+@Table(name = "Keywords", schema = "ratepersons", catalog = "")
+public class KeywordsEntity {
     private int id;
     private String name;
-    private Collection<KeywordsEntity> keywordssById;
-    private Collection<PersonPageRankEntity> personPageRanksById;
+    private PersonsEntity personsByPersonId;
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -39,7 +37,7 @@ public class PersonsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PersonsEntity that = (PersonsEntity) o;
+        KeywordsEntity that = (KeywordsEntity) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
@@ -54,21 +52,13 @@ public class PersonsEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "personsByPersonId")
-    public Collection<KeywordsEntity> getKeywordssById() {
-        return keywordssById;
+    @ManyToOne
+    @JoinColumn(name = "PersonID", referencedColumnName = "ID", nullable = false)
+    public PersonsEntity getPersonsByPersonId() {
+        return personsByPersonId;
     }
 
-    public void setKeywordssById(Collection<KeywordsEntity> keywordssById) {
-        this.keywordssById = keywordssById;
-    }
-
-    @OneToMany(mappedBy = "personsByPersonId")
-    public Collection<PersonPageRankEntity> getPersonPageRanksById() {
-        return personPageRanksById;
-    }
-
-    public void setPersonPageRanksById(Collection<PersonPageRankEntity> personPageRanksById) {
-        this.personPageRanksById = personPageRanksById;
+    public void setPersonsByPersonId(PersonsEntity personsByPersonId) {
+        this.personsByPersonId = personsByPersonId;
     }
 }

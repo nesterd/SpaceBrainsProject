@@ -1,4 +1,4 @@
-package DataBase;
+package database;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

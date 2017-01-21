@@ -1,4 +1,4 @@
-package DataBase;
+package database;
 
 import javax.persistence.*;
 
@@ -6,11 +6,11 @@ import javax.persistence.*;
  * Created by oldfox on 21.01.17.
  */
 @Entity
-@Table(name = "Keywords", schema = "ratepersons", catalog = "")
-public class KeywordsEntity {
+@Table(name = "Sites", schema = "ratepersons", catalog = "")
+public class SitesEntity {
     private int id;
     private String name;
-    private PersonsEntity personsByPersonId;
+    private PagesEntity pagesById;
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -37,7 +37,7 @@ public class KeywordsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        KeywordsEntity that = (KeywordsEntity) o;
+        SitesEntity that = (SitesEntity) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
@@ -52,13 +52,12 @@ public class KeywordsEntity {
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "PersonID", referencedColumnName = "ID", nullable = false)
-    public PersonsEntity getPersonsByPersonId() {
-        return personsByPersonId;
+    @OneToOne(mappedBy = "sitesById")
+    public PagesEntity getPagesById() {
+        return pagesById;
     }
 
-    public void setPersonsByPersonId(PersonsEntity personsByPersonId) {
-        this.personsByPersonId = personsByPersonId;
+    public void setPagesById(PagesEntity pagesById) {
+        this.pagesById = pagesById;
     }
 }

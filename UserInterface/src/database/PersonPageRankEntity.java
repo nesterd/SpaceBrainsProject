@@ -1,4 +1,4 @@
-package DataBase;
+package database;
 
 import javax.persistence.*;
 
@@ -9,8 +9,11 @@ import javax.persistence.*;
 @Table(name = "PersonPageRank", schema = "ratepersons", catalog = "")
 public class PersonPageRankEntity {
     private int rank;
+    private int id;
     private PersonsEntity personsByPersonId;
     private PagesEntity pagesByPageId;
+    private int personId;
+    private int pageId;
 
     @Basic
     @Column(name = "Rank", nullable = false)
@@ -22,6 +25,16 @@ public class PersonPageRankEntity {
         this.rank = rank;
     }
 
+    @Id
+    @Column(name = "ID", nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,13 +43,16 @@ public class PersonPageRankEntity {
         PersonPageRankEntity that = (PersonPageRankEntity) o;
 
         if (rank != that.rank) return false;
+        if (id != that.id) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return rank;
+        int result = rank;
+        result = 31 * result + id;
+        return result;
     }
 
     @ManyToOne
@@ -58,4 +74,24 @@ public class PersonPageRankEntity {
     public void setPagesByPageId(PagesEntity pagesByPageId) {
         this.pagesByPageId = pagesByPageId;
     }
+
+//    @Basic
+//    @Column(name = "PersonID", nullable = false)
+//    public int getPersonId() {
+//        return personId;
+//    }
+//
+//    public void setPersonId(int personId) {
+//        this.personId = personId;
+//    }
+//
+//    @Basic
+//    @Column(name = "PageID", nullable = false)
+//    public int getPageId() {
+//        return pageId;
+//    }
+//
+//    public void setPageId(int pageId) {
+//        this.pageId = pageId;
+//    }
 }
