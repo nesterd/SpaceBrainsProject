@@ -3,23 +3,15 @@
     ViewBag.Title = "KeyWord";
 }
 
-@Html.Partial("_ReferenceBookView", "Ключевые слова")
+<h3> Справочник "Ключевые Слова"</h3>
+<p>Для редактирования и удаления записи - нажмите на неё</p>
 
+<div class="list-group">
 
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <tr>
-            <th>Id</th>
-            <th>Ключевое слово</th>
-        </tr>
-
-        @foreach (var keyWord in Model)
+        	@foreach (var keyWord in Model)
             {
-            <tr>
-                <th>@keyWord.Id</th>
-                <th>@keyWord.Name</th>
-            </tr>
-        }
-
-    </table>
+				<a href="#" class="list-group-item">@keyWord.Name</a>
+			}
 </div>
+
+<button class="btn btn-info">Добавить новую запись</button>

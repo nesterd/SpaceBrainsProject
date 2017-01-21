@@ -207,7 +207,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\_ReferenceBookView.cshtml" />
     <Content Include="Views\Home\Persons.cshtml" />
     <Content Include="Views\Home\Sites.cshtml" />
     <Content Include="Views\Home\KeyWords.cshtml" />

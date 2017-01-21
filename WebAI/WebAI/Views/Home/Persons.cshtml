@@ -3,25 +3,15 @@
     ViewBag.Title = "Person";
 }
 
-@Html.Partial("_ReferenceBookView", "Личности")
+<h3> Справочник "Личности"</h3>
+<p>Для редактирования и удаления записи - нажмите на неё</p>
 
-
-
-
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <tr>
-            <th>Id</th>
-            <th>ФИО</th>
-        </tr>
+<div class="list-group">
 
         @foreach (var person in Model)
             {
-            <tr>
-                <th>@person.Id</th>
-                <th>@person.Name</th>
-            </tr>
+			<a href="#" class="list-group-item">@person.Name</a>
             }
-
-    </table>
 </div>
+
+<button class="btn btn-info">Добавить новую запись</button>

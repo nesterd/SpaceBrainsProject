@@ -3,23 +3,15 @@
     ViewBag.Title = "Site";
 }
 
-@Html.Partial("_ReferenceBookView", "Сайты")
+<h3> Справочник "Сайты"</h3>
+<p>Для редактирования и удаления записи - нажмите на неё</p>
 
-
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <tr>
-            <th>Id</th>
-            <th>Название Сайта</th>
-        </tr>
+<div class="list-group">
 
         @foreach (var site in Model)
-            {
-            <tr>
-                <th>@site.Id</th>
-                <th>@site.Name</th>
-            </tr>
-        }
-
-    </table>
+        {
+			<a href="#" class="list-group-item">@site.Name</a>
+		}
 </div>
+
+<button class="btn btn-info">Добавить новую запись</button>
