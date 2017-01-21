@@ -17,7 +17,6 @@ public class BaseEditForm<T extends INamed> extends JDialog {
     private int height = DEFAULT_HEIGHT;
 
     private T object;
-//    private Box content;
     private GridBagConstraints gbc = new GridBagConstraints();
     private Button saveBtn = new Button("Сохранить");
     private Button cancelBtn = new Button("Отменить");
@@ -77,8 +76,6 @@ public class BaseEditForm<T extends INamed> extends JDialog {
         add(saveBtn, gbc);
         gbc.insets = new Insets(10, 5, 25, 50);
         add(cancelBtn, gbc);
-
-        setAlwaysOnTop(true);
     }
 
     private void initMainSettings() {

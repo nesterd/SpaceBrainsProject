@@ -1,11 +1,11 @@
 package com.spacebrains;
 
-import com.spacebrains.ui.SitesDictionaryForm;
+import com.spacebrains.ui.MainWindow;
 
 /** Main class of out application. */
 public class SpaceBrains {
 
     public static void main(String[] args) {
-        new SitesDictionaryForm();
+        new MainWindow();
     }
 }

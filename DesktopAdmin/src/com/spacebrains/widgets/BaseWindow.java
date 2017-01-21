@@ -4,9 +4,9 @@ import com.spacebrains.interfaces.INamed;
 import com.spacebrains.util.BaseParams;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.util.Enumeration;
+
+import static com.spacebrains.util.BaseParams.setDefaultFont;
 
 public class BaseWindow extends JFrame {
 
@@ -26,6 +26,7 @@ public class BaseWindow extends JFrame {
     public BaseWindow(int width, int height) {
         initMainSettings(width, height);
         setDefaultFont();
+        setJMenuBar(new AppMenu());
     }
 
     private void initMainSettings(int width, int height) {
@@ -46,20 +47,6 @@ public class BaseWindow extends JFrame {
 
         add(content);
         setResizable(false);
-    }
-
-    private void setDefaultFont() {
-        FontUIResource f = new FontUIResource(new Font("Monotype", 0, 18));
-        Enumeration<Object> keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get(key);
-            if (value instanceof FontUIResource) {
-                FontUIResource orig = (FontUIResource) value;
-                Font font = new Font(f.getFontName(), orig.getStyle(), f.getSize());
-                UIManager.put(key, new FontUIResource(font));
-            }
-        }
     }
 
 }
