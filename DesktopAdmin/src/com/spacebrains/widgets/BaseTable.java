@@ -16,6 +16,7 @@ public class BaseTable extends JPanel {
     private final int TABLE_HEIGHT = 192;
 
     private JTable table;
+    private JScrollPane jScroll;
     ArrayList<? extends INamed> values;
     private final Button addBtn = new Button("Добавить");
     private final Button editBtn = new Button("Изменить");
@@ -27,24 +28,12 @@ public class BaseTable extends JPanel {
         this.values = values;
         setLayout(new GridBagLayout());
 
+        addBtn.setFont(BaseParams.BASE_BTN_FONT);
+        editBtn.setFont(BaseParams.BASE_BTN_FONT);
+        deleteBtn.setFont(BaseParams.BASE_BTN_FONT);
+
         table = new JTable(new NamedTableModel(values));
-        table.setFont(BaseParams.BASE_TABLE_FONT);
-        table.setRowHeight(22);
-
-        table.getTableHeader().setFont(BASE_TABLE_HEADER_FONT);
-        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        table.setAutoCreateRowSorter(true);
-
-        table.setRowSelectionAllowed(true);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setColumnSelectionAllowed(false);
-        table.getSelectionModel().setSelectionInterval(0, 0);
-
-        JScrollPane jScroll = new JScrollPane(table);
-        jScroll.createVerticalScrollBar();
-        jScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        table.setPreferredScrollableViewportSize(new Dimension(TABLE_WIDTH - 20, TABLE_HEIGHT ));
+        drawTable();
 
         int row = 0;
         gbc.gridx = row;
@@ -91,7 +80,38 @@ public class BaseTable extends JPanel {
     }
 
     public INamed getSelectedItem() {
-        if (values.size() == 0) return null;
-        else return values.get(table.convertRowIndexToModel(table.getSelectedRow()));
+        try {
+            if (values.size() == 0) return null;
+            else return values.get(table.convertRowIndexToModel(table.getSelectedRow()));
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    public void updateValues(ArrayList<? extends INamed> values) {
+        this.values = values;
+        table.setModel(new NamedTableModel(values));
+        jScroll.updateUI();
+        table.updateUI();
+    }
+
+    private void drawTable() {
+        table.setFont(BaseParams.BASE_TABLE_FONT);
+        table.setRowHeight(22);
+
+        table.getTableHeader().setFont(BASE_TABLE_HEADER_FONT);
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        table.setAutoCreateRowSorter(true);
+
+        table.setRowSelectionAllowed(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setColumnSelectionAllowed(false);
+        table.getSelectionModel().setSelectionInterval(0, 0);
+
+        jScroll = new JScrollPane(table);
+        jScroll.createVerticalScrollBar();
+        jScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        table.setPreferredScrollableViewportSize(new Dimension(TABLE_WIDTH - 20, TABLE_HEIGHT ));
     }
 }

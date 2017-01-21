@@ -2,7 +2,7 @@ package com.spacebrains.model;
 
 import com.spacebrains.interfaces.INamed;
 
-public class Site implements INamed, Comparable<Person> {
+public class Site implements INamed<Site>, Comparable<Person> {
 
     private int siteId;
     private String name;

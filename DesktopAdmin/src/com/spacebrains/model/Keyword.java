@@ -2,7 +2,7 @@ package com.spacebrains.model;
 
 import com.spacebrains.interfaces.INamed;
 
-public class Keyword implements INamed, Comparable<Person> {
+public class Keyword implements INamed<Keyword>, Comparable<Person> {
 
     private int keywordId;
     private String name;
@@ -13,8 +13,14 @@ public class Keyword implements INamed, Comparable<Person> {
         this.name = name;
     }
 
+    public Keyword(int keywordId, String name, Person person) {
+        this.keywordId = keywordId;
+        this.name = name;
+        this.person = person;
+    }
+
     public Keyword(String name) {
-        this(0, name);
+        this(0, name, new Person("Fake"));
     }
 
     public int getID() {

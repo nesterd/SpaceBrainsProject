@@ -1,55 +1,52 @@
 package com.spacebrains.ui;
 
+import com.spacebrains.interfaces.IKeywords;
 import com.spacebrains.model.Keyword;
-import com.spacebrains.model.Person;
+import com.spacebrains.rest.KeywordsRestMock;
 import com.spacebrains.widgets.BaseEditForm;
 import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class KeywordsDictionaryForm extends BaseWindow {
 
+    IKeywords rest = new KeywordsRestMock();
+
     public KeywordsDictionaryForm() {
         super();
+        JFrame currentFrame = this;
 
-        editDialog = new BaseEditForm<>(new Keyword(""));
+        editDialog = new BaseEditForm<>(rest, new Keyword(""));
 
-        ArrayList<Keyword> keywords = new ArrayList<>();
-        keywords.add(new Keyword(1, "Путин"));
-        keywords.add(new Keyword(2, "Путину"));
-        keywords.add(new Keyword(3, "Путина"));
-        keywords.add(new Keyword(4, "Захарова"));
-        keywords.add(new Keyword(5, "Захаровой"));
-        keywords.add(new Keyword(6, "Чуркин"));
-        keywords.add(new Keyword(7, "Чуркину"));
-        keywords.add(new Keyword(8, "Чуркина"));
-        keywords.add(new Keyword(9, "Яровая"));
-        keywords.add(new Keyword(10, "Миронову"));
-
-        BaseTable table = new BaseTable(keywords);
+        BaseTable table = new BaseTable(rest.getKeywords(null));
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Add new keyword");
-                editDialog = new BaseEditForm<>(new Person(""));
+                editDialog = new BaseEditForm<>(rest, new Keyword(""));
                 editDialog.setVisible(true);
+                table.updateValues(rest.getKeywords(null));
             }
         });
         table.getEditBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Edit: " + table.getSelectedItem());
-                editDialog = new BaseEditForm<>(table.getSelectedItem());
-                editDialog.setVisible(true);
+                editDialog = new BaseEditForm<>(rest, table.getSelectedItem());
+                table.updateValues(rest.getKeywords(null));
             }
         });
         table.getDeleteBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Delete: " + table.getSelectedItem());
+                int userChoice = getDeleteConfirmation(currentFrame, table.getSelectedItem().getName());
+
+                if (userChoice == JOptionPane.YES_OPTION) {
+                    System.out.println("Delete: " + table.getSelectedItem());
+                    rest.delete((Keyword) table.getSelectedItem());
+                    table.updateValues(rest.getKeywords(null));
+                }
             }
         });
 

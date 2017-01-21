@@ -1,11 +1,14 @@
 package com.spacebrains.widgets;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AppMenu extends JMenuBar {
 
     private JMenu mFile;
     private JMenuItem miFileLogout;
+    private JMenuItem miFileStats;
     private JMenuItem miFileExit;
 
     private JMenu mDicts;
@@ -13,12 +16,9 @@ public class AppMenu extends JMenuBar {
     private JMenuItem miDictsPersons;
     private JMenuItem miDictsKeywords;
 
-    private JMenu mStats;
-    private JMenuItem miStatsFull;
-    private JMenuItem miStatsDaily;
-
     public static final String M_FILE = "Файл";
-    public static final String M_LOGOUT = "Выход";
+    public static final String MI_STATS = "Статистика";
+    public static final String MI_LOGOUT = "Выход";
     public static final String MI_EXIT = "Закрыть";
 
     public static final String M_DICTS = "Справочники";
@@ -26,28 +26,34 @@ public class AppMenu extends JMenuBar {
     public static final String MI_PERSONS = "Личности";
     public static final String MI_KEYWORDS = "Ключевые слова";
 
-    public static final String M_STATS = "Статистика";
-    public static final String MI_STATS_FULL = "Общая";
-    public static final String MI_STATS_DAILY = "Ежедневная";
-
     public AppMenu() {
         super();
+
         initMainMenu();
         initDictsMenu();
-        initStatsMenu();
     }
 
     private void initMainMenu() {
         mFile = new JMenu(M_FILE);
-        miFileLogout = new JMenuItem(M_LOGOUT);
+        miFileStats = new JMenuItem(MI_STATS);
+        miFileStats.setEnabled(false);
+        miFileLogout = new JMenuItem(MI_LOGOUT);
+        miFileLogout.setEnabled(false);
         miFileExit = new JMenuItem(MI_EXIT);
 
         add(mFile);
+        mFile.add(miFileStats);
+        mFile.addSeparator(); // разделительная линия
         mFile.add(miFileLogout);
         mFile.addSeparator(); // разделительная линия
         mFile.add(miFileExit);
 
-        miFileExit.addActionListener(e -> System.exit(0));
+        miFileExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     private void initDictsMenu() {
@@ -60,15 +66,32 @@ public class AppMenu extends JMenuBar {
         mDicts.add(miDictsSites);
         mDicts.add(miDictsPersons);
         mDicts.add(miDictsKeywords);
+
+        miDictsSites.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
-    private void initStatsMenu() {
-        mStats = new JMenu(M_STATS);
-        miStatsFull = new JMenuItem(MI_STATS_FULL);
-        miStatsDaily = new JMenuItem(MI_STATS_DAILY);
+    public JMenuItem getMiFileStats() {
+        return miFileStats;
+    }
 
-        add(mStats);
-        mStats.add(miStatsFull);
-        mStats.add(miStatsDaily);
+    public JMenuItem getMiFileLogout() {
+        return miFileLogout;
+    }
+
+    public JMenuItem getMiDictsSites() {
+        return miDictsSites;
+    }
+
+    public JMenuItem getMiDictsPersons() {
+        return miDictsPersons;
+    }
+
+    public JMenuItem getMiDictsKeywords() {
+        return miDictsKeywords;
     }
 }

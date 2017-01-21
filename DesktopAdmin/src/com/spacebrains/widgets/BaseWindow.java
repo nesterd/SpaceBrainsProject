@@ -1,14 +1,18 @@
 package com.spacebrains.widgets;
 
 import com.spacebrains.interfaces.INamed;
+import com.spacebrains.ui.FormsManager;
 import com.spacebrains.util.BaseParams;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import static com.spacebrains.util.BaseParams.ALERT_MSG;
 import static com.spacebrains.util.BaseParams.setDefaultFont;
 
-public class BaseWindow extends JFrame {
+public abstract class BaseWindow extends JFrame {
 
     protected static final int DEFAULT_WIDTH = 550;
     protected static final int DEFAULT_HEIGHT = 400;
@@ -26,7 +30,7 @@ public class BaseWindow extends JFrame {
     public BaseWindow(int width, int height) {
         initMainSettings(width, height);
         setDefaultFont();
-        setJMenuBar(new AppMenu());
+        initMainMenu();
     }
 
     private void initMainSettings(int width, int height) {
@@ -49,4 +53,48 @@ public class BaseWindow extends JFrame {
         setResizable(false);
     }
 
+    private void initMainMenu() {
+        AppMenu menu = new AppMenu();
+
+        setJMenuBar(menu);
+
+        JFrame currentWindow = this;
+
+        menu.getMiDictsPersons().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentWindow.setVisible(false);
+                FormsManager.showPersonsDictionaryForm();
+            }
+        });
+
+        menu.getMiDictsKeywords().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentWindow.setVisible(false);
+                FormsManager.showKeywordsDictionaryForm();
+            }
+        });
+
+        menu.getMiDictsSites().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentWindow.setVisible(false);
+                FormsManager.showSitesDictionaryForm();
+            }
+        });
+
+    }
+
+    protected int getDeleteConfirmation(JFrame currentFrame, String objectName) {
+        Object[] options = {"Да", "Нет"};
+        return JOptionPane.showOptionDialog(currentFrame,
+                "Вы хотите удалить элемент '" + objectName + "'?",
+                ALERT_MSG,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,     // без специальной иконки
+                options,  // заголовки кнопок
+                options[0]); // выбор по умолчанию
+    }
 }

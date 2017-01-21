@@ -1,6 +1,7 @@
 package com.spacebrains.widgets;
 
 import com.spacebrains.interfaces.INamed;
+import com.spacebrains.interfaces.IRest;
 import com.spacebrains.util.BaseParams;
 
 import javax.swing.*;
@@ -16,16 +17,18 @@ public class BaseEditForm<T extends INamed> extends JDialog {
     private int width = DEFAULT_WIDTH;
     private int height = DEFAULT_HEIGHT;
 
+    private IRest restService;
     private T object;
     private GridBagConstraints gbc = new GridBagConstraints();
     private Button saveBtn = new Button("Сохранить");
     private Button cancelBtn = new Button("Отменить");
 
-    public BaseEditForm(T obj) {
-        this(obj, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    public BaseEditForm(IRest restService, T obj) {
+        this(restService, obj, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    public BaseEditForm(T obj, int width, int height) {
+    public BaseEditForm(IRest restService, T obj, int width, int height) {
+        this.restService = restService;
         this.object = obj;
         this.width = width;
         this.height = height;
@@ -40,6 +43,18 @@ public class BaseEditForm<T extends INamed> extends JDialog {
         JTextField editField = new JTextField();
         editField.setMaximumSize(new Dimension(280, 30));
         editField.setText((object == null || object.getID() == 0) ? "" : object.getName());
+
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                obj.setName(editField.getText());
+                String answer = restService.save(obj);
+                if (answer.equals("")) dispose();
+                else System.out.println("Can't save: " + obj + "\n\t" + answer);
+
+                System.out.println(((obj == null || obj.getID() == 0) ? "Add new record: " : "Edit record") + obj);
+            }
+        });
 
         cancelBtn.addActionListener(new ActionListener() {
             @Override

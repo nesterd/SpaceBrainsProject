@@ -4,7 +4,7 @@ import com.spacebrains.interfaces.INamed;
 
 import java.util.ArrayList;
 
-public class Person implements INamed, Comparable<Person> {
+public class Person implements INamed<Person>, Comparable<Person> {
 
     private int personId;
     private String name;
@@ -64,5 +64,10 @@ public class Person implements INamed, Comparable<Person> {
         return "Person {" +
                 "personId=" + personId +
                 ", name='" + name + "\'}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((Person) obj).getID() == this.getID();
     }
 }
