@@ -15,15 +15,22 @@ public abstract class BaseParams {
     private static final String MONOTYPE = "Monotype";
     private static final String COURIER_NEW = "Courier New";
 
-    public static final Font BASE_LABEL_FONT = getBaseFont(19);
+    public static final Font BASE_LABEL_FONT = getBaseFont(Font.BOLD, 19);
     public static final Font BASE_BTN_FONT = getBaseFont(17);
     public static final Font BASE_OPTION_FONT = new Font(TIMES_NEW_ROMAN, Font.PLAIN, 17);
 
     public static final Font BASE_TABLE_HEADER_FONT = new Font(TIMES_NEW_ROMAN, Font.BOLD, 17);
     public static final Font BASE_TABLE_FONT = new Font(TIMES_NEW_ROMAN, Font.PLAIN, 17);
 
+    public static final int TABLE_WIDTH = 350;
+    public static final int TABLE_HEIGHT = 192;
+
     public static Font getBaseFont(int size) {
-        return new Font(COURIER_NEW, Font.PLAIN, size);
+        return getBaseFont(Font.PLAIN, size);
+    }
+
+    public static Font getBaseFont(int type, int size) {
+        return new Font(COURIER_NEW, type, size);
     }
 
     public static void setDefaultFont() {

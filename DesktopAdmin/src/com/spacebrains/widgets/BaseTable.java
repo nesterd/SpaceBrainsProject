@@ -9,11 +9,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static com.spacebrains.util.BaseParams.BASE_TABLE_HEADER_FONT;
+import static com.spacebrains.util.BaseParams.TABLE_HEIGHT;
+import static com.spacebrains.util.BaseParams.TABLE_WIDTH;
 
 public class BaseTable extends JPanel {
-
-    private final int TABLE_WIDTH = 350;
-    private final int TABLE_HEIGHT = 192;
 
     private JTable table;
     private JScrollPane jScroll;
@@ -47,7 +46,7 @@ public class BaseTable extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL; // заполнять по горизонтали
         gbc.anchor = GridBagConstraints.BELOW_BASELINE; // привязка к центру
 
-        gbc.insets = new Insets(10, 5, 10, 5);// отступы
+        gbc.insets = new Insets(5, 5, 10, 5);// отступы
         gbc.ipadx = 5;
         gbc.ipady = 5;
 
@@ -93,6 +92,7 @@ public class BaseTable extends JPanel {
         table.setModel(new NamedTableModel(values));
         jScroll.updateUI();
         table.updateUI();
+        table.getSelectionModel().setSelectionInterval(0, 0);
     }
 
     private void drawTable() {

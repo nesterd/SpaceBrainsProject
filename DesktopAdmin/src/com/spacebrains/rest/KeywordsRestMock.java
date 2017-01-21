@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class KeywordsRestMock implements IKeywords {
 
+    private static KeywordsRestMock instance;
+
     ArrayList<Keyword> keywords = new ArrayList();
     int nextId = 11;
 
@@ -66,5 +68,10 @@ public class KeywordsRestMock implements IKeywords {
     public ArrayList<Keyword> delete(Keyword keyword) {
         keywords.remove(keyword);
         return keywords;
+    }
+
+    public static KeywordsRestMock getInstance() {
+        if (instance == null) instance = new KeywordsRestMock();
+        return instance;
     }
 }

@@ -1,57 +1,123 @@
 package com.spacebrains.ui;
 
 import com.spacebrains.interfaces.IKeywords;
+import com.spacebrains.interfaces.IPersons;
 import com.spacebrains.model.Keyword;
+import com.spacebrains.model.Person;
 import com.spacebrains.rest.KeywordsRestMock;
+import com.spacebrains.rest.PersonsRestMock;
+import com.spacebrains.util.BaseParams;
 import com.spacebrains.widgets.BaseEditForm;
 import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import static com.spacebrains.util.BaseParams.TABLE_WIDTH;
 
 public class KeywordsDictionaryForm extends BaseWindow {
 
-    IKeywords rest = new KeywordsRestMock();
+    IPersons personRest = PersonsRestMock.getInstance();
+    IKeywords rest = KeywordsRestMock.getInstance();
+
+    private JComboBox<Person> personChooser;
 
     public KeywordsDictionaryForm() {
-        super();
+        super(DEFAULT_WIDTH, DEFAULT_HEIGHT + 50);
         JFrame currentFrame = this;
+
+        JLabel label = new JLabel("Справочник \"Ключевые слова\"");
+        label.setFont(BaseParams.BASE_LABEL_FONT);
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        initPersonChooser();
 
         editDialog = new BaseEditForm<>(rest, new Keyword(""));
 
-        BaseTable table = new BaseTable(rest.getKeywords(null));
+        BaseTable table = new BaseTable(rest.getKeywords((Person) personChooser.getSelectedItem()));
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, new Keyword(""));
+                editDialog = new BaseEditForm<>(rest, new Keyword("", (Person) personChooser.getSelectedItem()));
                 editDialog.setVisible(true);
-                table.updateValues(rest.getKeywords(null));
+                table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
             }
         });
         table.getEditBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, table.getSelectedItem());
-                table.updateValues(rest.getKeywords(null));
+                Keyword keyword = (Keyword) table.getSelectedItem();
+                if (keyword == null) keyword = new Keyword("");
+                keyword.setPerson((Person) personChooser.getSelectedItem());
+                editDialog = new BaseEditForm<>(rest, keyword);
+                editDialog.setVisible(true);
+                table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
             }
         });
         table.getDeleteBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int userChoice = getDeleteConfirmation(currentFrame, table.getSelectedItem().getName());
+                if (table.getSelectedItem() != null) {
+                    int userChoice = getDeleteConfirmation(currentFrame, table.getSelectedItem().getName());
 
-                if (userChoice == JOptionPane.YES_OPTION) {
-                    System.out.println("Delete: " + table.getSelectedItem());
-                    rest.delete((Keyword) table.getSelectedItem());
-                    table.updateValues(rest.getKeywords(null));
+                    if (userChoice == JOptionPane.YES_OPTION) {
+                        System.out.println("Delete: " + table.getSelectedItem());
+                        rest.delete((Keyword) table.getSelectedItem());
+                        table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
+                    }
                 }
             }
         });
 
+        personChooser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
+            }
+        });
+
+        JLabel personLabel = new JLabel("Персона: ");
+        personLabel.setFont(BaseParams.BASE_TABLE_FONT);
+        personLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        Box personChooserBox = Box.createHorizontalBox();
+        personChooserBox.add(personLabel);
+        personChooserBox.add(personChooser);
+        personChooserBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        content.add(new JLabel(" "));
+        content.add(label);
+        content.add(new JLabel(" "));
+        content.add(personChooserBox);
         content.add(table);
 
         setVisible(true);
+    }
+
+    private void initPersonChooser() {
+        ArrayList<Person> personList = personRest.getPersons();
+        Person[] items = new Person[personList.size()];
+        personList.toArray(items);
+
+        personChooser = new JComboBox<>(items);
+        if (items.length > 0) {
+            personChooser.setSelectedIndex(0);
+        }
+        personChooser.setMaximumSize(new Dimension(TABLE_WIDTH - 67, 30));
+
+        personChooser.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if(value instanceof Person){
+                    setText(((Person) value).getName());
+                }
+                return this;
+            }
+        } );
     }
 }

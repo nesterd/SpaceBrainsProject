@@ -9,26 +9,17 @@ public class FormsManager {
     private FormsManager() {}
 
     public static PersonsDictionaryForm showPersonsDictionaryForm() {
-        if (personsDictionaryForm == null) {
-            personsDictionaryForm = new PersonsDictionaryForm();
-        }
-        else personsDictionaryForm.setVisible(true);
+        personsDictionaryForm = new PersonsDictionaryForm();
         return personsDictionaryForm;
     }
 
     public static KeywordsDictionaryForm showKeywordsDictionaryForm() {
-        if (keywordsDictionaryForm == null) {
-            keywordsDictionaryForm = new KeywordsDictionaryForm();
-        }
-        else keywordsDictionaryForm.setVisible(true);
+        keywordsDictionaryForm = new KeywordsDictionaryForm();
         return keywordsDictionaryForm;
     }
 
     public static SitesDictionaryForm showSitesDictionaryForm() {
-        if (sitesDictionaryForm == null) {
-            sitesDictionaryForm = new SitesDictionaryForm();
-        }
-        else sitesDictionaryForm.setVisible(true);
+        sitesDictionaryForm = new SitesDictionaryForm();
         return sitesDictionaryForm;
     }
 }

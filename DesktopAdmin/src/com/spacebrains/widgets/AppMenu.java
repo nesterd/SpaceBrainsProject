@@ -66,13 +66,6 @@ public class AppMenu extends JMenuBar {
         mDicts.add(miDictsSites);
         mDicts.add(miDictsPersons);
         mDicts.add(miDictsKeywords);
-
-        miDictsSites.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
     }
 
     public JMenuItem getMiFileStats() {

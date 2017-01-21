@@ -15,7 +15,7 @@ import static com.spacebrains.util.BaseParams.setDefaultFont;
 public abstract class BaseWindow extends JFrame {
 
     protected static final int DEFAULT_WIDTH = 550;
-    protected static final int DEFAULT_HEIGHT = 400;
+    protected static final int DEFAULT_HEIGHT = 435;
 
     protected int width = DEFAULT_WIDTH;
     protected int height = DEFAULT_HEIGHT;
@@ -39,6 +39,7 @@ public abstract class BaseWindow extends JFrame {
         setTitle(BaseParams.APP_NAME);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         content = Box.createVerticalBox();
+        content.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         // смотрим размер экрана и размещаем окно чата в центре
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -63,7 +64,7 @@ public abstract class BaseWindow extends JFrame {
         menu.getMiDictsPersons().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
+                currentWindow.dispose();
                 FormsManager.showPersonsDictionaryForm();
             }
         });
@@ -71,7 +72,7 @@ public abstract class BaseWindow extends JFrame {
         menu.getMiDictsKeywords().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
+                currentWindow.dispose();
                 FormsManager.showKeywordsDictionaryForm();
             }
         });
@@ -79,7 +80,7 @@ public abstract class BaseWindow extends JFrame {
         menu.getMiDictsSites().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
+                currentWindow.dispose();
                 FormsManager.showSitesDictionaryForm();
             }
         });

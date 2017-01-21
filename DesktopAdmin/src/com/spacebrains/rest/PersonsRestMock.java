@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class PersonsRestMock implements IPersons {
 
+    private static PersonsRestMock instance;
+
     ArrayList<Person> persons = new ArrayList();
     int nextId = 11;
 
@@ -51,5 +53,10 @@ public class PersonsRestMock implements IPersons {
     public ArrayList<Person> delete(Person person) {
         persons.remove(person);
         return persons;
+    }
+
+    public static PersonsRestMock getInstance() {
+        if (instance == null) instance = new PersonsRestMock();
+        return instance;
     }
 }

@@ -23,6 +23,10 @@ public class Keyword implements INamed<Keyword>, Comparable<Person> {
         this(0, name, new Person("Fake"));
     }
 
+    public Keyword(String name, Person person) {
+        this(0, name, person);
+    }
+
     public int getID() {
         return keywordId;
     }

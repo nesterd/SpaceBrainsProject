@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class SitesRestMock implements ISites {
 
+    private static SitesRestMock instance;
+
     ArrayList<Site> sites = new ArrayList();
     int nextId = 6;
 
@@ -46,5 +48,10 @@ public class SitesRestMock implements ISites {
     public ArrayList<Site> delete(Site site) {
         sites.remove(site);
         return sites;
+    }
+
+    public static SitesRestMock getInstance() {
+        if (instance == null) instance = new SitesRestMock();
+        return instance;
     }
 }
