@@ -1,0 +1,27 @@
+﻿@model IEnumerable<WebAI.Models.Person>
+@{
+    ViewBag.Title = "Person";
+}
+
+@Html.Partial("_ReferenceBookView", "Личности")
+
+
+
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <th>Id</th>
+            <th>ФИО</th>
+        </tr>
+
+        @foreach (var person in Model)
+            {
+            <tr>
+                <th>@person.Id</th>
+                <th>@person.Name</th>
+            </tr>
+            }
+
+    </table>
+</div>
