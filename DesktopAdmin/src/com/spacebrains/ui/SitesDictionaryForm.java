@@ -17,11 +17,18 @@ public class SitesDictionaryForm extends BaseWindow {
         editDialog = new BaseEditForm<>(new Site(""));
 
         ArrayList<Site> sites = new ArrayList<>();
-//        sites.add(new Site(1, "lenta.ru"));
-//        sites.add(new Site(2, "yandex.ru"));
-//        sites.add(new Site(3, "goodle.ru"));
+        sites.add(new Site(1, "lenta.ru"));
+        sites.add(new Site(2, "yandex.ru"));
+        sites.add(new Site(3, "goodle.ru"));
+        sites.add(new Site(4, "mail.ru"));
+        sites.add(new Site(5, "vz.ru"));
+        sites.add(new Site(6, "kp.ru"));
+        sites.add(new Site(7, "rbc.ru"));
+        sites.add(new Site(8, "banki.ru"));
+        sites.add(new Site(9, "geekbrains.ru"));
+        sites.add(new Site(10, "github.com"));
 
-        BaseTable table = new BaseTable("Сайты", sites);
+        BaseTable table = new BaseTable(sites);
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -28,7 +28,7 @@ public class PersonsDictionaryForm extends BaseWindow {
         persons.add(new Person(9, "Яровая"));
         persons.add(new Person(10, "Миронов"));
 
-        BaseTable table = new BaseTable("Личности", persons);
+        BaseTable table = new BaseTable(persons);
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -29,7 +29,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
         keywords.add(new Keyword(9, "Яровая"));
         keywords.add(new Keyword(10, "Миронову"));
 
-        BaseTable table = new BaseTable("Ключевые слова", keywords);
+        BaseTable table = new BaseTable(keywords);
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
