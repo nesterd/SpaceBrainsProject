@@ -1,0 +1,44 @@
+table {
+    border-collapse: collapse;
+}
+
+th {
+    background: dodgerblue;
+    border: 1px solid gray;
+    color: white;
+    padding: 5px 20px;
+    font-size: 16px;
+}
+
+tr, td {
+    border: 1px solid gray;
+}
+
+input {
+    padding: 5px 10px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+select {
+    background-color: mediumseagreen;
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button {
+    background-color: dodgerblue;
+    border: none;
+    color: white;
+    padding: 6px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
