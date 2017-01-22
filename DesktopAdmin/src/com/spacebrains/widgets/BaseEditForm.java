@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class BaseEditForm<T extends INamed> extends JDialog {
 
@@ -52,7 +53,7 @@ public class BaseEditForm<T extends INamed> extends JDialog {
                 if (answer.equals("")) dispose();
                 else System.out.println("Can't save: " + obj + "\n\t" + answer);
 
-                System.out.println(((obj == null || obj.getID() == 0) ? "Add new record: " : "Edit record") + obj);
+                System.out.println(((obj == null || obj.getID() == 0) ? "Add new record: " : "Edit record: ") + obj);
             }
         });
 
@@ -91,6 +92,8 @@ public class BaseEditForm<T extends INamed> extends JDialog {
         add(saveBtn, gbc);
         gbc.insets = new Insets(10, 5, 25, 50);
         add(cancelBtn, gbc);
+
+        initKeysListeners();
     }
 
     private void initMainSettings() {
@@ -116,5 +119,27 @@ public class BaseEditForm<T extends INamed> extends JDialog {
 
     public Button getCancelBtn() {
         return cancelBtn;
+    }
+
+    public void initKeysListeners() {
+        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+        // Escape
+        Action escapeListener = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                cancelBtn.doClick();
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), KeyEvent.VK_ESCAPE);
+        rootPane.getActionMap().put(KeyEvent.VK_ESCAPE, escapeListener);
+
+        // Enter
+        Action enterListener = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                saveBtn.doClick();
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke("ENTER"), KeyEvent.VK_ENTER);
+        rootPane.getActionMap().put(KeyEvent.VK_ENTER, enterListener);
     }
 }

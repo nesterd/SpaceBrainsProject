@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class StatsTableModel extends AbstractTableModel {
 
-    public static final int SITE = 1;
-    public static final int LINKS_COUNT = 2;
-    public static final int NEW_LINKS = 3;
-    public static final int PROCESSED = 4;
+    public static final int SITE = 0;
+    public static final int LINKS_COUNT = 1;
+    public static final int NEW_LINKS = 2;
+    public static final int PROCESSED = 3;
     private ArrayList<CrawlerStats> values;
 
     public StatsTableModel(ArrayList<CrawlerStats> values) {

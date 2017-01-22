@@ -1,66 +1,42 @@
 package com.spacebrains.ui;
 
-import com.spacebrains.interfaces.IPersons;
-import com.spacebrains.model.Person;
-import com.spacebrains.rest.PersonsRestMock;
+import com.spacebrains.interfaces.IStats;
+import com.spacebrains.rest.StatsRestMock;
 import com.spacebrains.util.BaseParams;
-import com.spacebrains.widgets.BaseEditForm;
-import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;
+import com.spacebrains.widgets.StatsTable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class CrawlerStatsForm extends BaseWindow {
 
-    IPersons rest = PersonsRestMock.getInstance();
+    IStats rest = StatsRestMock.getInstance();
+    StatsTable table = null;
 
     public CrawlerStatsForm() {
-        super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        JFrame currentFrame = this;
+        super(DEFAULT_WIDTH + 200, DEFAULT_HEIGHT);
 
         JLabel label = new JLabel("Статистика Краулера");
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        BaseTable table = new BaseTable(rest.getPersons());
-        table.getAddBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, new Person(""));
-                editDialog.setVisible(true);
-                table.updateValues(rest.getPersons());
-            }
-        });
-        table.getEditBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, table.getSelectedItem());
-                editDialog.setVisible(true);
-                table.updateValues(rest.getPersons());
-            }
-        });
-        table.getDeleteBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (table.getSelectedItem() != null) {
-                    int userChoice = getDeleteConfirmation(currentFrame, table.getSelectedItem().getName());
-
-                    if (userChoice == JOptionPane.YES_OPTION) {
-                        System.out.println("Delete: " + table.getSelectedItem());
-                        rest.delete((Person) table.getSelectedItem());
-                        table.updateValues(rest.getPersons());
-                    }
-                }
-            }
-        });
+        table = new StatsTable(rest.getCrawlerStats());
 
         content.add(new JLabel(" "));
         content.add(label);
         content.add(table);
 
         setVisible(true);
+
+
     }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        super.windowActivated(e);
+        if (table != null) table.updateValues(rest.getCrawlerStats());
+    }
+
 }

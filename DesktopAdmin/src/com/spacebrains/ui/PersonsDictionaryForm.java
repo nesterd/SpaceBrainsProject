@@ -12,20 +12,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class PersonsDictionaryForm extends BaseWindow {
 
     IPersons rest = PersonsRestMock.getInstance();
+    BaseTable table = null;
 
     public PersonsDictionaryForm() {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         JFrame currentFrame = this;
 
-        JLabel label = new JLabel("Справочник \"Сайты\"");
+        JLabel label = new JLabel("Справочник \"Личности\"");
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        BaseTable table = new BaseTable(rest.getPersons());
+        table = new BaseTable(rest.getPersons());
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,5 +64,11 @@ public class PersonsDictionaryForm extends BaseWindow {
         content.add(table);
 
         setVisible(true);
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        super.windowActivated(e);
+        if (table != null) table.updateValues(rest.getPersons());
     }
 }

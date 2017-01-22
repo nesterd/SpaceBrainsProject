@@ -68,6 +68,6 @@ public class Person implements INamed<Person>, Comparable<Person> {
 
     @Override
     public boolean equals(Object obj) {
-        return ((Person) obj).getID() == this.getID();
+        return obj != null && ((Person) obj).getID() == this.getID();
     }
 }

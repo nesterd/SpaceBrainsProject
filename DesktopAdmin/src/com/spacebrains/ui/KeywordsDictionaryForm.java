@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import static com.spacebrains.util.BaseParams.TABLE_WIDTH;
@@ -25,6 +26,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
     IKeywords rest = KeywordsRestMock.getInstance();
 
     private JComboBox<Person> personChooser;
+    BaseTable table = null;
 
     public KeywordsDictionaryForm() {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT + 50);
@@ -38,7 +40,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
 
         editDialog = new BaseEditForm<>(rest, new Keyword(""));
 
-        BaseTable table = new BaseTable(rest.getKeywords((Person) personChooser.getSelectedItem()));
+        table = new BaseTable(rest.getKeywords((Person) personChooser.getSelectedItem()));
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,11 +102,18 @@ public class KeywordsDictionaryForm extends BaseWindow {
 
     private void initPersonChooser() {
         ArrayList<Person> personList = personRest.getPersons();
-        Person[] items = new Person[personList.size()];
-        personList.toArray(items);
 
-        personChooser = new JComboBox<>(items);
-        if (items.length > 0) {
+        if (personChooser == null) {
+            personChooser = new JComboBox<>();
+        } else {
+            personChooser.removeAllItems();
+        }
+
+        for(Person person : personRest.getPersons()){
+            personChooser.addItem(person);
+        }
+
+        if (personList.size() > 0) {
             personChooser.setSelectedIndex(0);
         }
         personChooser.setMaximumSize(new Dimension(TABLE_WIDTH - 67, 30));
@@ -119,5 +128,13 @@ public class KeywordsDictionaryForm extends BaseWindow {
                 return this;
             }
         } );
+        personChooser.updateUI();
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        super.windowActivated(e);
+        initPersonChooser();
+        if (table != null) table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
     }
 }

@@ -8,11 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import static com.spacebrains.util.BaseParams.ALERT_MSG;
 import static com.spacebrains.util.BaseParams.setDefaultFont;
 
-public abstract class BaseWindow extends JFrame {
+public abstract class BaseWindow extends JFrame implements WindowListener {
 
     protected static final int DEFAULT_WIDTH = 550;
     protected static final int DEFAULT_HEIGHT = 435;
@@ -31,6 +33,8 @@ public abstract class BaseWindow extends JFrame {
         initMainSettings(width, height);
         setDefaultFont();
         initMainMenu();
+
+        addWindowListener(this);
     }
 
     private void initMainSettings(int width, int height) {
@@ -64,7 +68,7 @@ public abstract class BaseWindow extends JFrame {
         menu.getMiDictsPersons().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.dispose();
+                currentWindow.setVisible(false);
                 FormsManager.showPersonsDictionaryForm();
             }
         });
@@ -72,7 +76,7 @@ public abstract class BaseWindow extends JFrame {
         menu.getMiDictsKeywords().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.dispose();
+                currentWindow.setVisible(false);
                 FormsManager.showKeywordsDictionaryForm();
             }
         });
@@ -80,7 +84,7 @@ public abstract class BaseWindow extends JFrame {
         menu.getMiDictsSites().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.dispose();
+                currentWindow.setVisible(false);
                 FormsManager.showSitesDictionaryForm();
             }
         });
@@ -88,7 +92,7 @@ public abstract class BaseWindow extends JFrame {
         menu.getMiFileCrawlerStats().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.dispose();
+                currentWindow.setVisible(false);
                 FormsManager.showCrawlerStatsForm();
             }
         });
@@ -105,5 +109,28 @@ public abstract class BaseWindow extends JFrame {
                 null,     // без специальной иконки
                 options,  // заголовки кнопок
                 options[0]); // выбор по умолчанию
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {}
+
+    @Override
+    public void windowOpened(WindowEvent e) {}
+
+    @Override
+    public void windowClosed(WindowEvent e) {}
+
+    @Override
+    public void windowIconified(WindowEvent e) {}
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {}
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {}
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        initMainSettings(width, height);
     }
 }

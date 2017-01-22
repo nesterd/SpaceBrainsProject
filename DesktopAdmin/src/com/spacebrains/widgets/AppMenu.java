@@ -36,13 +36,13 @@ public class AppMenu extends JMenuBar {
     private void initMainMenu() {
         mFile = new JMenu(M_FILE);
         miFileCrawlerStats = new JMenuItem(MI_CRAWLER_STATS);
+        miFileCrawlerStats.setVisible(false);
         miFileLogout = new JMenuItem(MI_LOGOUT);
         miFileLogout.setEnabled(false);
         miFileExit = new JMenuItem(MI_EXIT);
 
         add(mFile);
         mFile.add(miFileCrawlerStats);
-        mFile.addSeparator(); // разделительная линия
         mFile.add(miFileLogout);
         mFile.addSeparator(); // разделительная линия
         mFile.add(miFileExit);

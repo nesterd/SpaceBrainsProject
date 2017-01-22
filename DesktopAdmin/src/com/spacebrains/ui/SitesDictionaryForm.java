@@ -12,10 +12,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class SitesDictionaryForm extends BaseWindow {
 
     ISites rest = SitesRestMock.getInstance();
+    BaseTable table = null;
 
     public SitesDictionaryForm() {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -25,7 +27,7 @@ public class SitesDictionaryForm extends BaseWindow {
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        BaseTable table = new BaseTable(rest.getSites());
+        table = new BaseTable(rest.getSites());
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,5 +65,11 @@ public class SitesDictionaryForm extends BaseWindow {
         content.add(table);
 
         setVisible(true);
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        super.windowActivated(e);
+        if (table != null) table.updateValues(rest.getSites());
     }
 }

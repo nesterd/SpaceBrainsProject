@@ -17,13 +17,13 @@ public class PersonsRestMock implements IPersons {
         persons.add(new Person(1, "Путин"));
         persons.add(new Person(2, "Медведев"));
         persons.add(new Person(3, "Шойгу"));
-        persons.add(new Person(4, "Захарова"));
-        persons.add(new Person(5, "Жириновский"));
-        persons.add(new Person(6, "Зюганов"));
-        persons.add(new Person(7, "Чуркин"));
-        persons.add(new Person(8, "Рогозин"));
-        persons.add(new Person(9, "Яровая"));
-        persons.add(new Person(10, "Миронов"));
+//        persons.add(new Person(4, "Захарова"));
+//        persons.add(new Person(5, "Жириновский"));
+//        persons.add(new Person(6, "Зюганов"));
+//        persons.add(new Person(7, "Чуркин"));
+//        persons.add(new Person(8, "Рогозин"));
+//        persons.add(new Person(9, "Яровая"));
+//        persons.add(new Person(10, "Миронов"));
     }
 
     @Override
