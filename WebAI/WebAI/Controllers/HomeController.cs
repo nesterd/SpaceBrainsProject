@@ -37,7 +37,17 @@ namespace WebAI.Controllers
                 new Site { Id = 1, Name = "lenta.ru", Url = "lenta.ru" }
             });
         }
+        public ActionResult Statistics()
+        {
+            return View(new List<Statistics> {
+                new Statistics { Id = 1,
+                Site = new Site { Id = 1, Name = "lenta.ru", Url = "lenta.ru" },
+                CountAllLinks = 100,
+                CountNotVisitedLinks = 20,
+                CountVisitedLinks =90                
+                }
+            });
+        }
 
-        
     }
 }

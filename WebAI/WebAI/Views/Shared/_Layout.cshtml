@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
@@ -20,12 +20,12 @@
                 @Html.ActionLink("SpaceBrains", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             @*<div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                </ul>
-            </div>*@
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
+                        <li>@Html.ActionLink("О программе", "About", "Home")</li>
+                        <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+                    </ul>
+                </div>*@
         </div>
     </div>
     <div class="container body-content">
@@ -34,21 +34,24 @@
                 <ul>
                     <li>
                         @Html.ActionLink("Управление справочниками", "Index")
-                    <ul>
-                        <li>@Html.ActionLink("Личности", "Persons")</li>
-                        <li>@Html.ActionLink("Ключевые слова", "KeyWords")</li>
-                        <li>@Html.ActionLink("Сайты", "Sites")</li>
-                    </ul>
-                </li>
-            </ul>
+                        <ul>
+                            <li>@Html.ActionLink("Личности", "Persons")</li>
+                            <li>@Html.ActionLink("Ключевые слова", "KeyWords")</li>
+                            <li>@Html.ActionLink("Сайты", "Sites")</li>
+                        </ul>
+                    </li>
+                    <li>
+                        @Html.ActionLink("Статистика краулера", "Statistics")
+                    </li>
+                </ul>
 
 
+            </div>
+            <div class="col-md-8">
+                @RenderBody()
+            </div>
         </div>
-        <div class="col-md-8">
-            @RenderBody()
-        </div>
-    </div>
-        
+
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year – SpaceBrainsProject</p>

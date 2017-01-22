@@ -154,6 +154,7 @@
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\KeyWord.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Statistics.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -210,6 +211,7 @@
     <Content Include="Views\Home\Persons.cshtml" />
     <Content Include="Views\Home\Sites.cshtml" />
     <Content Include="Views\Home\KeyWords.cshtml" />
+    <Content Include="Views\Home\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebAI.Models.Statistics>
+@{
+    ViewBag.Title = "Statistics";
+}
+
+<h3>Статистика краулера</h3>
+
+<div class="list-group">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Сайт</td>
+                <td>Количество ссылок в базе</td>
+                <td>Не обходилось</td>
+                <td>Обходилось</td>
+            </tr>
+        </thead>
+
+        @foreach (var stat in Model)
+        {
+            <tr>
+                <td>
+                    <a href="#">@stat.Site.Name</a>
+                </td>
+                <td>@stat.CountAllLinks</td>
+                <td>@stat.CountNotVisitedLinks</td>
+                <td>@stat.CountVisitedLinks</td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+<button class="btn btn-info">Выгрузить в csv (доступно в версии 4.0)</button>
