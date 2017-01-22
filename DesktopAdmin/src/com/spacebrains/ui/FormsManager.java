@@ -5,6 +5,7 @@ public class FormsManager {
     private static PersonsDictionaryForm personsDictionaryForm;
     private static KeywordsDictionaryForm keywordsDictionaryForm;
     private static SitesDictionaryForm sitesDictionaryForm;
+    private static CrawlerStatsForm сrawlerStatsForm;
 
     private FormsManager() {}
 
@@ -21,5 +22,10 @@ public class FormsManager {
     public static SitesDictionaryForm showSitesDictionaryForm() {
         sitesDictionaryForm = new SitesDictionaryForm();
         return sitesDictionaryForm;
+    }
+
+    public static CrawlerStatsForm showCrawlerStatsForm() {
+        сrawlerStatsForm = new CrawlerStatsForm();
+        return сrawlerStatsForm;
     }
 }

@@ -85,6 +85,14 @@ public abstract class BaseWindow extends JFrame {
             }
         });
 
+        menu.getMiFileCrawlerStats().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentWindow.dispose();
+                FormsManager.showCrawlerStatsForm();
+            }
+        });
+
     }
 
     protected int getDeleteConfirmation(JFrame currentFrame, String objectName) {

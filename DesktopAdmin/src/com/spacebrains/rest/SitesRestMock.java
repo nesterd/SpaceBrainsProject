@@ -45,9 +45,9 @@ public class SitesRestMock implements ISites {
     }
 
     @Override
-    public ArrayList<Site> delete(Site site) {
+    public boolean delete(Site site) {
         sites.remove(site);
-        return sites;
+        return true;
     }
 
     public static SitesRestMock getInstance() {

@@ -8,7 +8,7 @@ public class AppMenu extends JMenuBar {
 
     private JMenu mFile;
     private JMenuItem miFileLogout;
-    private JMenuItem miFileStats;
+    private JMenuItem miFileCrawlerStats;
     private JMenuItem miFileExit;
 
     private JMenu mDicts;
@@ -17,7 +17,7 @@ public class AppMenu extends JMenuBar {
     private JMenuItem miDictsKeywords;
 
     public static final String M_FILE = "Файл";
-    public static final String MI_STATS = "Статистика";
+    public static final String MI_CRAWLER_STATS = "Статистика";
     public static final String MI_LOGOUT = "Выход";
     public static final String MI_EXIT = "Закрыть";
 
@@ -35,14 +35,13 @@ public class AppMenu extends JMenuBar {
 
     private void initMainMenu() {
         mFile = new JMenu(M_FILE);
-        miFileStats = new JMenuItem(MI_STATS);
-        miFileStats.setEnabled(false);
+        miFileCrawlerStats = new JMenuItem(MI_CRAWLER_STATS);
         miFileLogout = new JMenuItem(MI_LOGOUT);
         miFileLogout.setEnabled(false);
         miFileExit = new JMenuItem(MI_EXIT);
 
         add(mFile);
-        mFile.add(miFileStats);
+        mFile.add(miFileCrawlerStats);
         mFile.addSeparator(); // разделительная линия
         mFile.add(miFileLogout);
         mFile.addSeparator(); // разделительная линия
@@ -68,8 +67,8 @@ public class AppMenu extends JMenuBar {
         mDicts.add(miDictsKeywords);
     }
 
-    public JMenuItem getMiFileStats() {
-        return miFileStats;
+    public JMenuItem getMiFileCrawlerStats() {
+        return miFileCrawlerStats;
     }
 
     public JMenuItem getMiFileLogout() {

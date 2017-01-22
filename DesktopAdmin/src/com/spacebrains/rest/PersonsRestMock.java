@@ -50,9 +50,9 @@ public class PersonsRestMock implements IPersons {
     }
 
     @Override
-    public ArrayList<Person> delete(Person person) {
+    public boolean delete(Person person) {
         persons.remove(person);
-        return persons;
+        return true;
     }
 
     public static PersonsRestMock getInstance() {

@@ -1,12 +1,9 @@
 package com.spacebrains.interfaces;
 
-import com.spacebrains.model.Person;
-import com.spacebrains.model.Site;
+import com.spacebrains.model.CrawlerStats;
 
-import java.util.Date;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public interface IStats {
-    HashMap<Person, Integer> getFullStats(Site site);
-    HashMap<Person, Integer> getDailyStats(Site site, Person person, Date periodStart, Date periodEnd);
+    ArrayList<CrawlerStats> getCrawlerStats();
 }

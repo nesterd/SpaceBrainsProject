@@ -65,9 +65,9 @@ public class KeywordsRestMock implements IKeywords {
     }
 
     @Override
-    public ArrayList<Keyword> delete(Keyword keyword) {
+    public boolean delete(Keyword keyword) {
         keywords.remove(keyword);
-        return keywords;
+        return true;
     }
 
     public static KeywordsRestMock getInstance() {
