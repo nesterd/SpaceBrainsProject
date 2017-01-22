@@ -4,25 +4,25 @@
 <%@ page import="java.util.List" %>
 <%@ page import="database.PersonPageRankEntity" %>
 <%@ page import="database.HibernateUtil" %>
-<%@ page import="database.PersonsEntity" %>
-<%@ page import="database.PagesEntity" %>
+<%@ page import="java.sql.Date" %>
 <html>
 <head>
     <title>SpaceBrains</title>
 </head>
 <body>
+    <% Date currentDate = new Date(System.currentTimeMillis());%>
     <span>Общая статистика</span>
-    <span><a href="daily.jsp">Ежедневная статистика</a></span>
+    <span><a href=<%= "daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate%>>Ежедневная статистика</a></span>
     <%  List result;
-        if (session.getAttribute("list") == null) {
+        if (session.getAttribute("commonlist") == null) {
             Session ORMSession = HibernateUtil.getSessionFactory().openSession();
             Query query = ORMSession.createQuery("FROM PersonPageRankEntity ppr");
             result = query.list();
-            session.setAttribute("list", result);
+            session.setAttribute("commonlist", result);
             ORMSession.close();
         }
         else {
-            result = (List) session.getAttribute("list");
+            result = (List) session.getAttribute("commonlist");
         }
         int pagesCount = result.size() / 10 + 1;
         int currentPage;

@@ -4,8 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="database.PersonPageRankEntity" %>
 <%@ page import="database.HibernateUtil" %>
-<%@ page import="database.PersonsEntity" %>
-<%@ page import="database.PagesEntity" %>
+<%@ page import="java.sql.Date" %>
+<%@ page import="userinterface.MyDate" %>
 <html>
 <head>
     <title>SpaceBrains</title>
@@ -17,41 +17,42 @@
     <span>Ежедневная статистика</span>
     <p>
         <form id="date">
-            <span><input type="text" name="begindate" class="tcal" value="" /></span>
-            <span><input type="text" name="enddate" class="tcal" value="" /></span>
+            <%
+                String begindate = (request.getParameter("begindate"));
+                String enddate = (request.getParameter("enddate"));
+                Date begin = MyDate.valueOf(begindate);
+                Date end = MyDate.valueOf(enddate);
+            %>
+            <span><input type="text" name="begindate" class="tcal" value=<%=begin==null ? "" : begin.toString()%> /></span>
+            <span><input type="text" name="enddate" class="tcal" value=<%=end==null ? "" : end.toString()%> /></span>
         </form>
         <button type="submit" form="date">Сформировать</button>
     </p>
     <%  List result;
-        if (session.getAttribute("list") == null) {
-            Session ORMSession = HibernateUtil.getSessionFactory().openSession();
-            Query query = ORMSession.createQuery("FROM PersonPageRankEntity ppr");
-            result = query.list();
-            session.setAttribute("list", result);
-            ORMSession.close();
+        if (session.getAttribute("dailylist") != null && session.getAttribute("begin") == begin && session.getAttribute("end") == end) {
+            result = (List) session.getAttribute("dailylist");
         }
         else {
-            if ((request.getParameter("begindate") == null || request.getParameter("begindate").equals(""))
-                && (request.getParameter("enddate") == null || request.getParameter("enddate").equals(""))) {
-                result = (List) session.getAttribute("list");
+            String queryText = "FROM PersonPageRankEntity ppr WHERE pagesByPageId.foundDateTime != null ";
+            if (begin != null) {
+                queryText += " AND pagesByPageId.foundDateTime >= :begindate";
             }
-            else {
-                String queryText = "FROM PersonPageRankEntity ppr WHERE pagesByPageId.foundDateTime != null ";
-                if (request.getParameter("begindate").length() > 0) {
-                    queryText += " AND pagesByPageId.foundDateTime >= :begindate";
-                }
-                if (request.getParameter("enddate").length() > 0) {
-                    queryText += " AND pagesByPageId.foundDateTime <= :enddate";
-                }
-                Session ORMSession = HibernateUtil.getSessionFactory().openSession();
-                Query query = ORMSession.createQuery(queryText);
-                query.setParameter("begindate", session.getAttribute("begindate"));
-                query.setParameter("enddate", session.getAttribute("enddate"));
-                result = query.list();
-                System.out.println(result.size());
-                session.setAttribute("list", result);
-                ORMSession.close();
+            if (end != null) {
+                queryText += " AND pagesByPageId.foundDateTime <= :enddate";
             }
+            Session ORMSession = HibernateUtil.getSessionFactory().openSession();
+            Query query = ORMSession.createQuery(queryText);
+            if (begin != null) {
+                query.setParameter("begindate", begin);
+            }
+            if (end != null) {
+                query.setParameter("enddate", end);
+            }
+            result = query.list();
+            session.setAttribute("dailylist", result);
+            session.setAttribute("begin", begin);
+            session.setAttribute("end", end);
+            ORMSession.close();
         }
         int pagesCount = result.size() / 10 + 1;
         int currentPage;
@@ -101,7 +102,9 @@
     <% if (currentPage == i) {%>
     <%= i%>
     <%} else {%>
-    <a href=<%= ref + "?page=" + i %>><%=i%></a>
+    <a href=<%= ref + "?page=" + i
+            + "&begindate=" + (begin==null ? "" : begin.toString())
+            + "&enddate=" + (end==null ? "" : end.toString())%>><%=i%></a>
     <%}
     }%>
 </body>
