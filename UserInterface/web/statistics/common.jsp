@@ -8,6 +8,7 @@
 <html>
 <head>
     <title>SpaceBrains</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
 </head>
 <body>
     <% Date currentDate = new Date(System.currentTimeMillis());%>
@@ -31,20 +32,21 @@
         } else {
             currentPage = Integer.parseInt(request.getParameter("page"));
         }%>
-    <table border="1">
+    <p>Общее количество: <%=result.size()%></p>
+    <table>
         <tr>
-            <td>
+            <th>
 
-            </td>
-            <td>
+            </th>
+            <th>
                 Персона
-            </td>
-            <td>
+            </th>
+            <th>
                 Ссылка
-            </td>
-            <td>
+            </th>
+            <th>
                 Ранг
-            </td>
+            </th>
         </tr>
         <% String ref = "common.jsp"; %>
         <% for (int i = 10 * (currentPage - 1) + 1; i <= 10 * currentPage; i++) {
@@ -54,7 +56,7 @@
             Object element = result.get(i-1); %>
         <tr>
             <td>
-                <%= ((PersonPageRankEntity) element).getId() %>
+                <%= i %>
             </td>
             <td>
                 <%= ((PersonPageRankEntity) element).getPersonsByPersonId().getName() %>
@@ -68,6 +70,7 @@
         </tr>
         <%}%>
     </table>
+    Страницы:
     <% for (int i = 1; i <= pagesCount; i++) {%>
     <% if (currentPage == i) {%>
         <%= i%>

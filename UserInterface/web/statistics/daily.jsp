@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>SpaceBrains</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     <link rel="stylesheet" type="text/css" href="../calendar/tcal.css" />
     <script type="text/javascript" src="../calendar/tcal.js"></script>
 </head>
@@ -63,8 +64,8 @@
                 <option <%=String.valueOf(id).equals(request.getParameter("personId")) ? "selected":""%> value=<%=id%>><%=((PersonsEntity)person).getName()%></option>
                 <%}%>
             </select>
+            <button type="submit" form="params">Сформировать</button>
         </form>
-        <button type="submit" form="params">Сформировать</button>
     </p>
     <%  List result;
         if (session.getAttribute("dailylist") != null
@@ -117,22 +118,22 @@
         } else {
             currentPage = Integer.parseInt(request.getParameter("page"));
         }%>
+    <p>Общее количество: <%=result.size()%></p>
     <table border="1">
         <tr>
-            <td>
+            <th>
 
-            </td>
-            <td>
+            </th>
+            <th>
                 Персона
-            </td>
-            <td>
+            </th>
+            <th>
                 Ссылка
-            </td>
-            <td>
+            </th>
+            <th>
                 Ранг
-            </td>
+            </th>
         </tr>
-        <p>Общее количество: <%=result.size()%></p>
         <% for (int i = 10 * (currentPage - 1) + 1; i <= 10 * currentPage; i++) {
             if (i > result.size()) {
                 continue;
@@ -140,7 +141,7 @@
             Object element = result.get(i-1); %>
         <tr>
             <td>
-                <%= ((PersonPageRankEntity) element).getId() %>
+                <%= i %>
             </td>
             <td>
                 <%= ((PersonPageRankEntity) element).getPersonsByPersonId().getName() %>
@@ -154,6 +155,7 @@
         </tr>
         <%}%>
     </table>
+    Страницы:
     <% for (int i = 1; i <= pagesCount; i++) {%>
     <% if (currentPage == i) {%>
     <%= i%>
