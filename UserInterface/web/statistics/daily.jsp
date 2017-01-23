@@ -144,7 +144,8 @@
             } else {
                 currentPage = Integer.parseInt(request.getParameter("page"));
             }%>
-        <p>Общее количество: <%=result.size()%></p>
+        <br><br>
+        <span>Общее количество: <%=result.size()%></span>
         <table class="table_content">
             <tr>
                 <th class="th_content">
