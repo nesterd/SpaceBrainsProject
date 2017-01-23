@@ -7,13 +7,14 @@
 <%@ page import="java.sql.Date" %>
 <html>
 <head>
-    <title>SpaceBrains</title>
+    <title>Space Brains</title>
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
 </head>
 <body>
     <% Date currentDate = new Date(System.currentTimeMillis());%>
-    <span>Общая статистика</span>
-    <span><a href=<%= "daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate%>>Ежедневная статистика</a></span>
+    <button class="button_pressed">Space Brains</button>
+    <button class="button_pressed" type="button">Общая статистика</button>
+    <button type="button"><a href=<%= "daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate%>>Ежедневная статистика</a></button>
     <%  List result;
         if (session.getAttribute("commonlist") == null) {
             Session ORMSession = HibernateUtil.getSessionFactory().openSession();
