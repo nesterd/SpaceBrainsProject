@@ -115,12 +115,29 @@ namespace DataAccess.Repositories
 
         public IEnumerable<KeyWord> GetKeyWords(Person person)
         {
+            if (person == null)
+                return GetKeyWords();
             return context.KeyWords.Where(x => x.PersonId == person.Id).ToArray();
         }
 
         public IEnumerable<Site> GetSites()
         {
             return context.Sites.ToArray();
+        }
+
+        public Person GetPerson(int id)
+        {
+            return context.Persons.FirstOrDefault(x => x.Id == id);
+        }
+
+        public KeyWord GetKeyWord(int id)
+        {
+            return context.KeyWords.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Site GetSite(int id)
+        {
+            return context.Sites.FirstOrDefault(x => x.Id == id);
         }
     }
 }
