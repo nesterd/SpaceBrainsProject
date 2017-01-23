@@ -10,14 +10,15 @@
 <%@ page import="database.PersonsEntity" %>
 <html>
 <head>
-    <title>SpaceBrains</title>
+    <title>Space Brains</title>
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     <link rel="stylesheet" type="text/css" href="../calendar/tcal.css" />
     <script type="text/javascript" src="../calendar/tcal.js"></script>
 </head>
-<p>
-    <span><a href="common.jsp">Общая статистика</a></span>
-    <span>Ежедневная статистика</span>
+<body>
+    <button class="button_pressed">Space Brains</button>
+    <button type="button"><a href="common.jsp">Общая статистика</a></button>
+    <button class="button_pressed" type="button">Ежедневная статистика</button>
     <p>
         <form id="params">
             <%
@@ -64,8 +65,8 @@
                 <option <%=String.valueOf(id).equals(request.getParameter("personId")) ? "selected":""%> value=<%=id%>><%=((PersonsEntity)person).getName()%></option>
                 <%}%>
             </select>
-            <button type="submit" form="params">Сформировать</button>
         </form>
+        <button type="submit" form="params">Сформировать</button>
     </p>
     <%  List result;
         if (session.getAttribute("dailylist") != null

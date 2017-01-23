@@ -1,8 +1,15 @@
+body {
+    background-color: cornsilk;
+}
+
 table {
     border-collapse: collapse;
 }
 
 th {
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
     background: dodgerblue;
     border: 1px solid gray;
     color: white;
@@ -11,10 +18,18 @@ th {
 }
 
 tr, td {
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
     border: 1px solid gray;
+    padding: 5px 50px;
+    font-size: 16px;
 }
 
 input {
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
     padding: 5px 10px;
     text-decoration: none;
     display: inline-block;
@@ -22,6 +37,9 @@ input {
 }
 
 select {
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
     background-color: mediumseagreen;
     border: none;
     color: white;
@@ -33,6 +51,9 @@ select {
 }
 
 button {
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
     background-color: dodgerblue;
     border: none;
     color: white;
@@ -40,5 +61,28 @@ button {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    font-size: 16px;
+}
+
+.button_pressed {
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    background-color: blue;
+    border: none;
+    color: white;
+    padding: 6px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.tcal {
+    font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    background-color: white;
+    border: 1px solid gray;
+    padding: 4px 10px;
     font-size: 16px;
 }
