@@ -10,16 +10,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
     <orderEntry type="library" name="httpclient-4.5.2" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/httpcore-4.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="commons-cli-1.2" level="project" />
     <orderEntry type="library" name="httpcore-4.4.6" level="project" />
+    <orderEntry type="library" name="commons-cli-1.2" level="project" />
+    <orderEntry type="library" name="httpcore-ab-4.4.6" level="project" />
+    <orderEntry type="library" name="httpcore-nio-4.4.6" level="project" />
+    <orderEntry type="library" name="commons-logging-1.2" level="project" />
   </component>
 </module>

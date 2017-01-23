@@ -32,7 +32,7 @@ public class RestConnector implements ResponseHandler<JSONObject> {
     private JSONObject jsonObject = null;
 
     public RestConnector() {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        //CloseableHttpClient httpclient = HttpClients.createDefault();
     }
 
     /**
@@ -81,12 +81,19 @@ public class RestConnector implements ResponseHandler<JSONObject> {
      */
     public void sendGetCommand(String commandUri) {
         System.out.println(getRestURL(commandUri));
+        CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
             HttpGet httpget = new HttpGet(getRestURL(commandUri));
             JSONObject responseBody = httpclient.execute(httpget, this);
             jsonObject = responseBody;
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

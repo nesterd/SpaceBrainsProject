@@ -6,15 +6,15 @@ import com.spacebrains.model.Person;
 import com.spacebrains.util.RestParams;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class KeywordsRest implements IKeywords {
     private static KeywordsRest instance = null;
 
-    private RestConnector restConnector;
-    private ArrayList<Keyword> keywords;
+    private RestConnector restConnector = null;
+    private ArrayList<Keyword> keywords = null;
 
     public KeywordsRest() {
         this.restConnector = new RestConnector();
@@ -23,10 +23,12 @@ public class KeywordsRest implements IKeywords {
     }
 
     private void populateList() {
-        restConnector.sendGetCommand("/keywords");
+        //restConnector.sendGetCommand("/keywords");
+        restConnector.sendGetCommand("/id/1/name/Путин");
         if(restConnector.getState() == RestParams.HTTP_STATE_OK) {
             // populate ArrayList from JSON response
-            keywords = new ArrayList<>(restConnector.getJsonObject().entrySet());
+            if(keywords == null) keywords = new ArrayList<Keyword>();
+            // TODO: parse response into ArrayList
         }
     }
 
