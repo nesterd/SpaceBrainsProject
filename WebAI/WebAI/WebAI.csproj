@@ -232,6 +232,10 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
+      <Project>{32a18e7d-ebd3-452c-8955-9d8a44ce4ca0}</Project>
+      <Name>BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{235cece7-7be9-494c-9d39-9cda091e2232}</Project>
       <Name>DataAccess</Name>

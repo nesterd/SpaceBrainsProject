@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repositories.Base
 {
-    interface IDataRepository
+    public interface IDataRepository
     {
         void AddPerson(Person person);
         void AddKeyWord(KeyWord keyWord);

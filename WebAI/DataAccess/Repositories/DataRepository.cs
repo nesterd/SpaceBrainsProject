@@ -122,7 +122,7 @@ namespace DataAccess.Repositories
 
         public IEnumerable<KeyWord> GetKeyWords(string personName)
         {
-            return GetKeyWords(context.Persons.FirstOrDefault(x => x.Name.Trim().ToLower() == personName.Trim().ToLower());
+            return GetKeyWords(context.Persons.FirstOrDefault(x => x.Name.Trim().ToLower() == personName.Trim().ToLower()));
         }
 
         public IEnumerable<Site> GetSites()
