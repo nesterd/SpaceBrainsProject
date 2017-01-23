@@ -1,7 +1,10 @@
 ﻿Method    Url                 Result
 ----------- Persons -----------------------------------------------------------
 GET   /persons    JSON( {'name': <person_name>} )
-GET   /persons/<name>    JSON( {'name': <person_name>} )
+GET   /persons/<name>    JSON( {'name': <person_name>} ) # Вывести данные по персоне
+POST  /persons/<name>    JSON( {'name': <person_name> } )  # Добавить персону
+DEL  /persons/<name>    JSON( {'name': <person_name> } )   # Удалить персону
+PUT  /persons/<name>    JSON( {'name': <person_name> } )   # Если персона заведена, обновить данные статистики. Если нет, добавить персону.
 ----------- Sites -----------------------------------------------------------
 GET   /sites    JSON( {'name': <site_name>} )
 GET   /sites/<name> или <id>    JSON( {'id': <id_site>, 'name': <site_name>, 'pages':[,] } )  # Вывести данные по сайту
