@@ -120,6 +120,11 @@ namespace DataAccess.Repositories
             return context.KeyWords.Where(x => x.PersonId == person.Id).ToArray();
         }
 
+        public IEnumerable<KeyWord> GetKeyWords(string personName)
+        {
+            return GetKeyWords(context.Persons.FirstOrDefault(x => x.Name.Trim().ToLower() == personName.Trim().ToLower());
+        }
+
         public IEnumerable<Site> GetSites()
         {
             return context.Sites.ToArray();
@@ -139,5 +144,7 @@ namespace DataAccess.Repositories
         {
             return context.Sites.FirstOrDefault(x => x.Id == id);
         }
+
+        
     }
 }

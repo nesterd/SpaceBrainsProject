@@ -24,6 +24,7 @@ namespace DataAccess.Repositories.Base
         IEnumerable<Person> GetPersons();
         IEnumerable<KeyWord> GetKeyWords();
         IEnumerable<KeyWord> GetKeyWords(Person person);
+        IEnumerable<KeyWord> GetKeyWords(string personName);
         IEnumerable<Site> GetSites();
 
         Person GetPerson(int id);
