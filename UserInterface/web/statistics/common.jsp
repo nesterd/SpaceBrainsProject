@@ -41,18 +41,18 @@
                 currentPage = Integer.parseInt(request.getParameter("page"));
             }%>
         <p>Общее количество: <%=result.size()%></p>
-        <table>
+        <table class="table_content">
             <tr>
-                <th>
+                <th class="th_content">
 
                 </th>
-                <th>
+                <th class="th_content">
                     Персона
                 </th>
-                <th>
+                <th class="th_content">
                     Ссылка
                 </th>
-                <th>
+                <th class="th_content">
                     Ранг
                 </th>
             </tr>
@@ -63,16 +63,16 @@
                 }
                 Object element = result.get(i-1); %>
             <tr>
-                <td>
+                <td class="td_content">
                     <%= i %>
                 </td>
-                <td>
+                <td class="td_content">
                     <%= ((PersonPageRankEntity) element).getPersonsByPersonId().getName() %>
                 </td>
-                <td>
+                <td class="td_content">
                     <%= ((PersonPageRankEntity) element).getPagesByPageId().getUrl() %>
                 </td>
-                <td>
+                <td class="td_content">
                     <%= ((PersonPageRankEntity) element).getRank() %>
                 </td>
             </tr>

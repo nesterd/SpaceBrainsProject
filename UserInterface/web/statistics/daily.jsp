@@ -33,44 +33,64 @@
                 Date begin = MyDate.valueOf(begindate);
                 Date end = MyDate.valueOf(enddate);
             %>
-            <span><input type="text" name="begindate" class="tcal" value=<%=begin==null ? "" : begin.toString()%> /></span>
-            <span><input type="text" name="enddate" class="tcal" value=<%=end==null ? "" : end.toString()%> /></span>
-            <%
-                Session ORMSession = HibernateUtil.getSessionFactory().openSession();
-                Query query = ORMSession.createQuery("FROM SitesEntity");
-                List sites = query.list();
-                ORMSession.close();
-                int siteId = 0;
-            %>
-            <select size="1" name="siteId">
-                <option value=0>Выберите сайт</option>
-                <% for (Object site : sites) {
-                    int id = ((SitesEntity)site).getId();
-                    if (String.valueOf(id).equals(request.getParameter("siteId"))) {
-                        siteId = id;
-                    }
-                %>
-                <option <%=String.valueOf(id).equals(request.getParameter("siteId")) ? "selected":""%> value=<%=id%>><%=((SitesEntity)site).getName()%></option>
-                <%}%>
-            </select>
-            <%
-                ORMSession = HibernateUtil.getSessionFactory().openSession();
-                query = ORMSession.createQuery("FROM PersonsEntity ");
-                List persons = query.list();
-                ORMSession.close();
-                int personId = 0;
-            %>
-            <select size="1" name="personId">
-                <option value=0>Выберите персону</option>
-                <% for (Object person : persons) {
-                    int id = ((PersonsEntity)person).getId();
-                    if (String.valueOf(id).equals(request.getParameter("personId"))) {
-                        personId = id;
-                    }
-                %>
-                <option <%=String.valueOf(id).equals(request.getParameter("personId")) ? "selected":""%> value=<%=id%>><%=((PersonsEntity)person).getName()%></option>
-                <%}%>
-            </select>
+            <table>
+                <tr>
+                    <td>
+                        Дата начала
+                        <div><input type="text" name="begindate" class="tcal" value=<%=begin==null ? "" : begin.toString()%> /></div>
+                    </td>
+                    <td>
+                        Дата конца
+                        <div><input type="text" name="enddate" class="tcal" value=<%=end==null ? "" : end.toString()%> /></div>
+                    </td>
+                    <%
+                        Session ORMSession = HibernateUtil.getSessionFactory().openSession();
+                        Query query = ORMSession.createQuery("FROM SitesEntity");
+                        List sites = query.list();
+                        ORMSession.close();
+                        int siteId = 0;
+                    %>
+                    <td>
+                        Сайт
+                        <div>
+                            <select size="1" name="siteId">
+                                <option value=0>Выберите сайт</option>
+                                <% for (Object site : sites) {
+                                    int id = ((SitesEntity)site).getId();
+                                    if (String.valueOf(id).equals(request.getParameter("siteId"))) {
+                                        siteId = id;
+                                    }
+                                %>
+                                <option <%=String.valueOf(id).equals(request.getParameter("siteId")) ? "selected":""%> value=<%=id%>><%=((SitesEntity)site).getName()%></option>
+                                <%}%>
+                            </select>
+                        </div>
+                    </td>
+                    <%
+                        ORMSession = HibernateUtil.getSessionFactory().openSession();
+                        query = ORMSession.createQuery("FROM PersonsEntity ");
+                        List persons = query.list();
+                        ORMSession.close();
+                        int personId = 0;
+                    %>
+                    <td>
+                        Персона
+                        <div>
+                            <select size="1" name="personId">
+                                <option value=0>Выберите персону</option>
+                                <% for (Object person : persons) {
+                                    int id = ((PersonsEntity)person).getId();
+                                    if (String.valueOf(id).equals(request.getParameter("personId"))) {
+                                        personId = id;
+                                    }
+                                %>
+                                <option <%=String.valueOf(id).equals(request.getParameter("personId")) ? "selected":""%> value=<%=id%>><%=((PersonsEntity)person).getName()%></option>
+                                <%}%>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </form>
         <button class="button" type="submit" form="params">Сформировать</button>
         <%  List result;
@@ -125,18 +145,18 @@
                 currentPage = Integer.parseInt(request.getParameter("page"));
             }%>
         <p>Общее количество: <%=result.size()%></p>
-        <table>
+        <table class="table_content">
             <tr>
-                <th>
+                <th class="th_content">
 
                 </th>
-                <th>
+                <th class="th_content">
                     Персона
                 </th>
-                <th>
+                <th class="th_content">
                     Ссылка
                 </th>
-                <th>
+                <th class="th_content">
                     Ранг
                 </th>
             </tr>
@@ -146,16 +166,16 @@
                 }
                 Object element = result.get(i-1); %>
             <tr>
-                <td>
+                <td class="td_content">
                     <%= i %>
                 </td>
-                <td>
+                <td class="td_content">
                     <%= ((PersonPageRankEntity) element).getPersonsByPersonId().getName() %>
                 </td>
-                <td>
+                <td class="td_content">
                     <%= ((PersonPageRankEntity) element).getPagesByPageId().getUrl() %>
                 </td>
-                <td>
+                <td class="td_content">
                     <%= ((PersonPageRankEntity) element).getRank() %>
                 </td>
             </tr>
