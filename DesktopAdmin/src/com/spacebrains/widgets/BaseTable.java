@@ -1,16 +1,16 @@
 package com.spacebrains.widgets;
 
 import com.spacebrains.interfaces.INamed;
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.util.BaseParams;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static com.spacebrains.util.BaseParams.BASE_TABLE_HEADER_FONT;
-import static com.spacebrains.util.BaseParams.TABLE_HEIGHT;
-import static com.spacebrains.util.BaseParams.TABLE_WIDTH;
+import static com.spacebrains.core.util.BaseParams.BASE_TABLE_HEADER_FONT;
+import static com.spacebrains.core.util.BaseParams.TABLE_HEIGHT;
+import static com.spacebrains.core.util.BaseParams.TABLE_WIDTH;
 
 public class BaseTable extends JPanel {
 

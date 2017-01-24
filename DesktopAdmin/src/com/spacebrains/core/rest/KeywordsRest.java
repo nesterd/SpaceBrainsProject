@@ -1,14 +1,11 @@
-package com.spacebrains.rest;
+package com.spacebrains.core.rest;
 
 import com.spacebrains.interfaces.IKeywords;
 import com.spacebrains.model.Keyword;
 import com.spacebrains.model.Person;
-import com.spacebrains.util.RestParams;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import com.spacebrains.core.util.RestParams;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class KeywordsRest implements IKeywords {
     private static KeywordsRest instance = null;

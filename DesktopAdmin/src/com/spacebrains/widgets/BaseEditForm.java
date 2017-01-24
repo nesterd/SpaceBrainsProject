@@ -2,7 +2,7 @@ package com.spacebrains.widgets;
 
 import com.spacebrains.interfaces.INamed;
 import com.spacebrains.interfaces.IRest;
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.util.BaseParams;
 
 import javax.swing.*;
 import java.awt.*;

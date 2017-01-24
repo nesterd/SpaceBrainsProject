@@ -2,7 +2,7 @@ package com.spacebrains.widgets;
 
 import com.spacebrains.interfaces.INamed;
 import com.spacebrains.ui.FormsManager;
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.util.BaseParams;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import static com.spacebrains.util.BaseParams.ALERT_MSG;
-import static com.spacebrains.util.BaseParams.setDefaultFont;
+import static com.spacebrains.core.util.BaseParams.ALERT_MSG;
+import static com.spacebrains.core.util.BaseParams.setDefaultFont;
 
 public abstract class BaseWindow extends JFrame implements WindowListener {
 

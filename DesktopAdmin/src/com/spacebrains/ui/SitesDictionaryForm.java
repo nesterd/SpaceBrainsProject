@@ -2,8 +2,8 @@ package com.spacebrains.ui;
 
 import com.spacebrains.interfaces.ISites;
 import com.spacebrains.model.Site;
-import com.spacebrains.rest.SitesRestMock;
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.rest.SitesRestMock;
+import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.widgets.BaseEditForm;
 import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;

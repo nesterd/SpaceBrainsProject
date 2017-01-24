@@ -4,10 +4,10 @@ import com.spacebrains.interfaces.IPersons;
 import com.spacebrains.model.FakeKeywordRepository;
 import com.spacebrains.model.Keyword;
 import com.spacebrains.model.Person;
-import com.spacebrains.rest.FakeKeywordRelay;
-import com.spacebrains.rest.KeywordsMediator;
-import com.spacebrains.rest.PersonsRestMock;
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.rest.FakeKeywordRelay;
+import com.spacebrains.core.rest.KeywordsMediator;
+import com.spacebrains.core.rest.PersonsRestMock;
+import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.widgets.BaseEditForm;
 import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;
@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import static com.spacebrains.util.BaseParams.TABLE_WIDTH;
+import static com.spacebrains.core.util.BaseParams.TABLE_WIDTH;
 
 public class KeywordsDictionaryForm extends BaseWindow {
 

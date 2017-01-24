@@ -1,9 +1,9 @@
-package com.spacebrains.rest;
+package com.spacebrains.core.rest;
 
 import com.spacebrains.interfaces.IStats;
 import com.spacebrains.model.CrawlerStats;
 import com.spacebrains.model.Site;
-import com.spacebrains.util.Generator;
+import com.spacebrains.core.util.Generator;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.spacebrains.rest;
+package com.spacebrains.core.rest;
 
 import com.spacebrains.interfaces.IPersons;
 import com.spacebrains.model.Person;

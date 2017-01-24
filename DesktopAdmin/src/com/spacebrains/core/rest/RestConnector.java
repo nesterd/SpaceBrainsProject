@@ -1,7 +1,7 @@
-package com.spacebrains.rest;
+package com.spacebrains.core.rest;
 
 import com.spacebrains.model.Keyword;
-import com.spacebrains.util.RestParams;
+import com.spacebrains.core.util.RestParams;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;

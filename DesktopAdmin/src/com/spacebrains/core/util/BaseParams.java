@@ -1,4 +1,4 @@
-package com.spacebrains.util;
+package com.spacebrains.core.util;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;

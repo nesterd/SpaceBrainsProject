@@ -1,4 +1,4 @@
-package com.spacebrains.util;
+package com.spacebrains.core.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

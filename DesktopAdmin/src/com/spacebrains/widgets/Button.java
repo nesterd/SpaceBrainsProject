@@ -1,6 +1,6 @@
 package com.spacebrains.widgets;
 
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.util.BaseParams;
 
 import javax.swing.*;
 import java.awt.*;

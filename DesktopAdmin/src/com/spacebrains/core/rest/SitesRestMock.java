@@ -1,4 +1,4 @@
-package com.spacebrains.rest;
+package com.spacebrains.core.rest;
 
 import com.spacebrains.interfaces.ISites;
 import com.spacebrains.model.Site;

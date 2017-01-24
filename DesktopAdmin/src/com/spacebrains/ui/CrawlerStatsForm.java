@@ -1,8 +1,8 @@
 package com.spacebrains.ui;
 
 import com.spacebrains.interfaces.IStats;
-import com.spacebrains.rest.StatsRestMock;
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.rest.StatsRestMock;
+import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.widgets.BaseWindow;
 import com.spacebrains.widgets.StatsTable;
 

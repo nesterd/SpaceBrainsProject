@@ -2,8 +2,8 @@ package com.spacebrains.ui;
 
 import com.spacebrains.interfaces.IPersons;
 import com.spacebrains.model.Person;
-import com.spacebrains.rest.PersonsRestMock;
-import com.spacebrains.util.BaseParams;
+import com.spacebrains.core.rest.PersonsRestMock;
+import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.widgets.BaseEditForm;
 import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;
