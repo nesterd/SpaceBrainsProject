@@ -16,11 +16,14 @@
         <div class="header_footer">Space Brains</div>
     </div>
     <div class="left">
-        <span class="menu_selected" type="button">Общая статистика</span>
-        <span class="menu"><a href=<%= "daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate%>>Ежедневная статистика</a></span>
+        <span class="menu_selected" style="border-top: 1px solid gray" type="button">Общая статистика</span>
+        <span class="menu" style="border-bottom: 1px solid gray"><a href=<%= "daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate%>>Ежедневная статистика</a></span>
     </div>
     <div class="border_left"></div>
-    <div class="border_top"></div>
+    <div class="border_top">
+        <br>
+        <span class="top_label">Общая статистика</span>
+    </div>
     <div class="right">
         <%  List result;
             if (session.getAttribute("commonlist") == null) {
