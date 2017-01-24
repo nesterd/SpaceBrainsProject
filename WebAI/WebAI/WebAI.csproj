@@ -156,6 +156,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KeyWordsController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -217,10 +220,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Persons.cshtml" />
-    <Content Include="Views\Home\Sites.cshtml" />
-    <Content Include="Views\Home\KeyWords.cshtml" />
+    <Content Include="Views\Person\Index.cshtml" />
+    <Content Include="Views\Site\Index.cshtml" />
+    <Content Include="Views\KeyWords\Index.cshtml" />
     <Content Include="Views\Home\Statistics.cshtml" />
+    <Content Include="Views\Site\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
