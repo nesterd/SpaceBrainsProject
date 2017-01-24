@@ -29,9 +29,17 @@ public class MyDate {
             if (yyyy.length() == YEAR_LENGTH &&
                     (mm.length() >= 1 && mm.length() <= MONTH_LENGTH) &&
                     (dd.length() >= 1 && dd.length() <= DAY_LENGTH)) {
-                int year = Integer.parseInt(yyyy);
-                int month = Integer.parseInt(mm);
-                int day = Integer.parseInt(dd);
+                int year;
+                int month;
+                int day;
+                try {
+                    year = Integer.parseInt(yyyy);
+                    month = Integer.parseInt(mm);
+                    day = Integer.parseInt(dd);
+                }
+                catch (NumberFormatException e) {
+                    return d;
+                }
 
                 if ((month >= 1 && month <= MAX_MONTH) && (day >= 1 && day <= MAX_DAY)) {
                     d = new Date(year - 1900, month - 1, day);
