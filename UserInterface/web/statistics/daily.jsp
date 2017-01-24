@@ -21,10 +21,13 @@
     </div>
     <div class="left">
         <span class="menu"><a href="common.jsp">Общая статистика</a></span>
-        <span class="menu_selected" type="button">Ежедневная статистика</span>
+        <span class="menu_selected">Ежедневная статистика</span>
     </div>
     <div class="border_left"></div>
-    <div class="border_top"></div>
+    <div class="border_top">
+        <br>
+        <span class="top_label">Ежедневная статистика</span>
+    </div>
     <div class="right">
         <form id="params">
             <%

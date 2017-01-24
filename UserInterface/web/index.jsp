@@ -11,8 +11,8 @@
         <div class="header_footer">Space Brains</div>
     </div>
     <div class="left">
-        <span class="menu"><a href="statistics/common.jsp">Общая статистика</a></span>
-        <span class="menu"><a href=<%= "statistics/daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate + "&site=0&personId=0"%>>Ежедневная статистика</a></span>
+        <span class="menu" style="border-bottom: 1px solid gray"><a href="statistics/common.jsp">Общая статистика</a></span>
+        <span class="menu" style="border-bottom: 1px solid gray"><a href=<%= "statistics/daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate + "&site=0&personId=0"%>>Ежедневная статистика</a></span>
     </div>
     <div class="border_left"></div>
     <div class="border_top"></div>
