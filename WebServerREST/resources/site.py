@@ -31,6 +31,7 @@ class Site(Resource):
 
         return site.json(), 201
 
+    # Сделать удаление и по id, сейчас работает только по имени
     def delete(self, id=None, name=None):
         site = SiteModel.find_by_name(name)
         if site:
