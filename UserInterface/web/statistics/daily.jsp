@@ -104,6 +104,7 @@
                         <select size="1" name="variant">
                             <option <%=String.valueOf("0").equals(request.getParameter("variant")) ? "selected":""%> value="0">Таблица</option>
                             <option <%=String.valueOf("1").equals(request.getParameter("variant")) ? "selected":""%> value="1">Диаграма популярности личностей</option>
+                            <option <%=String.valueOf("2").equals(request.getParameter("variant")) ? "selected":""%> value="2">Диаграма популярности сайтов</option>
                         </select>
                     </td>
                 </tr>
@@ -163,7 +164,9 @@
         <span>Общее количество: <%=result.size()%></span>
         <% if (result.size() > 0) {%>
             <% if (String.valueOf("1").equals(request.getParameter("variant"))) {%>
-                <%= Content.returnChart(result)%>
+                <%= Content.returnChart(result, "persons")%>
+            <%} else if (String.valueOf("2").equals(request.getParameter("variant"))) {%>
+                <%= Content.returnChart(result, "sites")%>
             <%} else {%>
                 <%= Content.returnTable("daily", result, pagesCount, currentPage, begin, end, String.valueOf(siteId), String.valueOf(personId))%>
             <%}%>
