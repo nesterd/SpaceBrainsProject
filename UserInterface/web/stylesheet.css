@@ -2,6 +2,10 @@ body {
     margin: 0px;
 }
 
+.table_params {
+    border-spacing: 5px;
+}
+
 .table_content {
     border-collapse: collapse;
 }

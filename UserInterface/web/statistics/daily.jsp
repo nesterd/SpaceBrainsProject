@@ -6,6 +6,7 @@
 <%@ page import="database.HibernateUtil" %>
 <%@ page import="java.sql.Date" %>
 <%@ page import="userinterface.MyDate" %>
+<%@ page import="userinterface.Content" %>
 <%@ page import="database.SitesEntity" %>
 <%@ page import="database.PersonsEntity" %>
 <html>
@@ -36,7 +37,7 @@
                 Date begin = MyDate.valueOf(begindate);
                 Date end = MyDate.valueOf(enddate);
             %>
-            <table>
+            <table class="table_params">
                 <tr>
                     <td>
                         Дата начала
@@ -94,8 +95,20 @@
                     </td>
                 </tr>
             </table>
+            <table class="table_params">
+                <tr>
+                    <td>
+                        <button class="button" type="submit" form="params">Сформировать</button>
+                    </td>
+                    <td>
+                        <select size="1" name="variant">
+                            <option <%=String.valueOf("0").equals(request.getParameter("variant")) ? "selected":""%> value="0">Таблица</option>
+                            <option <%=String.valueOf("1").equals(request.getParameter("variant")) ? "selected":""%> value="1">Диаграма популярности личностей</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
         </form>
-        <button class="button" type="submit" form="params">Сформировать</button>
         <%  List result;
             if (session.getAttribute("dailylist") != null
                     && session.getAttribute("begin") == begin
@@ -147,56 +160,14 @@
             } else {
                 currentPage = Integer.parseInt(request.getParameter("page"));
             }%>
-        <br><br>
         <span>Общее количество: <%=result.size()%></span>
-        <table class="table_content">
-            <tr>
-                <th class="th_content">
-
-                </th>
-                <th class="th_content">
-                    Персона
-                </th>
-                <th class="th_content">
-                    Ссылка
-                </th>
-                <th class="th_content">
-                    Ранг
-                </th>
-            </tr>
-            <% for (int i = 10 * (currentPage - 1) + 1; i <= 10 * currentPage; i++) {
-                if (i > result.size()) {
-                    continue;
-                }
-                Object element = result.get(i-1); %>
-            <tr>
-                <td class="td_content">
-                    <%= i %>
-                </td>
-                <td class="td_content">
-                    <%= ((PersonPageRankEntity) element).getPersonsByPersonId().getName() %>
-                </td>
-                <td class="td_content">
-                    <%= ((PersonPageRankEntity) element).getPagesByPageId().getUrl() %>
-                </td>
-                <td class="td_content">
-                    <%= ((PersonPageRankEntity) element).getRank() %>
-                </td>
-            </tr>
+        <% if (result.size() > 0) {%>
+            <% if (String.valueOf("1").equals(request.getParameter("variant"))) {%>
+                <%= Content.returnChart(result)%>
+            <%} else {%>
+                <%= Content.returnTable("daily", result, pagesCount, currentPage, begin, end, String.valueOf(siteId), String.valueOf(personId))%>
             <%}%>
-        </table>
-        Страницы:
-        <% for (int i = 1; i <= pagesCount; i++) {%>
-        <% if (currentPage == i) {%>
-        <%= i%>
-        <%} else {%>
-        <a href=<%= "daily.jsp?page=" + i
-                + "&begindate=" + (begin==null ? "" : begin.toString())
-                + "&enddate=" + (end==null ? "" : end.toString()
-                + "&siteId=" + request.getParameter("siteId")
-                + "&personId=" + request.getParameter("personId"))%>><%=i%></a>
-        <%}
-        }%>
+        <%}%>
     </div>
     <div class="bottom">
         <div class="header_footer">&copy; 2017 Space Brains Project</div>

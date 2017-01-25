@@ -2,7 +2,7 @@
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="org.hibernate.Query" %>
 <%@ page import="java.util.List" %>
-<%@ page import="database.PersonPageRankEntity" %>
+<%@ page import="userinterface.Content" %>
 <%@ page import="database.HibernateUtil" %>
 <%@ page import="java.sql.Date" %>
 <html>
@@ -25,6 +25,21 @@
         <span class="top_label">Общая статистика</span>
     </div>
     <div class="right">
+        <form id="params">
+            <table class="table_params">
+                <tr>
+                    <td>
+                        <button class="button" type="submit" form="params">Сформировать</button>
+                    </td>
+                    <td>
+                        <select size="1" name="variant">
+                            <option <%=String.valueOf("0").equals(request.getParameter("variant")) ? "selected":""%> value="0">Таблица</option>
+                            <option <%=String.valueOf("1").equals(request.getParameter("variant")) ? "selected":""%> value="1">Диаграма популярности личностей</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
         <%  List result;
             if (session.getAttribute("commonlist") == null) {
                 Session ORMSession = HibernateUtil.getSessionFactory().openSession();
@@ -44,51 +59,13 @@
                 currentPage = Integer.parseInt(request.getParameter("page"));
             }%>
         <span>Общее количество: <%=result.size()%></span>
-        <table class="table_content">
-            <tr>
-                <th class="th_content">
-
-                </th>
-                <th class="th_content">
-                    Персона
-                </th>
-                <th class="th_content">
-                    Ссылка
-                </th>
-                <th class="th_content">
-                    Ранг
-                </th>
-            </tr>
-            <% String ref = "common.jsp"; %>
-            <% for (int i = 10 * (currentPage - 1) + 1; i <= 10 * currentPage; i++) {
-                if (i > result.size()) {
-                    continue;
-                }
-                Object element = result.get(i-1); %>
-            <tr>
-                <td class="td_content">
-                    <%= i %>
-                </td>
-                <td class="td_content">
-                    <%= ((PersonPageRankEntity) element).getPersonsByPersonId().getName() %>
-                </td>
-                <td class="td_content">
-                    <%= ((PersonPageRankEntity) element).getPagesByPageId().getUrl() %>
-                </td>
-                <td class="td_content">
-                    <%= ((PersonPageRankEntity) element).getRank() %>
-                </td>
-            </tr>
+        <% if (result.size() > 0) {%>
+            <% if (String.valueOf("1").equals(request.getParameter("variant"))) {%>
+                <%= Content.returnChart(result)%>
+            <%} else {%>
+                <%= Content.returnTable("common", result, pagesCount, currentPage, null, null, "", "")%>
             <%}%>
-        </table>
-        Страницы:
-        <% for (int i = 1; i <= pagesCount; i++) {%>
-        <% if (currentPage == i) {%>
-            <%= i%>
-        <%} else {%>
-            <a href=<%= ref + "?page=" + i %>><%=i%></a>
-        <%}
-        }%>
+        <%}%>
     </div>
     <div class="bottom">
         <div class="header_footer">&copy; 2017 Space Brains Project</div>
