@@ -71,19 +71,24 @@ public class Content {
         return table;
     }
 
-    public static String returnChart(List result) {
+    public static String returnChart(List result, String variant) {
 
-        HashSet<String> persons = new HashSet<>();
-        HashMap<String, Integer> map = new HashMap<>();
+        HashSet<String> parameter1 = new HashSet<>();
+        HashMap<String, Integer> parameter2 = new HashMap<>();
 
         for (Object element:result) {
-            String name = ((PersonPageRankEntity) element).getPersonsByPersonId().getName();
-            persons.add(name);
-            Integer mapElement = map.get(name);
-            if (mapElement == null) {
-                map.put(name, 1);
+            String name = "";
+            if (variant.equals("persons")) {
+                name = ((PersonPageRankEntity) element).getPersonsByPersonId().getName();
             } else {
-                map.put(name, mapElement + 1);
+                name = ((PersonPageRankEntity) element).getPagesByPageId().getSitesById().getName();
+            }
+            parameter1.add(name);
+            Integer mapElement = parameter2.get(name);
+            if (mapElement == null) {
+                parameter2.put(name, 1);
+            } else {
+                parameter2.put(name, mapElement + 1);
             }
         }
 
@@ -97,14 +102,18 @@ public class Content {
 
         String contentString = "";
 
-        for (String element:persons) {
-            contentString += ",\n ['" + element + "', " + map.get(element) + "]";
+        for (String element:parameter1) {
+            contentString += ",\n ['" + element + "', " + parameter2.get(element) + "]";
         }
         chart += contentString + "]);\n" +
                 "\n" +
-                "                var options = {\n" +
-                "                  title: 'Диаграма популярности личностей',\n" +
-                "                  pieHole: 0.3,\n" +
+                "                var options = {\n";
+        if (variant.equals("persons")) {
+            chart += "title: 'Диаграма популярности личностей',\n";
+        } else {
+            chart += "title: 'Диаграма популярности сайтов',\n";
+        }
+        chart += "                 pieHole: 0.3,\n" +
                 "                };\n" +
                 "\n" +
                 "                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));\n" +
