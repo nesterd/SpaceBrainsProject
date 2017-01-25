@@ -11,12 +11,12 @@ using DataAccess.Repositories.Base;
 
 namespace DataAccess.Repositories
 {
-    public class DataRepository
-        : IDataRepository
+    public class PersonRepository
+        : IPersonRepository
     {
         WebAIDbContext context;
 
-        public DataRepository(WebAIDbContext context)
+        public PersonRepository(WebAIDbContext context)
         {
             this.context = context;
         }
@@ -125,10 +125,7 @@ namespace DataAccess.Repositories
             return GetKeyWords(context.Persons.FirstOrDefault(x => x.Name.Trim().ToLower() == personName.Trim().ToLower()));
         }
 
-        public IEnumerable<Site> GetSites()
-        {
-            return context.Sites.ToArray();
-        }
+        
 
         public Person GetPerson(int id)
         {
@@ -140,10 +137,7 @@ namespace DataAccess.Repositories
             return context.KeyWords.FirstOrDefault(x => x.Id == id);
         }
 
-        public Site GetSite(int id)
-        {
-            return context.Sites.FirstOrDefault(x => x.Id == id);
-        }
+        
 
         
     }

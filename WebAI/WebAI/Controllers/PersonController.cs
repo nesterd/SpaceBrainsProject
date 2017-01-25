@@ -10,12 +10,12 @@ namespace WebAI.Controllers
 {
     public class PersonController : Controller
     {
-        IDataService _dataservice = null;
+        IPersonService _dataservice = null;
         public PersonController()
         {
 
         }
-        public PersonController(IDataService dataservice)
+        public PersonController(IPersonService dataservice)
         {
                 _dataservice = dataservice;
         }

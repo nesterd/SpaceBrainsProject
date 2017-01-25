@@ -10,12 +10,12 @@ namespace WebAI.Controllers
 {
     public class KeyWordsController : Controller
     {
-        IDataService _dataservice = null;
+        IPersonService _dataservice = null;
         public KeyWordsController()
         {
 
         }
-        public KeyWordsController(IDataService dataservice)
+        public KeyWordsController(IPersonService dataservice)
         {
             _dataservice = dataservice;
         }

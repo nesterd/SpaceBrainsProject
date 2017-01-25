@@ -16,11 +16,17 @@ namespace DataAccess.IoC
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<WebAIDbContext>()
-            //    .Named<DbContext>("DataContext")
+            builder.RegisterType<WebAIDbContext>()
+                .Named<DbContext>("DataContext")
+                .InstancePerRequest();
 
-            builder.RegisterType<DataRepository>().As<IDataRepository>()
-                .WithParameter("context", new WebAIDbContext());
+            builder.RegisterType<PersonRepository>().As<IPersonRepository>()
+                .WithParameter((pi, c) => pi.Name == "context", (pi, c) => (WebAIDbContext)c.ResolveNamed<DbContext>("DataContext"))
+                .InstancePerRequest();
+
+            builder.RegisterType<SiteRepository>().As<ISiteRepository>()
+                .WithParameter((pi, c) => pi.Name == "context", (pi, c) => (WebAIDbContext)c.ResolveNamed<DbContext>("DataContext"))
+                .InstancePerRequest();
         }
     }
 }

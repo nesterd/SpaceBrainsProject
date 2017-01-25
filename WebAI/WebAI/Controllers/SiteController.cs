@@ -10,13 +10,13 @@ namespace WebAI.Controllers
 {
     public class SiteController : Controller
     {
-        IDataService _dataservice = null;
+        IPersonService _dataservice = null;
 
         public SiteController()
         {
 
         }
-        public SiteController(IDataService dataservice)
+        public SiteController(IPersonService dataservice)
         {
             _dataservice = dataservice;
         }

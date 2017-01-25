@@ -10,12 +10,12 @@ using DataAccess;
 
 namespace BusinessLogic.Services
 {
-    public class DataService
-        : Base.IDataService
+    public class PersonService
+        : Base.IPersonService
     {
-        IDataRepository dataRepository;
+        IPersonRepository dataRepository;
 
-        public DataService(IDataRepository dataRepository)
+        public PersonService(IPersonRepository dataRepository)
         {
             this.dataRepository = dataRepository;
         }
