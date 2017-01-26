@@ -42,23 +42,21 @@
             </table>
         </form>
         <%  List result;
-            if (session.getAttribute("commonlist") == null) {
-                Session ORMSession = HibernateUtil.getSessionFactory().openSession();
-                Query query = ORMSession.createQuery("FROM PersonPageRankEntity ppr");
-                result = query.list();
-                session.setAttribute("commonlist", result);
-                ORMSession.close();
-            }
-            else {
-                result = (List) session.getAttribute("commonlist");
-            }
+            Session ORMSession = HibernateUtil.getSessionFactory().openSession();
+            Query query = ORMSession.createQuery("FROM PersonPageRankEntity ppr");
+            result = query.list();
+            session.setAttribute("commonlist", result);
+            ORMSession.close();
+            HibernateUtil.closeSessionFactory();
+
             int pagesCount = result.size() / 10 + 1;
             int currentPage;
             if (request.getParameter("page") == null) {
                 currentPage = 1;
             } else {
                 currentPage = Integer.parseInt(request.getParameter("page"));
-            }%>
+            }
+        %>
         <span>Общее количество: <%=result.size()%></span>
         <% if (result.size() > 0) {%>
             <% if (String.valueOf("1").equals(request.getParameter("variant"))) {%>

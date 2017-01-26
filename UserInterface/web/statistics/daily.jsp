@@ -2,7 +2,6 @@
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="org.hibernate.Query" %>
 <%@ page import="java.util.List" %>
-<%@ page import="database.PersonPageRankEntity" %>
 <%@ page import="database.HibernateUtil" %>
 <%@ page import="java.sql.Date" %>
 <%@ page import="userinterface.MyDate" %>
@@ -52,6 +51,7 @@
                         Query query = ORMSession.createQuery("FROM SitesEntity");
                         List sites = query.list();
                         ORMSession.close();
+                        HibernateUtil.closeSessionFactory();
                         int siteId = 0;
                     %>
                     <td>
@@ -75,6 +75,7 @@
                         query = ORMSession.createQuery("FROM PersonsEntity ");
                         List persons = query.list();
                         ORMSession.close();
+                        HibernateUtil.closeSessionFactory();
                         int personId = 0;
                     %>
                     <td>
@@ -111,56 +112,45 @@
             </table>
         </form>
         <%  List result;
-            if (session.getAttribute("dailylist") != null
-                    && session.getAttribute("begin") == begin
-                    && session.getAttribute("end") == end
-                    && session.getAttribute("siteId") == (Object) siteId
-                    && session.getAttribute("personId") == (Object) personId) {
-                result = (List) session.getAttribute("dailylist");
+            String queryText = "FROM PersonPageRankEntity ppr WHERE pagesByPageId.foundDateTime != null ";
+            if (begin != null) {
+                queryText += " AND pagesByPageId.foundDateTime >= :begindate";
             }
-            else {
-                String queryText = "FROM PersonPageRankEntity ppr WHERE pagesByPageId.foundDateTime != null ";
-                if (begin != null) {
-                    queryText += " AND pagesByPageId.foundDateTime >= :begindate";
-                }
-                if (end != null) {
-                    queryText += " AND pagesByPageId.foundDateTime <= :enddate";
-                }
-                if (siteId > 0 ) {
-                    queryText += " AND pagesByPageId.sitesById.id = :siteId";
-                }
-                if (personId > 0 ) {
-                    queryText += " AND personsByPersonId.id = :personId";
-                }
-                ORMSession = HibernateUtil.getSessionFactory().openSession();
-                query = ORMSession.createQuery(queryText);
-                if (begin != null) {
-                    query.setParameter("begindate", begin);
-                }
-                if (end != null) {
-                    query.setParameter("enddate", end);
-                }
-                if (siteId > 0) {
-                    query.setParameter("siteId", siteId);
-                }
-                if (personId > 0 ) {
-                    query.setParameter("personId", personId);
-                }
-                result = query.list();
-                session.setAttribute("dailylist", result);
-                session.setAttribute("begin", begin);
-                session.setAttribute("end", end);
-                session.setAttribute("siteId", siteId);
-                session.setAttribute("personId", personId);
-                ORMSession.close();
+            if (end != null) {
+                queryText += " AND pagesByPageId.foundDateTime <= :enddate";
             }
+            if (siteId > 0 ) {
+                queryText += " AND pagesByPageId.sitesById.id = :siteId";
+            }
+            if (personId > 0 ) {
+                queryText += " AND personsByPersonId.id = :personId";
+            }
+            ORMSession = HibernateUtil.getSessionFactory().openSession();
+            query = ORMSession.createQuery(queryText);
+            if (begin != null) {
+                query.setParameter("begindate", begin);
+            }
+            if (end != null) {
+                query.setParameter("enddate", end);
+            }
+            if (siteId > 0) {
+                query.setParameter("siteId", siteId);
+            }
+            if (personId > 0 ) {
+                query.setParameter("personId", personId);
+            }
+            result = query.list();
+            ORMSession.close();
+            HibernateUtil.closeSessionFactory();
+
             int pagesCount = result.size() / 10 + 1;
             int currentPage;
             if (request.getParameter("page") == null) {
                 currentPage = 1;
             } else {
                 currentPage = Integer.parseInt(request.getParameter("page"));
-            }%>
+            }
+        %>
         <span>Общее количество: <%=result.size()%></span>
         <% if (result.size() > 0) {%>
             <% if (String.valueOf("1").equals(request.getParameter("variant"))) {%>

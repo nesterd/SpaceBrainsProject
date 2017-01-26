@@ -7,24 +7,24 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
-    private static final SessionFactory sessionFactory;
 
-    static {
-        try {
-            Configuration configuration = new Configuration().configure();
-            StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
-            serviceRegistryBuilder.applySettings(configuration.getProperties());
-            ServiceRegistry serviceRegistry = serviceRegistryBuilder.build();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-//            sessionFactory = new Configuration().configure().buildSessionFactory();
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+    private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null || sessionFactory.isClosed()) {
+            try {
+                Configuration configuration = new Configuration().configure();
+                StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
+                serviceRegistryBuilder.applySettings(configuration.getProperties());
+                ServiceRegistry serviceRegistry = serviceRegistryBuilder.build();
+                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+//            sessionFactory = new Configuration().configure().buildSessionFactory();
+            } catch (HibernateException ex) {
+                ex.printStackTrace();
+                System.err.println("Initial SessionFactory creation failed." + ex);
+                throw new ExceptionInInitializerError(ex);
+            }
+        }
         return sessionFactory;
     }
 
