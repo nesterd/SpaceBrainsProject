@@ -38,6 +38,14 @@ namespace BusinessLogic.Services
             return Mapper.Map<IEnumerable<KeyWord>, IEnumerable<KeyWordDTO>>(keyWords);
         }
 
+        //public IEnumerable<KeyWordDTO> GetKeyWordsForPerson(string personName)
+        //{
+        //    personRepository.
+        //    //var keyWords = personRepository.GetKeyWords(personId);
+        //    Mapper.Initialize(cfg => cfg.CreateMap<KeyWord, KeyWordDTO>());
+        //    return Mapper.Map<IEnumerable<KeyWord>, IEnumerable<KeyWordDTO>>(keyWords);
+        //}
+
         public IEnumerable<KeyWordDTO> GetKeyWords()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<KeyWord, KeyWordDTO>());

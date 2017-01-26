@@ -14,6 +14,8 @@ namespace BusinessLogic.Services.Base
          IEnumerable<PersonDTO> GetPersons();
          IEnumerable<KeyWordDTO> GetKeyWords();
          IEnumerable<KeyWordDTO> GetKeyWordsForPerson(int personId);
+         //IEnumerable<KeyWordDTO> GetKeyWordsForPerson(string personName);
+
 
          PersonDTO GetPersonById(int id);
          KeyWordDTO GetKeyWordById(int id);

@@ -1,0 +1,19 @@
+﻿@using WebAI.Models;
+@model KeyWordViewModel
+@{
+    ViewBag.Title = "Add";
+    int personId = ViewBag.PersonId;
+}
+
+<h2>Форма добавления ключевого слова для персоны _________</h2>
+
+@using (Html.BeginForm("AddKeyWord", "Person", FormMethod.Post))
+{
+    <input type="hidden" value="@ViewBag.PersonId" name="PersonId" />
+    <table>
+
+        <tr><td>@Html.LabelFor(x => x.Name):</td> <td>@Html.EditorFor(x => x.Name)</td></tr>
+        
+    </table>
+    <input type="submit" value="Добавить" />
+}

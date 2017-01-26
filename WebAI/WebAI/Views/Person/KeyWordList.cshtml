@@ -1,19 +1,44 @@
 ﻿@using WebAI.Models;
-@model IEnumerable<KeyWordViewModel>
+@model PersonViewModel
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
 @{
     ViewBag.Title = "KeyWord";
     IEnumerable<PersonViewModel> personList = ViewBag.Persons;
+    IEnumerable<KeyWordViewModel> keyWordList = ViewBag.KeyWords;
+
 }
+
 
 <h3> Справочник "Ключевые Слова"</h3>
 <p>Для редактирования и удаления записи - нажмите на неё</p>
-@*@Html.DropDownList("persons", personList);*@
-<div class="list-group">
+<div class="form-inline">
+    @using (Ajax.BeginForm("FIlteredKeyWord", "Person", new AjaxOptions
+    {
+        //HttpMethod = "GET",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "product-container"
 
-        	@foreach (var keyWord in Model)
-            {
-				<a href="#" class="list-group-item">@keyWord.Name</a>
-			}
+    }))
+
+    {
+        
+        <fieldset>
+            @Html.Label("Выберите Персону")
+            
+            @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name"))
+            
+            <div><input type="submit" value="Фильтр" /></div>
+        </fieldset>
+
+    }
+
 </div>
 
-<button class="btn btn-info">Добавить новую запись</button>
+
+<div id="product-container">
+    @Html.Partial("_KeyWordList", keyWordList)
+</div>
+
+
+@*<button class="btn btn-info">Добавить новую запись</button>*@

@@ -184,6 +184,7 @@
     </Compile>
     <Compile Include="IoC\AutofacConfig.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
+    <Compile Include="Models\KeyWordListViewModel.cs" />
     <Compile Include="Models\KeyWordViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\StatisticsViewModel.cs" />
@@ -218,6 +219,8 @@
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -245,6 +248,8 @@
     <Content Include="Views\Person\KeyWordList.cshtml" />
     <Content Include="Views\Home\Statistics.cshtml" />
     <Content Include="Views\Site\Edit.cshtml" />
+    <Content Include="Views\Person\_KeyWordList.cshtml" />
+    <Content Include="Views\Person\AddKeyWord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

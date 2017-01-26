@@ -5,8 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+   @Styles.Render("~/Content/css")
+   @Scripts.Render("~/bundles/modernizr")
+   @Scripts.Render("~/Scripts/jquery-3.1.1.min.js")
+   @Scripts.Render("~/Scripts/jquery.validate.min.js")
+   @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -60,6 +63,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

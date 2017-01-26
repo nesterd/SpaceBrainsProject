@@ -22,7 +22,7 @@ namespace WebAI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Database.SetInitializer(new DbContextInitializer());
+            //Database.SetInitializer(new DbContextInitializer());
         }
     }
 }

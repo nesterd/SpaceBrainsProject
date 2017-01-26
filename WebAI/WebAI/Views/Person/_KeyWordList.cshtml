@@ -1,0 +1,14 @@
+﻿@using WebAI.Models;
+@model IEnumerable<KeyWordViewModel>
+
+<div class="list-group">
+
+    @foreach (var keyWord in Model)
+            {
+        <a href="#" class="list-group-item">@keyWord.Name</a>
+    }
+</div>
+
+<a class="btn btn-info" href="@Url.Action("AddKeyWord", new { id = Model.FirstOrDefault().PersonId })">Добавить новую запись</a>
+@*<button class="btn btn-info">@Html.ActionLink("Add","Index", "Home", new { id = Model.FirstOrDefault().PersonId })</button>*@
+
