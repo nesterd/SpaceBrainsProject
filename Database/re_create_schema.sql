@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `ratepersons`.`Pages` (
   `LastScanDate` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`ID`),
   CONSTRAINT `FK_sites_pages`
-    FOREIGN KEY (`ID`)
+    FOREIGN KEY (`SiteID`)
     REFERENCES `ratepersons`.`Sites` (`ID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
