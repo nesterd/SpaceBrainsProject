@@ -16,7 +16,7 @@
         <div class="header_footer">Space Brains</div>
     </div>
     <div class="left">
-        <span class="menu_selected" style="border-top: 1px solid gray" type="button">Общая статистика</span>
+        <span class="menu_selected" style="border-top: 1px solid gray">Общая статистика</span>
         <span class="menu" style="border-bottom: 1px solid gray"><a href=<%= "daily.jsp?page=1&begindate=" + currentDate + "&enddate="  + currentDate%>>Ежедневная статистика</a></span>
     </div>
     <div class="border_left"></div>
@@ -34,8 +34,8 @@
                     <td>
                         <select size="1" name="variant">
                             <option <%=String.valueOf("0").equals(request.getParameter("variant")) ? "selected":""%> value="0">Таблица</option>
-                            <option <%=String.valueOf("1").equals(request.getParameter("variant")) ? "selected":""%> value="1">Диаграма популярности личностей</option>
-                            <option <%=String.valueOf("2").equals(request.getParameter("variant")) ? "selected":""%> value="2">Диаграма популярности сайтов</option>
+                            <option <%=String.valueOf("1").equals(request.getParameter("variant")) ? "selected":""%> value="1">Диаграмма популярности личностей</option>
+                            <option <%=String.valueOf("2").equals(request.getParameter("variant")) ? "selected":""%> value="2">Диаграмма популярности сайтов</option>
                         </select>
                     </td>
                 </tr>
