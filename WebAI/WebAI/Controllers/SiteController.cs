@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Services.Base;
+﻿using BusinessLogic.Services;
+using BusinessLogic.Services.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,15 @@ namespace WebAI.Controllers
 {
     public class SiteController : Controller
     {
-        IPersonService _dataservice = null;
+        ISiteService siteService = null;
 
         public SiteController()
         {
 
         }
-        public SiteController(IPersonService dataservice)
+        public SiteController(ISiteService siteService)
         {
-            _dataservice = dataservice;
+            this.siteService = siteService;
         }
         public ActionResult Index()
         {

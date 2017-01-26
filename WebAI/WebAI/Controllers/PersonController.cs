@@ -10,22 +10,16 @@ namespace WebAI.Controllers
 {
     public class PersonController : Controller
     {
-        IPersonService _dataservice = null;
-        public PersonController()
+        IPersonService personservice = null;
+        
+        public PersonController(IPersonService personservice)
         {
-
-        }
-        public PersonController(IPersonService dataservice)
-        {
-                _dataservice = dataservice;
+            this.personservice = personservice;
         }
   
         public ActionResult Index()
         {
-            return View(new List<Person> {
-            new Person { Id = 1, Name = "Путин В.В." },
-            new Person { Id = 2, Name = "МедведевД.А." }
-        });
+            return View(personservice.);
 
         }
     }

@@ -77,7 +77,11 @@ namespace DataAccess.Repositories
             context.SaveChanges();
         }
 
-        public void DeleteKeyWord(KeyWord keyword)
+        public void DeleteKeyWordById(int id)
+        {
+            DeleteKeyWord(context.KeyWords.Find(id));
+        }
+        private void DeleteKeyWord(KeyWord keyword)
         {
             if (keyword == null)
                 return;
@@ -125,7 +129,10 @@ namespace DataAccess.Repositories
             return GetKeyWords(context.Persons.FirstOrDefault(x => x.Name.Trim().ToLower() == personName.Trim().ToLower()));
         }
 
-        
+        public IEnumerable<KeyWord> GetKeyWords(int personId)
+        {
+            return GetKeyWords(context.Persons.FirstOrDefault(x => x.Id == personId));
+        }
 
         public Person GetPerson(int id)
         {
@@ -137,8 +144,6 @@ namespace DataAccess.Repositories
             return context.KeyWords.FirstOrDefault(x => x.Id == id);
         }
 
-        
-
-        
+       
     }
 }

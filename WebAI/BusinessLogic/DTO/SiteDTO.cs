@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.DTO
 {
-    class SiteDTO
+    public class SiteDTO
         : Base.BaseDTO
     {
         public string Name { get; set; }
+        public string Url { get; set; }
+
     }
 }

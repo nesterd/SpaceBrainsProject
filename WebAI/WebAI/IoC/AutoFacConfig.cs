@@ -6,6 +6,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using DataAccess.IoC;
 using System.Web.Mvc;
+using BusinessLogic.IoC;
 
 namespace WebAI.IoC
 {
@@ -18,6 +19,7 @@ namespace WebAI.IoC
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             builder.RegisterModule<DataAccessDependencyModule>();
+            builder.RegisterModule<BusinessLogicDependencyModule>();
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

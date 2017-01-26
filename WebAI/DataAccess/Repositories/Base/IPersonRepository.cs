@@ -17,7 +17,7 @@ namespace DataAccess.Repositories.Base
         void ChangeKeyWord(KeyWord keyword);
         
 
-        void DeleteKeyWord(KeyWord keyword);
+        void DeleteKeyWordById(int id);
         void DeletePersonById(int id);
         
 
@@ -25,7 +25,8 @@ namespace DataAccess.Repositories.Base
         IEnumerable<KeyWord> GetKeyWords();
         IEnumerable<KeyWord> GetKeyWords(Person person);
         IEnumerable<KeyWord> GetKeyWords(string personName);
-        
+        IEnumerable<KeyWord> GetKeyWords(int personId);
+
 
         Person GetPerson(int id);
         KeyWord GetKeyWord(int id);
