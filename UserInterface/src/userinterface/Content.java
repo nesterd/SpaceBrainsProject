@@ -98,7 +98,7 @@ public class Content {
                 "            google.charts.setOnLoadCallback(drawChart);\n" +
                 "            function drawChart() {\n" +
                 "                var data = google.visualization.arrayToDataTable([\n" +
-                "['Персона', 'Популярность']";
+                "['" + variant + "', 'Популярность']";
 
         String contentString = "";
 
@@ -109,9 +109,9 @@ public class Content {
                 "\n" +
                 "                var options = {\n";
         if (variant.equals("persons")) {
-            chart += "title: 'Диаграма популярности личностей',\n";
+            chart += "title: 'Диаграмма популярности личностей',\n";
         } else {
-            chart += "title: 'Диаграма популярности сайтов',\n";
+            chart += "title: 'Диаграмма популярности сайтов',\n";
         }
         chart += "                 pieHole: 0.3,\n" +
                 "                };\n" +
