@@ -4,9 +4,16 @@ from db import db
 class RankModel(db.Model):
     __tablename__ = 'PersonPageRank'
 
-    persons_id = db.Column(db.Integer, db.ForeignKey('persons.id'), primary_key=True)
-    pages_id = db.Column(db.Integer, db.ForeignKey('pages.id'), primary_key=True)
-    persons = db.relationship('PersonModel')
-    pages = db.relationship('PageModel')
-    rank = db.Column(db.Integer)
-
+    PersonsID = db.Column(
+        db.Integer,
+        db.ForeignKey('Persons.ID'),
+        primary_key=True
+    )
+    PagesID = db.Column(
+        db.Integer,
+        db.ForeignKey('Pages.ID'),
+        primary_key=True
+    )
+    Persons = db.relationship('PersonModel')
+    Pages = db.relationship('PageModel')
+    Rank = db.Column(db.Integer)

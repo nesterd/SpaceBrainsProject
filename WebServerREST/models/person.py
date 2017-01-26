@@ -2,16 +2,16 @@ from db import db
 
 
 class PersonModel(db.Model):
-    __tablename__ = 'persons'
+    __tablename__ = 'Persons'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
+    ID = db.Column(db.Integer, primary_key=True)
+    Name = db.Column(db.String(80))
 
     def __init__(self, name):
-        self.name = name
+        self.name = Name
 
     def json(self):
-        return {'id': self.id, 'name': self.name}
+        return {'id': self.ID, 'name': self.name}
 
     @classmethod
     def find_by_name(cls, name):
@@ -19,7 +19,7 @@ class PersonModel(db.Model):
 
     @classmethod
     def find_by_id(cls, _id):
-        return cls.query.filter_by(id=_id).first()
+        return cls.query.filter_by(id=_id).first()  # TODO?
 
     def save_to_db(self):
         db.session.add(self)

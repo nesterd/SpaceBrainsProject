@@ -3,13 +3,14 @@ from flask_restful import Api
 
 from resources.site import Site, SiteList
 from resources.person import Person, PersonList
-#from resources.pages import Page, PageList
+# from resources.pages import Page, PageList
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = ''
 api = Api(app)
+
 
 @app.before_first_request
 def create_tables():

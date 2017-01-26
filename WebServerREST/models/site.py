@@ -2,20 +2,20 @@ from db import db
 
 
 class SiteModel(db.Model):
-    __tablename__ = 'sites'
+    __tablename__ = 'Sites'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
+    ID = db.Column(db.Integer, primary_key=True)
+    Name = db.Column(db.String(80))
 
-    #pages = db.relationship('PageModel', lazy='dynamic')
+    # pages = db.relationship('PageModel', lazy='dynamic')
 
     def __init__(self, name=None):
-
-        self.name = name
+        self.name = Name
 
     def json(self):
-        return {'id': self.id, 'name': self.name}
-        #return {'id': self.id, 'name': self.name, 'pages': [page.json() for page in self.pages.all()]}
+        return {'id': self.ID, 'name': self.name}
+        # return {'id': self.id, 'name': self.name, 'pages': [page.json() for
+        # page in self.pages.all()]}
 
     @classmethod
     def find_by_name(cls, name):
@@ -23,7 +23,7 @@ class SiteModel(db.Model):
 
     @classmethod
     def find_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
+        return cls.query.filter_by(id=id).first()  # TODO?
 
     def save_to_db(self):
         db.session.add(self)

@@ -5,14 +5,16 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passwd@localhost/mydatabase'
 db = SQLAlchemy(app)
 
+
 class Sites(db.Model):
-    __tablename__ = 'sites'
-    id = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column('name', db.String)
+    __tablename__ = 'Sites'
+    ID = db.Column('id', db.Integer, primary_key=True)
+    Name = db.Column('name', db.String)
 
     def __init__(self, id, name):
-        self.id = id
-        self.name = name
+        self.id = ID
+        self.name = Name
+
 
 class CRUD:
     def __init__(self, db):
@@ -30,7 +32,7 @@ class CRUD:
 
     def put(self, method, data_for_add_table):
         if method == 'PUT':
-            #insert
+            # insert
             self.db.session.add(data_for_add_table)
             db.session.commit()
             return True
@@ -58,18 +60,18 @@ class CRUD:
 tabel_model = Sites
 id_for_table_of_sites = 7
 name_for_table_of_sites = 'ya.ru'
-data_for_add_table = Sites(id_for_table_of_sites,name_for_table_of_sites)
+data_for_add_table = Sites(id_for_table_of_sites, name_for_table_of_sites)
 
-#GET
+# GET
 obj = CRUD(db)
 obj.get('GET', tabel_model)
 obj.get('GET', tabel_model, 7)
-#PUT
+# PUT
 obj = CRUD(db)
 obj.put('PUT', data_for_add_table)
-#UPDATE
+# UPDATE
 obj = CRUD(db)
 obj.update('PUT', data_for_add_table, 7)
-#DELETE
+# DELETE
 obj = CRUD(db)
 obj.delete('DEL', tabel_model, 7)
