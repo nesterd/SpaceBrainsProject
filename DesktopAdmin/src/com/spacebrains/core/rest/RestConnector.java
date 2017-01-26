@@ -1,7 +1,7 @@
 package com.spacebrains.core.rest;
 
+import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.Keyword;
-import com.spacebrains.core.util.RestParams;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -133,7 +133,7 @@ public class RestConnector implements ResponseHandler<JSONObject> {
     }
 
     private String getRestURL(String commandUri) {
-        return RestParams.BaseURL + commandUri;
+        return BaseParams.BaseURL + commandUri;
     }
 
     @Override

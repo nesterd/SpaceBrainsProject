@@ -3,7 +3,7 @@ package com.spacebrains.core.rest;
 import com.spacebrains.interfaces.IKeywords;
 import com.spacebrains.model.Keyword;
 import com.spacebrains.model.Person;
-import com.spacebrains.core.util.RestParams;
+import com.spacebrains.core.http.HttpConstants;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class KeywordsRest implements IKeywords {
     private void populateList() {
         //restConnector.sendGetCommand("/keywords");
         restConnector.sendGetCommand("/id/1/name/Путин");
-        if(restConnector.getState() == RestParams.HTTP_STATE_OK) {
+        if(restConnector.getState() == HttpConstants.HTTP_STATE_OK) {
             // populate ArrayList from JSON response
             if(keywords == null) keywords = new ArrayList<Keyword>();
             // TODO: parse response into ArrayList
@@ -37,7 +37,7 @@ public class KeywordsRest implements IKeywords {
             id = keywords.get(keywords.indexOf(keyword)).getID();
         }
         restConnector.sendPutCommand("/keywords/" + id);
-        if(restConnector.getState() == RestParams.HTTP_STATE_OK) {
+        if(restConnector.getState() == HttpConstants.HTTP_STATE_OK) {
             keywords.get(id).setName(keyword.getName()).setPerson(keyword.getPerson());
         }
         else {
@@ -61,7 +61,7 @@ public class KeywordsRest implements IKeywords {
     @Override
     public boolean delete(Keyword keyword) {
         restConnector.sendDelCommand("/keywords/" + keyword.getID());
-        if(restConnector.getState() == RestParams.HTTP_STATE_NO_CONTENT) {
+        if(restConnector.getState() == HttpConstants.HTTP_STATE_NO_CONTENT) {
             keywords.remove(keyword);
             return true;
         }

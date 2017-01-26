@@ -1,10 +1,11 @@
 package com.spacebrains.model;
 
+import com.spacebrains.interfaces.IDbEntity;
 import com.spacebrains.interfaces.INamed;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 
-public class Keyword implements INamed<Keyword>, Comparable<Person>, JSONAware {
+public class Keyword implements INamed<Keyword>, Comparable<Person>, JSONAware, IDbEntity {
 
     private int keywordId;
     private String name;

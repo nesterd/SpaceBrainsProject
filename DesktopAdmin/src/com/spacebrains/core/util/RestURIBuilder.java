@@ -12,7 +12,7 @@ public class RestURIBuilder {
         try {
             uri = new URIBuilder()
                     .setScheme("http")
-                    .setHost(RestParams.BaseURL)
+                    .setHost(BaseParams.BaseURL)
                     .setPath(requestString)
                     .setCharset(StandardCharsets.UTF_8)
                     .build();
