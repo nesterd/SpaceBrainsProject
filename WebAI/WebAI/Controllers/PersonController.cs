@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebAI.Models;
+using AutoMapper;
+using BusinessLogic.DTO;
 
 namespace WebAI.Controllers
 {
@@ -15,12 +17,35 @@ namespace WebAI.Controllers
         public PersonController(IPersonService personservice)
         {
             this.personservice = personservice;
+            //Mapper.Initialize(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>());
+            //Mapper.Initialize(cfg => cfg.CreateMap<KeyWordViewModel, KeyWordDTO>());
         }
   
-        public ActionResult Index()
+        public ActionResult PersonList()
         {
-            return View(personservice.);
+            return View(GetPersons());
+        }
 
+        public ActionResult KeyWordList()
+        {
+            ViewBag.Persons = GetPersons();
+
+            return View(GetKeyWords());
+        }
+
+        IEnumerable<PersonViewModel> GetPersons()
+        {
+            
+            var per = personservice.GetPersons();
+            Mapper.Initialize(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
+            return Mapper.Map<IEnumerable<PersonDTO>, IEnumerable<PersonViewModel>>(per);
+        }
+
+        IEnumerable<KeyWordViewModel> GetKeyWords()
+        {
+            var kw = personservice.GetKeyWords();
+            Mapper.Initialize(cfg => cfg.CreateMap<KeyWordDTO, KeyWordViewModel>());
+            return Mapper.Map<IEnumerable<KeyWordDTO>, IEnumerable<KeyWordViewModel>>(kw);
         }
     }
 }

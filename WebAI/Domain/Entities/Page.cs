@@ -19,6 +19,6 @@ namespace Domain.Entities
         [ForeignKey("SiteId")]
         public virtual Site Site { get; set; }
 
-        public virtual ICollection<PersonRangeRank> Ranks { get; set; }
+        //public virtual ICollection<PersonRangeRank> Ranks { get; set; }
     }
 }

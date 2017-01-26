@@ -20,19 +20,13 @@ namespace BusinessLogic.Services
         public PersonService(IPersonRepository personRepository)
         {
             this.personRepository = personRepository;
-            Mapper.Initialize(cfg => cfg.CreateMap<Person, PersonDTO>());
-            Mapper.Initialize(cfg => cfg.CreateMap<KeyWord, KeyWordDTO>());
-            Mapper.Initialize(cfg => cfg.CreateMap<PersonDTO, Person>()
-               .ForMember(dest => dest.KeyWords, opt => opt.Ignore())
-               .ForMember(dest => dest.Ranks, opt => opt.Ignore()));
-            Mapper.Initialize(cfg => cfg.CreateMap<KeyWordDTO, KeyWord>()
-               .ForMember(dest => dest.Person, opt => opt.Ignore()));
         }
-
+        
         public IEnumerable<PersonDTO> GetPersons()
         {
             var persons = personRepository.GetPersons();
-            
+
+            Mapper.Initialize(cfg => cfg.CreateMap<Person, PersonDTO>());
             return Mapper.Map<IEnumerable<Person>, IEnumerable<PersonDTO>>(persons);
         }
 
@@ -40,16 +34,25 @@ namespace BusinessLogic.Services
         {
             var keyWords = personRepository.GetKeyWords(personId);
 
+            Mapper.Initialize(cfg => cfg.CreateMap<KeyWord, KeyWordDTO>());
             return Mapper.Map<IEnumerable<KeyWord>, IEnumerable<KeyWordDTO>>(keyWords);
+        }
+
+        public IEnumerable<KeyWordDTO> GetKeyWords()
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<KeyWord, KeyWordDTO>());
+            return Mapper.Map<IEnumerable<KeyWord>, IEnumerable<KeyWordDTO>>(personRepository.GetKeyWords());
         }
 
         public PersonDTO GetPersonById(int id)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<Person, PersonDTO>());
             return Mapper.Map<Person, PersonDTO>(personRepository.GetPerson(id));
         }
 
         public KeyWordDTO GetKeyWordById(int id)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<KeyWord, KeyWordDTO>());
             return Mapper.Map<KeyWord, KeyWordDTO>(personRepository.GetKeyWord(id));
         }
 
@@ -65,22 +68,34 @@ namespace BusinessLogic.Services
 
         public void AddPerson(PersonDTO personDTO)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<PersonDTO, Person>()
+                  .ForMember(dest => dest.KeyWords, opt => opt.Ignore())
+                  /*.ForMember(dest => dest.Ranks, opt => opt.Ignore())*/);
             personRepository.AddPerson(Mapper.Map<PersonDTO, Person>(personDTO));
         }
 
         public void ChangePerson(PersonDTO personDTO)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<PersonDTO, Person>()
+                  .ForMember(dest => dest.KeyWords, opt => opt.Ignore())
+                  /*.ForMember(dest => dest.Ranks, opt => opt.Ignore())*/);
             personRepository.ChangePerson(Mapper.Map<PersonDTO, Person>(personDTO));
         }
 
         public void AddKeyWord(KeyWordDTO keyWordDTO)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<KeyWordDTO, KeyWord>()
+                  .ForMember(dest => dest.Person, opt => opt.Ignore()));
             personRepository.AddKeyWord(Mapper.Map<KeyWordDTO, KeyWord>(keyWordDTO));
         }
 
         public void ChangeKeyWord(KeyWordDTO keyWordDTO)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<KeyWordDTO, KeyWord>()
+                  .ForMember(dest => dest.Person, opt => opt.Ignore()));
             personRepository.ChangeKeyWord(Mapper.Map<KeyWordDTO, KeyWord>(keyWordDTO));
         }
+
+        
     }
 }

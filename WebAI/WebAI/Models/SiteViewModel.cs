@@ -5,9 +5,10 @@ using System.Web;
 
 namespace WebAI.Models
 {
-    public class Person
-        :Base.BaseModel
+    public class SiteViewModel
+        : Base.BaseModel
     {
         public string Name { get; set; }
+        public string Url { get; set; }
     }
 }

@@ -5,10 +5,10 @@ using System.Web;
 
 namespace WebAI.Models
 {
-    public class Site
+    public class KeyWordViewModel
         : Base.BaseModel
     {
         public string Name { get; set; }
-        public string Url { get; set; }
+        public int PersonId { get; set; }
     }
 }

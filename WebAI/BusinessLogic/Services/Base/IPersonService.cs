@@ -12,6 +12,7 @@ namespace BusinessLogic.Services.Base
     public interface IPersonService
     {
          IEnumerable<PersonDTO> GetPersons();
+         IEnumerable<KeyWordDTO> GetKeyWords();
          IEnumerable<KeyWordDTO> GetKeyWordsForPerson(int personId);
 
          PersonDTO GetPersonById(int id);

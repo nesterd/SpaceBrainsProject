@@ -21,9 +21,9 @@ namespace WebAI.Controllers
         }
         public ActionResult Index()
         {
-            return View(new List<KeyWord> {
-                new KeyWord { Id = 1, Name = "Путина", PersonId = 1 },
-                new KeyWord { Id = 2, Name = "Путину", PersonId = 1 }
+            return View(new List<KeyWordViewModel> {
+                new KeyWordViewModel { Id = 1, Name = "Путина", PersonId = 1 },
+                new KeyWordViewModel { Id = 2, Name = "Путину", PersonId = 1 }
             });
         }
     }

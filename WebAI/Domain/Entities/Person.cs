@@ -14,6 +14,6 @@ namespace Domain.Entities
         public string Name { get; set; }
 
         public virtual ICollection<KeyWord> KeyWords { get; set; }
-        public virtual ICollection<PersonRangeRank> Ranks { get; set; }
+        //public virtual ICollection<PersonRangeRank> Ranks { get; set; }
     }
 }

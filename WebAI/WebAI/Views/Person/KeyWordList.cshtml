@@ -1,11 +1,13 @@
-﻿@model IEnumerable<WebAI.Models.KeyWord>
+﻿@using WebAI.Models;
+@model IEnumerable<KeyWordViewModel>
 @{
     ViewBag.Title = "KeyWord";
+    IEnumerable<PersonViewModel> personList = ViewBag.Persons;
 }
 
 <h3> Справочник "Ключевые Слова"</h3>
 <p>Для редактирования и удаления записи - нажмите на неё</p>
-
+@*@Html.DropDownList("persons", personList);*@
 <div class="list-group">
 
         	@foreach (var keyWord in Model)

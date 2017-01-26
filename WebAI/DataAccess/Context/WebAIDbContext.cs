@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Context
 {
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class WebAIDbContext
         : DbContext
     {
         public WebAIDbContext()
-            : base("NameOfDb")
+            : base("connection")
         {
 
         }
@@ -21,6 +22,6 @@ namespace DataAccess.Context
         public virtual DbSet<KeyWord> KeyWords { get; set; }
         public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
-        public virtual DbSet<PersonRangeRank> PersonRangeRanks { get; set; }
+        //public virtual DbSet<PersonRangeRank> PersonRangeRanks { get; set; }
     }
 }

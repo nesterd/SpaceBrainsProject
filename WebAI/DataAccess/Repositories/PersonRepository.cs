@@ -91,7 +91,7 @@ namespace DataAccess.Repositories
 
         public void DeletePersonById(int id)
         {
-            Person person = context.Persons.Include(x => x.KeyWords).Include(x => x.Ranks).FirstOrDefault(x => x.Id == id);
+            Person person = context.Persons.Include(x => x.KeyWords)./*Include(x => x.Ranks).*/FirstOrDefault(x => x.Id == id);
             if (person == null)
                 return;
             context.Persons.Remove(person);
