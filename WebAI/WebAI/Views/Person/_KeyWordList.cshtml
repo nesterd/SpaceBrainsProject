@@ -1,13 +1,16 @@
 ﻿@using WebAI.Models;
 @model IEnumerable<KeyWordViewModel>
 
+@{ 
+    int personid = ViewBag.SelectedPersonId != null ? ViewBag.SelectedPersonId : 1;
+}
 <div class="list-group">
     @{
         if (Model.Count() > 0)
         {
             foreach (var keyWord in Model)
             {
-                <a href="#" class="list-group-item">@keyWord.Name</a>
+                <a href="@Url.Action("ChangeKeyWord", new { id = keyWord.Id })" class="list-group-item">@keyWord.Name</a>
             }
         }
         else
@@ -18,6 +21,6 @@
     
 </div>
 
-<a class="btn btn-info" href="@Url.Action("AddKeyWord", new { id = ViewBag.SelectedPersonId })">Добавить новую запись</a>
+<a class="btn btn-info" href="@Url.Action("AddKeyWord", new { id = personid })">Добавить новую запись</a>
 @*<button class="btn btn-info">@Html.ActionLink("Add","Index", "Home", new { id = Model.FirstOrDefault().PersonId })</button>*@
 

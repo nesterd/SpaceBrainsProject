@@ -83,6 +83,7 @@
     <Compile Include="DTO\Base\BaseDTO.cs" />
     <Compile Include="DTO\KeyWordDTO.cs" />
     <Compile Include="DTO\PersonDTO.cs" />
+    <Compile Include="DTO\PersonIdRemember.cs" />
     <Compile Include="DTO\SiteDTO.cs" />
     <Compile Include="IoC\BusinessLogicDependencyModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

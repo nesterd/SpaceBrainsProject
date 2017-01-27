@@ -1,5 +1,5 @@
 ﻿@using WebAI.Models;
-@model PersonViewModel
+@model KeyWordViewModel
 @{
     ViewBag.Title = "Форма изменения ключевого слова";
 }
@@ -11,15 +11,16 @@
     <div class="form-group">
         @Html.LabelFor(x => x.Name)
         @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-        @*@Html.EditorFor(x => x.Name)*@
+        
     </div>
-    @*<input type="hidden" value="@ViewBag.PersonId" name="PersonId" />
-        <table>
+   <input type="hidden" value="@Model.PersonId" name="PersonId" />
+@*<table>
 
-            <tr><td>@Html.LabelFor(x => x.Name):</td> <td>@Html.EditorFor(x => x.Name)</td></tr>
+        <tr><td>@Html.LabelFor(x => x.Name):</td> <td>@Html.EditorFor(x => x.Name)</td></tr>
 
-        </table>*@
+    </table>*@
 
     <input type="submit" class="btn btn-success" value="Изменить" />
     <a class="btn btn-danger" href="@Url.Action("DeleteKeyWord", new { id = Model.Id })">Удалить</a>
+    <a class="btn btn-default" href="@Url.Action("KeyWordList")">Отмена</a>
 }

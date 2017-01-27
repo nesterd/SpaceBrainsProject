@@ -17,6 +17,7 @@ namespace WebAI.Controllers
         public PersonController(IPersonService personService)
         {
             this.personService = personService;
+            
             //Mapper.Initialize(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>());
             //Mapper.Initialize(cfg => cfg.CreateMap<KeyWordViewModel, KeyWordDTO>());
         }
@@ -26,10 +27,10 @@ namespace WebAI.Controllers
             return View(GetPersons());
         }
 
-        public ActionResult KeyWordList(int personId = 1)
+        public ActionResult KeyWordList()
         {
             ViewBag.Persons = GetPersons();
-            ViewBag.KeyWords = GetKeyWords(personId);
+            ViewBag.KeyWords = GetKeyWords(PersonIdRemember.Id);
 
             return View();
         }
@@ -75,22 +76,7 @@ namespace WebAI.Controllers
             personService.AddPerson(Mapper.Map<PersonViewModel, PersonDTO>(newPerson));
             return RedirectToAction("PersonList");
         }
-
-        [HttpGet]
-        public ActionResult AddKeyWord(int id)
-        {
-            ViewBag.PersonId = id;
-            ViewBag.Person = personService.GetPersonById(id).Name;
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddKeyWord(KeyWordViewModel newKeyWord)
-        {
-            Mapper.Initialize(cfg => cfg.CreateMap<KeyWordViewModel, KeyWordDTO>());
-            personService.AddKeyWord(Mapper.Map<KeyWordViewModel, KeyWordDTO>(newKeyWord));
-            return RedirectToAction("KeyWordList");
-        }
+        
 
         [HttpGet]
         public ActionResult ChangePerson(int id)
@@ -117,6 +103,24 @@ namespace WebAI.Controllers
         }
 
         [HttpGet]
+        public ActionResult AddKeyWord(int id)
+        {
+            ViewBag.PersonId = PersonIdRemember.Id;
+            ViewBag.Person = personService.GetPersonById(id).Name;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddKeyWord(KeyWordViewModel newKeyWord)
+        {
+            PersonIdRemember.Id = newKeyWord.PersonId;
+            Mapper.Initialize(cfg => cfg.CreateMap<KeyWordViewModel, KeyWordDTO>());
+            personService.AddKeyWord(Mapper.Map<KeyWordViewModel, KeyWordDTO>(newKeyWord));
+            //return PartialView("_KeyWordList", GetKeyWords(newKeyWord.PersonId));
+            return RedirectToAction("KeyWordList");
+        }
+
+        [HttpGet]
         public ActionResult ChangeKeyWord(int id)
         {
             var keyWordDTO = personService.GetKeyWordById(id);
@@ -128,15 +132,19 @@ namespace WebAI.Controllers
         [HttpPost]
         public ActionResult ChangeKeyWord(KeyWordViewModel keyWordToChange)
         {
+            PersonIdRemember.Id = keyWordToChange.PersonId;
             Mapper.Initialize(cfg => cfg.CreateMap<KeyWordViewModel, KeyWordDTO>());
             var keyWordDTO = Mapper.Map<KeyWordViewModel, KeyWordDTO>(keyWordToChange);
             personService.ChangeKeyWord(keyWordDTO);
+            //return PartialView("_KeyWordList", GetKeyWords(keyWordToChange.PersonId));
             return RedirectToAction("KeyWordList");
         }
 
         public ActionResult DeleteKeyWord(int id)
         {
+            PersonIdRemember.Id = personService.GetKeyWordById(id).PersonId;
             personService.DeleteKeyWordById(id);
+            //return PartialView("_KeyWordList", GetKeyWords(personId));
             return RedirectToAction("KeyWordList");
         }
     }
