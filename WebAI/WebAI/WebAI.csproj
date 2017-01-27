@@ -250,6 +250,9 @@
     <Content Include="Views\Site\Edit.cshtml" />
     <Content Include="Views\Person\_KeyWordList.cshtml" />
     <Content Include="Views\Person\AddKeyWord.cshtml" />
+    <Content Include="Views\Person\AddPerson.cshtml" />
+    <Content Include="Views\Person\ChangePerson.cshtml" />
+    <Content Include="Views\Person\ChangeKeyWord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

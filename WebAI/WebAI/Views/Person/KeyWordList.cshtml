@@ -9,33 +9,35 @@
 
 }
 
-
-<h3> Справочник "Ключевые Слова"</h3>
-<p>Для редактирования и удаления записи - нажмите на неё</p>
-<div class="form-inline">
-    @using (Ajax.BeginForm("FIlteredKeyWord", "Person", new AjaxOptions
-    {
-        //HttpMethod = "GET",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "product-container"
-
-    }))
-
-    {
-        
-        <fieldset>
-            @Html.Label("Выберите Персону")
-            
-            @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name"))
-            
-            <div><input type="submit" value="Фильтр" /></div>
-        </fieldset>
-
-    }
-
+<div style="text-align:center">
+    <h3> Справочник "Ключевые Слова"</h3>
+    <p>Для редактирования и удаления записи - нажмите на неё</p>
 </div>
 
+<div class="form-inline">
+        @using (Ajax.BeginForm("FIlteredKeyWord", "Person", new AjaxOptions
+        {
+            //HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "product-container"
 
+        }))
+
+        {
+
+            <div class="form-inline">
+                @Html.Label("Выберите Персону")
+
+                @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name"), new { @class = "form-control"})
+
+                <input type="submit" class="btn btn-info" value="Фильтр" />
+            </div>
+
+        }
+
+    </div>
+
+<hr />
 <div id="product-container">
     @Html.Partial("_KeyWordList", keyWordList)
 </div>

@@ -23,10 +23,10 @@ namespace WebAI.Controllers
         }
         public ActionResult Index()
         {
-            return View(new List<SiteViewModel> {
-                new SiteViewModel { Id = 1, Name = "lenta.ru", Url = "lenta.ru" }
-            });
+            return View();
         }
+
+
         [ActionName ("Add")] 
         public ActionResult Add()
 
