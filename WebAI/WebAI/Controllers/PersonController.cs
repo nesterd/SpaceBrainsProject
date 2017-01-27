@@ -31,13 +31,14 @@ namespace WebAI.Controllers
         {
             ViewBag.Persons = GetPersons();
             ViewBag.KeyWords = GetKeyWords(PersonIdRemember.Id);
-
+            ViewBag.DefaultPerson = GetPersonById(PersonIdRemember.Id);
             return View();
         }
 
         public ActionResult FIlteredKeyWord(PersonViewModel person)
         {
             ViewBag.SelectedPersonId = person.Id;
+            PersonIdRemember.Id = person.Id;
             return PartialView("_KeyWordList", GetKeyWords(person.Id));
         }
 
@@ -47,6 +48,14 @@ namespace WebAI.Controllers
             var per = personService.GetPersons();
             Mapper.Initialize(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
             return Mapper.Map<IEnumerable<PersonDTO>, IEnumerable<PersonViewModel>>(per);
+        }
+
+        PersonViewModel GetPersonById(int id)
+        {
+
+            var per = personService.GetPersonById(id);
+            Mapper.Initialize(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
+            return Mapper.Map<PersonDTO, PersonViewModel>(per);
         }
 
         IEnumerable<KeyWordViewModel> GetKeyWords()
@@ -105,7 +114,8 @@ namespace WebAI.Controllers
         [HttpGet]
         public ActionResult AddKeyWord(int id)
         {
-            ViewBag.PersonId = PersonIdRemember.Id;
+            //ViewBag.PersonId = PersonIdRemember.Id;
+            ViewBag.PersonId = id;
             ViewBag.Person = personService.GetPersonById(id).Name;
             return View();
         }

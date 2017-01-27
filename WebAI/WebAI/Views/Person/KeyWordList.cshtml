@@ -28,19 +28,19 @@
             <div class="form-inline">
                 @Html.Label("Выберите Персону")
 
-                @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name"), new { @class = "form-control"})
+           @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name", ViewBag.DefaultPerson), new { @class = "form-control" })
+           
+                    <input type="submit" class="btn btn-info" value="Фильтр" />
+                </div>
 
-                <input type="submit" class="btn btn-info" value="Фильтр" />
-            </div>
+            }
 
-        }
+        </div>
 
+    <hr />
+    <div id="product-container">
+        @Html.Partial("_KeyWordList", keyWordList)
     </div>
 
-<hr />
-<div id="product-container">
-    @Html.Partial("_KeyWordList", keyWordList)
-</div>
 
-
-@*<button class="btn btn-info">Добавить новую запись</button>*@
+    @*<button class="btn btn-info">Добавить новую запись</button>*@

@@ -1,22 +1,16 @@
-﻿@model IEnumerable<WebAI.Models.Site>
+﻿@model IEnumerable<WebAI.Models.SiteViewModel>
 @{
     ViewBag.Title = "Site";
 }
-
-<h3> Справочник "Сайты"</h3>
-<p>Для редактирования и удаления записи - нажмите на неё</p>
-
-<div class="list-group">
-
-        @foreach (var site in Model)
-        {
-			/*<a href="#" class="list-group-item">@site.Name</a>*/
-           <div class="list-group-item">
-             @Html.ActionLink(site.Name, "Edit", "Site", new { id = site.Id })
-               </div>
-        }
+<div style="text-align:center">
+    <h3> Справочник "Сайты"</h3>
+    <p>Для редактирования и удаления записи - нажмите на неё</p>
 </div>
-@using (Html.BeginForm("Add", "Site", FormMethod.Get))
-{
-<button class="btn btn-info" value="Add" >Добавить новую запись</button>
-}
+    <div class="list-group">
+        @foreach (var site in Model)
+            {
+            <a href=@Url.Action("Edit", new { id = site.Id }) class="list-group-item">@site.Name</a>
+        }
+
+    </div>
+<a class="btn btn-info" href="@Url.Action("Add")">Добавить новую запись</a>

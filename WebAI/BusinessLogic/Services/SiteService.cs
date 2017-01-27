@@ -27,12 +27,16 @@ namespace BusinessLogic.Services
 
         public void AddSite(SiteDTO siteDTO)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>());
             siteReposytory.AddSite(Mapper.Map<SiteDTO, Site>(siteDTO), siteDTO.Url);
         }
 
         public void ChangeSite(SiteDTO siteDTO)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>());
+                 
             siteReposytory.ChangeSite(Mapper.Map<SiteDTO, Site>(siteDTO));
+
         }
 
         public void DeleteSiteById(int id)
@@ -42,12 +46,16 @@ namespace BusinessLogic.Services
 
         public SiteDTO GetSiteById(int id)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>());
             return Mapper.Map<Site, SiteDTO>(siteReposytory.GetSite(id));
         }
 
         public IEnumerable<SiteDTO> GetSites()
         {
-            return Mapper.Map<IEnumerable<Site>, IEnumerable<SiteDTO>>(siteReposytory.GetSites());
+            var sites = siteReposytory.GetSites();
+
+            Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>());
+            return Mapper.Map<IEnumerable<Site>, IEnumerable<SiteDTO>>(sites);
         }
     }
 }

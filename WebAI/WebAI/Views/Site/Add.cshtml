@@ -1,11 +1,11 @@
 ﻿@using WebAI.Models;
 @model SiteViewModel
-
 @{
-    ViewBag.Title = "Форма редактирования сайта";
+    ViewBag.Title = "Форма добавления сайта";
 }
-<h4 style="text-align:center">@ViewBag.Title</h4>
-@using (Html.BeginForm("Edit", "Site", FormMethod.Post))
+
+<h4 style="text-align:center">Форма добавления  сайта</h4>
+@using (Html.BeginForm("Add", "Site", FormMethod.Post))
 {
     <div class="form-group">
         @Html.LabelFor(x => x.Name)
@@ -13,9 +13,9 @@
         @Html.LabelFor(x => x.Url)
         @Html.TextBoxFor(x => x.Url, new { @class = "form-control" })
     </div>
- 
-    <input type="submit" class="btn btn-success" value="Изменить" />
-    <a class="btn btn-danger" href="@Url.Action("Delete", new { id = Model.Id })">Удалить</a>
+    
+    <input type="submit" class="btn btn-success" value="Добавить" />
     <a class="btn btn-default" href="@Url.Action("Index")">Отмена</a>
 }
+
 
