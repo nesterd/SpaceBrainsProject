@@ -1,0 +1,16 @@
+﻿Method    Url                 Result
+----------- Persons -----------------------------------------------------------
+GET   /persons    JSON( {'name': <person_name>} )
+GET   /persons/<name>    JSON( {'name': <person_name>} ) # Вывести данные по персоне
+POST  /persons/<name>    JSON( {'name': <person_name> } )  # Добавить персону
+DEL  /persons/<name>    JSON( {'name': <person_name> } )   # Удалить персону
+PUT  /persons/<name>    JSON( {'name': <person_name> } )   # Если персона заведена, обновить данные статистики. Если нет, добавить персону.
+----------- Sites -----------------------------------------------------------
+GET   /sites    JSON( {'name': <site_name>} )
+GET   /sites/<name> или <id>    JSON( {'id': <id_site>, 'name': <site_name>, 'pages':[,] } )  # Вывести данные по сайту
+POST  /sites/<name>    JSON( {'name': <site_name> } )  # Добавить сайт
+DEL  /sites/<name>    JSON( {'name': <site_name> } )   # Удалить сайт
+PUT  /sites/<name>    JSON( {'name': <site_name> } )   # Если сайт уже существует, обновить данные сайта. Если нет, добавить сайт.
+----------- Statictic -----------------------------------------------------------
+GET   /base_statistic/<name>    JSON( {'name': <name>, 'site': <site_name>, 'total_count': <number>} )
+GET   /day_statistic/<name>    JSON( {'name': <name>, 'site': <site_name>, {'data_1': <count_1>, 'data_2': <count_2>, ...}, 'total_count': <number>} )

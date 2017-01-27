@@ -1,5 +1,4 @@
 # SpaceBrainsProject
-
 - [Web user interface](https://github.com/nesterd/SpaceBrainsProject/tree/master/UserInterface)
 - [Desktop admin interface](https://github.com/nesterd/SpaceBrainsProject/tree/master/DesktopAdmin)
 - [Database design](https://github.com/nesterd/SpaceBrainsProject/tree/master/Database)
