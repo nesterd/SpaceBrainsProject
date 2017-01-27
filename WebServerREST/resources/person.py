@@ -3,8 +3,8 @@ from models.person import PersonModel
 
 
 class Person(Resource):
-    def get(self, ID=None, Name=None):
-        if id:
+    def get(self, Name=None, ID=None):
+        if ID:
             person = PersonModel.find_by_id(ID)
         else:
             person = PersonModel.find_by_name(Name)
@@ -30,6 +30,20 @@ class Person(Resource):
             person.delete_from_db()
 
         return {'message': 'Site deleted'}
+
+    def put(self, ID):
+        data = Person.parser.parse_args()
+
+        person = PersonModel.find_by_id(ID)
+
+        if person:
+            person.Name = data['name']
+        else:
+            person = PersonModel(id, data['name'])
+
+        person.save_to_db()
+
+        return person.json()
 
 
 class PersonList(Resource):

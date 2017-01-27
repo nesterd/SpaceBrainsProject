@@ -11,7 +11,7 @@ class Site(Resource):
                         )
 
     def get(self, ID=None, Name=None):
-        if id:
+        if ID:
             site = SiteModel.find_by_id(ID)
         else:
             site = SiteModel.find_by_name(Name)
@@ -45,7 +45,7 @@ class Site(Resource):
         site = SiteModel.find_by_id(ID)
 
         if site:
-            site.name = data['name']
+            site.Name = data['name']
         else:
             site = SiteModel(id, data['name'])
 
