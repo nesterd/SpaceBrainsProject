@@ -7,19 +7,19 @@ class PersonModel(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(80))
 
-    def __init__(self, name):
-        self.name = Name
+    def __init__(self, Name):
+        self.Name = Name
 
     def json(self):
-        return {'id': self.ID, 'name': self.name}
+        return {'id': self.ID, 'name': self.Name}
 
     @classmethod
-    def find_by_name(cls, name):
-        return cls.query.filter_by(name=name).first()
+    def find_by_name(cls, Name):
+        return cls.query.filter_by(Name=Name).first()
 
     @classmethod
-    def find_by_id(cls, _id):
-        return cls.query.filter_by(id=_id).first()  # TODO?
+    def find_by_id(cls, ID):
+        return cls.query.filter_by(ID=ID).first()  # TODO?
 
     def save_to_db(self):
         db.session.add(self)
