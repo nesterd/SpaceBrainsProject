@@ -15,7 +15,7 @@ public class PersonsRestMock implements IPersons {
     public PersonsRestMock() {
         persons = new ArrayList<>();
         //persons.add(new Person(1, "Путин"));
-        persons.add(new Person(1, "%D0%9F%D1%83%D1%82%D0%B8%D0%BD"));
+        persons.add(new Person(1, "Путин"));
         persons.add(new Person(2, "Медведев"));
         persons.add(new Person(3, "Шойгу"));
 //        persons.add(new Person(4, "Захарова"));

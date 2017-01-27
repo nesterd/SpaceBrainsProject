@@ -1,7 +1,7 @@
 package com.spacebrains.view;
 
 import com.spacebrains.interfaces.IDbEntity;
-import com.spacebrains.model.DbKeyword;
+import com.spacebrains.model.KeywordDto;
 import com.spacebrains.model.Person;
 import com.spacebrains.model.Repository;
 
@@ -15,11 +15,11 @@ public class RepositoryView {
         this.repository = repository;
     }
 
-    public ArrayList<DbKeyword> getKeywords(Person person) {
-        ArrayList<DbKeyword> keywords = new ArrayList<>();
+    public ArrayList<KeywordDto> getKeywords(Person person) {
+        ArrayList<KeywordDto> keywords = new ArrayList<>();
         Iterator<IDbEntity> dbIterator = repository.iterator();
         while (dbIterator.hasNext()) {
-            DbKeyword keyword = (DbKeyword) dbIterator;
+            KeywordDto keyword = (KeywordDto) dbIterator;
             if(keyword.getPersonId() == person.getID()) {
                keywords.add(keyword);
             }

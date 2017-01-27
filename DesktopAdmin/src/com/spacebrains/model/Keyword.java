@@ -1,11 +1,8 @@
 package com.spacebrains.model;
 
-import com.spacebrains.interfaces.IDbEntity;
 import com.spacebrains.interfaces.INamed;
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
 
-public class Keyword implements INamed<Keyword>, Comparable<Person>, JSONAware, IDbEntity {
+public class Keyword implements INamed<Keyword>, Comparable<Person> {
 
     private int keywordId;
     private String name;
@@ -69,13 +66,5 @@ public class Keyword implements INamed<Keyword>, Comparable<Person>, JSONAware, 
                 "keywordId=" + keywordId +
                 ", name='" + name + '\'' +
                 "}\n\t" + person;
-    }
-
-    @Override
-    public String toJSONString() {
-        JSONObject obj = new JSONObject();
-        obj.put("name", name);
-        obj.put("personid", person.getID());
-        return obj.toJSONString();
     }
 }

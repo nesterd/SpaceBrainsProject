@@ -1,11 +1,10 @@
 package com.spacebrains.ui;
 
+import com.spacebrains.core.rest.KeywordsRestMock;
+import com.spacebrains.interfaces.IKeywords;
 import com.spacebrains.interfaces.IPersons;
-import com.spacebrains.model.FakeKeywordRepository;
 import com.spacebrains.model.Keyword;
 import com.spacebrains.model.Person;
-import com.spacebrains.core.rest.FakeKeywordRelay;
-import com.spacebrains.core.rest.KeywordsMediator;
 import com.spacebrains.core.rest.PersonsRestMock;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.widgets.BaseEditForm;
@@ -24,9 +23,8 @@ import static com.spacebrains.core.util.BaseParams.TABLE_WIDTH;
 public class KeywordsDictionaryForm extends BaseWindow {
 
     IPersons personRest = PersonsRestMock.getInstance();
-    //IKeywords rest = KeywordsRestMock.getInstance();
+    IKeywords rest = KeywordsRestMock.getInstance();
     //IKeywords rest = KeywordsRest.getInstance();
-    KeywordsMediator rest = new KeywordsMediator(new FakeKeywordRepository(), new FakeKeywordRelay());
 
     private JComboBox<Person> personChooser;
     BaseTable table = null;
