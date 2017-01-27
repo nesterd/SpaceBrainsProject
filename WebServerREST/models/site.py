@@ -6,16 +6,14 @@ class SiteModel(db.Model):
 
     ID = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(80))
-
-    # pages = db.relationship('PageModel', lazy='dynamic')
+    pages = db.relationship('PageModel', lazy='dynamic')
 
     def __init__(self, Name=None):
         self.Name = Name
 
     def json(self):
         return {'id': self.ID, 'name': self.Name}
-        # return {'id': self.id, 'name': self.name, 'pages': [page.json() for
-        # page in self.pages.all()]}
+        # return {'id': self.ID, 'name': self.Name, 'pages': [page.json() for page in self.pages.all()]}
 
     @classmethod
     def find_by_name(cls, Name):
