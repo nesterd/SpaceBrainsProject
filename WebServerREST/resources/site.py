@@ -10,20 +10,20 @@ class Site(Resource):
                         help="This field cannot be left blank!"
                         )
 
-    def get(self, id=None, name=None):
+    def get(self, ID=None, Name=None):
         if id:
-            site = SiteModel.find_by_id(id)
+            site = SiteModel.find_by_id(ID)
         else:
-            site = SiteModel.find_by_name(name)
+            site = SiteModel.find_by_name(Name)
         if site:
             return site.json()
         return {'message': 'Site not found'}, 404
 
-    def post(self, name):
-        if SiteModel.find_by_name(name):
-            return {'message': "A site with name '{}' already exists.".format(name)}, 400
+    def post(self, Name):
+        if SiteModel.find_by_name(Name):
+            return {'message': "A site with name '{}' already exists.".format(Name)}, 400
 
-        site = SiteModel(name)
+        site = SiteModel(Name)
         try:
             site.save_to_db()
         except:
@@ -32,17 +32,17 @@ class Site(Resource):
         return site.json(), 201
 
     # Сделать удаление и по id, сейчас работает только по имени
-    def delete(self, id=None, name=None):
-        site = SiteModel.find_by_name(name)
+    def delete(self, ID=None, Name=None):
+        site = SiteModel.find_by_name(Name)
         if site:
             site.delete_from_db()
 
         return {'message': 'Site deleted'}
 
-    def put(self, id):
+    def put(self, ID):
         data = Site.parser.parse_args()
 
-        site = SiteModel.find_by_id(id)
+        site = SiteModel.find_by_id(ID)
 
         if site:
             site.name = data['name']

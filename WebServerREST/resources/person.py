@@ -3,17 +3,17 @@ from models.person import PersonModel
 
 
 class Person(Resource):
-    def get(self, name):
-        person = PersonModel.find_by_name(name)
+    def get(self, Name):
+        person = PersonModel.find_by_name(Name)
         if person:
             return person.json()
         return {'message': 'Person not found'}, 404
 
-    def post(self, name):
-        if PersonModel.find_by_name(name):
-            return {'message': "A person with name '{}' already exists.".format(name)}, 400
+    def post(self, Name):
+        if PersonModel.find_by_name(Name):
+            return {'message': "A person with name '{}' already exists.".format(Name)}, 400
 
-        person = PersonModel(name)
+        person = PersonModel(Name)
         try:
             person.save_to_db()
         except:
@@ -21,8 +21,8 @@ class Person(Resource):
 
         return person.json(), 201
 
-    def delete(self, name):
-        person = PersonModel.find_by_name(name)
+    def delete(self, Name):
+        person = PersonModel.find_by_name(Name)
         if person:
             person.delete_from_db()
 
