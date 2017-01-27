@@ -19,7 +19,7 @@ def create_tables():
 
 api.add_resource(Site, '/site/<int:ID>', '/site/<string:Name>')
 api.add_resource(SiteList, '/sites')
-api.add_resource(Person, '/person/<string:Name>')
+api.add_resource(Person, '/person/<string:Name>', '/person/<int:ID>')
 api.add_resource(PersonList, '/persons')
 
 if __name__ == '__main__':
