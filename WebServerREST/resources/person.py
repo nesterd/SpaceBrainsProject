@@ -3,8 +3,11 @@ from models.person import PersonModel
 
 
 class Person(Resource):
-    def get(self, Name):
-        person = PersonModel.find_by_name(Name)
+    def get(self, ID=None, Name=None):
+        if id:
+            person = PersonModel.find_by_id(ID)
+        else:
+            person = PersonModel.find_by_name(Name)
         if person:
             return person.json()
         return {'message': 'Person not found'}, 404
