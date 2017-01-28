@@ -1,0 +1,30 @@
+﻿@using WebAI.Models;
+@model PersonViewModel
+@{
+    ViewBag.Title = "Форма изменения персоны";
+}
+
+<h4 style="text-align:center">@ViewBag.Title</h4>
+@*<h3 style="text-align:center">@ViewBag.Person</h3>*@
+@using (Html.BeginForm("ChangePerson", "Person", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        @*@Html.EditorFor(x => x.Name)*@
+    </div>
+    @*<input type="hidden" value="@ViewBag.PersonId" name="PersonId" />
+        <table>
+
+            <tr><td>@Html.LabelFor(x => x.Name):</td> <td>@Html.EditorFor(x => x.Name)</td></tr>
+
+        </table>*@
+
+    <input type="submit" class="btn btn-success" value="Изменить" />
+    <a class="btn btn-danger" href="@Url.Action("DeletePerson", new { id = Model.Id })">Удалить</a>
+    <a class="btn btn-default" href="@Url.Action("PersonList")">Отмена</a>
+}
+
+
+
+

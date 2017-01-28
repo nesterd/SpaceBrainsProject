@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WebAI.Models.SiteViewModel>
+@{
+    ViewBag.Title = "Site";
+}
+<div style="text-align:center">
+    <h3> Справочник "Сайты"</h3>
+    <p>Для редактирования и удаления записи - нажмите на неё</p>
+</div>
+    <div class="list-group">
+        @foreach (var site in Model)
+            {
+            <a href=@Url.Action("Edit", new { id = site.Id }) class="list-group-item">@site.Name</a>
+        }
+
+    </div>
+<a class="btn btn-info" href="@Url.Action("Add")">Добавить новую запись</a>

@@ -1,0 +1,43 @@
+﻿@using WebAI.Models
+@using BusinessLogic.DTO
+@model IEnumerable<KeyWordViewModel>
+
+@{ 
+    
+    int personId;
+    if (Model.Count() != 0)
+    {
+        personId = Model.FirstOrDefault().PersonId;
+    }
+
+    else if (ViewBag.SelectedPersonId != null)
+    {
+        personId = ViewBag.SelectedPersonId;
+    }
+
+    else
+    {
+        personId = PersonIdRemember.Id;
+    }
+
+}
+<div class="list-group">
+    @{
+        if (Model.Count() > 0)
+        {
+            foreach (var keyWord in Model)
+            {
+                <a href="@Url.Action("ChangeKeyWord", new { id = keyWord.Id })" class="list-group-item">@keyWord.Name</a>
+            }
+        }
+        else
+        {
+            <h4>Для данной персоны еще не добавлены ключевые слова</h4>
+        }
+    }
+    
+</div>
+
+<a class="btn btn-info" href="@Url.Action("AddKeyWord", new { id = personId })">Добавить новую запись</a>
+
+

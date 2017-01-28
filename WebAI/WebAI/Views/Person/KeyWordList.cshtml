@@ -1,0 +1,45 @@
+﻿@using WebAI.Models;
+@using BusinessLogic.DTO
+@model PersonViewModel
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
+@{
+    ViewBag.Title = "KeyWord";
+    IEnumerable<PersonViewModel> personList = ViewBag.Persons;
+    IEnumerable<KeyWordViewModel> keyWordList = ViewBag.KeyWords;
+    
+}
+
+<div style="text-align:center">
+    <h3> Справочник "Ключевые Слова"</h3>
+    <p>Для редактирования и удаления записи - нажмите на неё</p>
+</div>
+
+<div class="form-inline">
+        @using (Ajax.BeginForm("FIlteredKeyWord", "Person", new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "product-container"
+
+        }))
+
+        {
+
+            <div class="form-inline">
+                @Html.Label("Выберите Персону")
+                @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name", personList.FirstOrDefault(x => x.Id == PersonIdRemember.Id)), new { @class = "form-control" })
+
+                    <input type="submit" class="btn btn-info" value="Фильтр" />
+            </div>
+
+         }
+
+</div>
+
+<hr />
+<div id="product-container">
+     @Html.Partial("_KeyWordList", keyWordList)
+</div>
+
+
+   

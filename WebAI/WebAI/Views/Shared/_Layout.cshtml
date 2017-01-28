@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+   @Styles.Render("~/Content/css")
+   @Scripts.Render("~/bundles/modernizr")
+   @Scripts.Render("~/Scripts/jquery-3.1.1.min.js")
+   @Scripts.Render("~/Scripts/jquery.validate.min.js")
+   @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("SpaceBrains", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            @*<div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
+                        <li>@Html.ActionLink("О программе", "About", "Home")</li>
+                        <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+                    </ul>
+                </div>*@
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-3" style="background-color:lightgray; padding: 120px 30px; height: 500px">
+                <ul>
+                    <li>
+                        @Html.ActionLink("Управление справочниками", "Index", "Home")
+                        <ul>
+                            <li>@Html.ActionLink("Личности", "PersonList", "Person")</li>
+                            <li>@Html.ActionLink("Ключевые слова", "KeyWordList", "Person")</li>
+                            <li>@Html.ActionLink("Сайты", "Index", "Site")</li>
+                        </ul>
+                    </li>
+                    @*<li>
+                        @Html.ActionLink("Статистика краулера", "Statistics", "Home")
+                    </li>*@
+                </ul>
+
+
+            </div>
+            <div class="col-md-8">
+                @RenderBody()
+            </div>
+        </div>
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year – SpaceBrainsProject</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

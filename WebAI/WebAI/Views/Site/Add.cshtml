@@ -1,0 +1,21 @@
+﻿@using WebAI.Models;
+@model SiteViewModel
+@{
+    ViewBag.Title = "Форма добавления сайта";
+}
+
+<h4 style="text-align:center">Форма добавления  сайта</h4>
+@using (Html.BeginForm("Add", "Site", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        @Html.LabelFor(x => x.Url)
+        @Html.TextBoxFor(x => x.Url, new { @class = "form-control" })
+    </div>
+    
+    <input type="submit" class="btn btn-success" value="Добавить" />
+    <a class="btn btn-default" href="@Url.Action("Index")">Отмена</a>
+}
+
+
