@@ -2,7 +2,8 @@
 @model IEnumerable<KeyWordViewModel>
 
 @{ 
-    int personid = ViewBag.SelectedPersonId != null ? ViewBag.SelectedPersonId : 1;
+    //int personid = ViewBag.SelectedPersonId != null ? ViewBag.SelectedPersonId : 1;
+    int personid = Model.Count() == 0 ? ViewBag.SelectedPersonId : Model.FirstOrDefault().PersonId;
 }
 <div class="list-group">
     @{
