@@ -37,10 +37,10 @@ public class AppController {
 
         if (login.equals("User") && pswd.equals("123")) {
             currentUser = null;
-            return IS_USER;
+            return ERR_IS_USER;
         }
 
-        return WRONG_LOGIN;
+        return ERR_WRONG_LOGIN;
         // simple mock end
     }
 
