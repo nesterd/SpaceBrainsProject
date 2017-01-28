@@ -41,17 +41,17 @@ namespace DataAccess.Repositories
 
         }
 
-        public void AddSite(Site site, string url)
-        {
-            if (site != null)
-            {
-                context.Sites.Add(site);
-                context.SaveChanges();
+        //public void AddSite(Site site, string url)
+        //{
+        //    if (site != null)
+        //    {
+        //        context.Sites.Add(site);
+        //        context.SaveChanges();
 
-                context.Pages.Add(new Page { Url = url, SiteId = site.Id, FoundDateTime = DateTime.Now });
-                context.SaveChanges();
-            }
-        }
+        //        context.Pages.Add(new Page { Url = url, SiteId = site.Id, FoundDateTime = DateTime.Now });
+        //        context.SaveChanges();
+        //    }
+        //}
 
         public  void ChangePerson(Person person)
         {
@@ -69,13 +69,13 @@ namespace DataAccess.Repositories
             context.SaveChanges();
         }
 
-        public void ChangeSite(Site site)
-        {
-            if (site == null)
-                return;
-            context.Entry(site).State = System.Data.Entity.EntityState.Modified;
-            context.SaveChanges();
-        }
+        //public void ChangeSite(Site site)
+        //{
+        //    if (site == null)
+        //        return;
+        //    context.Entry(site).State = System.Data.Entity.EntityState.Modified;
+        //    context.SaveChanges();
+        //}
 
         public void DeleteKeyWordById(int id)
         {
@@ -91,21 +91,21 @@ namespace DataAccess.Repositories
 
         public void DeletePersonById(int id)
         {
-            Person person = context.Persons.Include(x => x.KeyWords)./*Include(x => x.Ranks).*/FirstOrDefault(x => x.Id == id);
+            Person person = context.Persons.Include(x => x.KeyWords).Include(x => x.Ranks).FirstOrDefault(x => x.Id == id);
             if (person == null)
                 return;
             context.Persons.Remove(person);
             context.SaveChanges();
         }
 
-        public void DeleteSiteById(int id)
-        {
-            Site site = context.Sites.Include(x => x.Pages).FirstOrDefault(x => x.Id == id);
-            if (site == null)
-                return;
-            context.Sites.Remove(site);
-            context.SaveChanges();
-        }
+        //public void DeleteSiteById(int id)
+        //{
+        //    Site site = context.Sites.Include(x => x.Pages).FirstOrDefault(x => x.Id == id);
+        //    if (site == null)
+        //        return;
+        //    context.Sites.Remove(site);
+        //    context.SaveChanges();
+        //}
 
         public IEnumerable<Person> GetPersons()
         {
