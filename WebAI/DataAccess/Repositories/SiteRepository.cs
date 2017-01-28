@@ -49,7 +49,11 @@ namespace DataAccess.Repositories
 
         public void DeleteSiteById(int id)
         {
-            Site site = context.Sites.Include(x => x.Pages).FirstOrDefault(x => x.Id == id);
+            //????? каскадное удаление
+            Site site = context.Sites
+                .Include(x => x.Pages)
+                .Include(x => x.Pages.Select(y => y.Ranks))
+                .FirstOrDefault(x => x.Id == id);
             if (site == null)
                 return;
             context.Sites.Remove(site);
