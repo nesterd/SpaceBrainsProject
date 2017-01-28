@@ -183,7 +183,6 @@
     </Compile>
     <Compile Include="IoC\AutofacConfig.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
-    <Compile Include="Models\KeyWordListViewModel.cs" />
     <Compile Include="Models\KeyWordViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\StatisticsViewModel.cs" />
