@@ -18,10 +18,7 @@ namespace BusinessLogic.Services
         public SiteService(ISiteRepository siteReposytory)
         {
             this.siteReposytory = siteReposytory;
-            //Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>()
-            //   .ForMember(dest => dest.Url, opt => opt.Ignore()));
-            //Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>()
-            //   .ForMember(dest => dest.Pages, opt => opt.Ignore()));
+            
            
         }
 
