@@ -1,9 +1,26 @@
-﻿@using WebAI.Models;
+﻿@using WebAI.Models
+@using BusinessLogic.DTO
 @model IEnumerable<KeyWordViewModel>
 
 @{ 
     //int personid = ViewBag.SelectedPersonId != null ? ViewBag.SelectedPersonId : 1;
-    int personid = Model.Count() == 0 ? ViewBag.SelectedPersonId : Model.FirstOrDefault().PersonId;
+    //int personid = Model.Count() == 0 ? ViewBag.SelectedPersonId : Model.FirstOrDefault().PersonId;
+    int personId;
+    if (Model.Count() != 0)
+    {
+        personId = Model.FirstOrDefault().PersonId;
+    }
+
+    else if (ViewBag.SelectedPersonId != null)
+    {
+        personId = ViewBag.SelectedPersonId;
+    }
+
+    else
+    {
+        personId = PersonIdRemember.Id;
+    }
+
 }
 <div class="list-group">
     @{
@@ -22,6 +39,6 @@
     
 </div>
 
-<a class="btn btn-info" href="@Url.Action("AddKeyWord", new { id = personid })">Добавить новую запись</a>
+<a class="btn btn-info" href="@Url.Action("AddKeyWord", new { id = personId })">Добавить новую запись</a>
 @*<button class="btn btn-info">@Html.ActionLink("Add","Index", "Home", new { id = Model.FirstOrDefault().PersonId })</button>*@
 
