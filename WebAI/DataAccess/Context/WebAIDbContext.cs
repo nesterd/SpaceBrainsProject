@@ -22,6 +22,6 @@ namespace DataAccess.Context
         public virtual DbSet<KeyWord> KeyWords { get; set; }
         public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
-        //public virtual DbSet<PersonRangeRank> PersonRangeRanks { get; set; }
+        public virtual DbSet<PersonPageRank> PersonPageRanks { get; set; }
     }
 }

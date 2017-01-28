@@ -54,7 +54,7 @@
     <Compile Include="Entities\Page.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonPageEntityTypeConfiguration.cs" />
-    <Compile Include="Entities\PersonRangeRank.cs" />
+    <Compile Include="Entities\PersonPageRank.cs" />
     <Compile Include="Entities\Site.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

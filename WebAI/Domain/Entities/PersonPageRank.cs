@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("PersonRangeRank")]
-    public class PersonRangeRank
+    [Table("PersonPageRanks")]
+    public class PersonPageRank
     {
-        [Key]
+        [Key, Column(Order = 1)]
         public int PersonId { get; set; }
+        [Key, Column(Order = 2)]
         public int PageId { get; set; }
 
         public int Rank { get; set; }
