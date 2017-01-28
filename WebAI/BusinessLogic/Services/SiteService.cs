@@ -18,23 +18,25 @@ namespace BusinessLogic.Services
         public SiteService(ISiteRepository siteReposytory)
         {
             this.siteReposytory = siteReposytory;
-            Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>()
-               .ForMember(dest => dest.Url, opt => opt.Ignore()));
-            Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>()
-               .ForMember(dest => dest.Pages, opt => opt.Ignore()));
+            //Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>()
+            //   .ForMember(dest => dest.Url, opt => opt.Ignore()));
+            //Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>()
+            //   .ForMember(dest => dest.Pages, opt => opt.Ignore()));
            
         }
 
         public void AddSite(SiteDTO siteDTO)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>());
+            Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>()
+               .ForMember(dest => dest.Pages, opt => opt.Ignore()));
             siteReposytory.AddSite(Mapper.Map<SiteDTO, Site>(siteDTO), siteDTO.Url);
         }
 
         public void ChangeSite(SiteDTO siteDTO)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>());
-                 
+            Mapper.Initialize(cfg => cfg.CreateMap<SiteDTO, Site>()
+               .ForMember(dest => dest.Pages, opt => opt.Ignore()));
+
             siteReposytory.ChangeSite(Mapper.Map<SiteDTO, Site>(siteDTO));
 
         }
@@ -46,7 +48,8 @@ namespace BusinessLogic.Services
 
         public SiteDTO GetSiteById(int id)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>()
+               .ForMember(dest => dest.Url, opt => opt.Ignore()));
             return Mapper.Map<Site, SiteDTO>(siteReposytory.GetSite(id));
         }
 
@@ -54,7 +57,8 @@ namespace BusinessLogic.Services
         {
             var sites = siteReposytory.GetSites();
 
-            Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Site, SiteDTO>()
+               .ForMember(dest => dest.Url, opt => opt.Ignore()));
             return Mapper.Map<IEnumerable<Site>, IEnumerable<SiteDTO>>(sites);
         }
     }
