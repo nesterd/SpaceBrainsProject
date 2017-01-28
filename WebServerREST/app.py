@@ -25,6 +25,8 @@ api.add_resource(Person, '/person/<string:Name>', '/person/<int:ID>')
 api.add_resource(PersonList, '/persons')
 api.add_resource(Keyword, '/keyword/<string:Name>', '/keyword/<int:ID>')
 api.add_resource(KeywordList, '/keywords')
+api.add_resource(Stats, '/base_statistic/<string:Name>', '/base_statistic/<int:ID>')
+
 
 if __name__ == '__main__':
     from db import db
