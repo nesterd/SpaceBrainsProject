@@ -30,14 +30,18 @@ public class AppController {
         // currentUser should be saved in case of successful authorizaion
 
         // simple mock start
-        if (login.equals("Admin") && pswd.equals("123")) {
-            currentUser = new User(1, login, "someFakeAccessCode", true);
-            return SUCCESS;
+        if (login.equals("Admin")) {
+            if (pswd.equals("123")) {
+                currentUser = new User(1, login, "someFakeAccessCode", true);
+                return SUCCESS;
+            } else return ERR_WRONG_PWSD;
         }
 
-        if (login.equals("User") && pswd.equals("123")) {
-            currentUser = null;
-            return ERR_IS_USER;
+        if (login.equals("User")) {
+            if (pswd.equals("123")) {
+                currentUser = null;
+                return ERR_IS_USER;
+            } else return ERR_WRONG_PWSD;
         }
 
         return ERR_WRONG_LOGIN;
