@@ -1,6 +1,8 @@
 package com.spacebrains.model;
 
-public class Site {
+import com.spacebrains.interfaces.INamed;
+
+public class Site implements INamed<Site>, Comparable<Person> {
 
     private int siteId;
     private String name;
@@ -14,11 +16,11 @@ public class Site {
         this(0, name);
     }
 
-    public int getSiteId() {
+    public int getID() {
         return siteId;
     }
 
-    public Site setSiteId(int siteId) {
+    public Site setID(int siteId) {
         this.siteId = siteId;
         return this;
     }
@@ -32,4 +34,16 @@ public class Site {
         return this;
     }
 
+    @Override
+    public int compareTo(Person o) {
+        return getName().compareTo(o.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Site{" +
+                "siteId=" + siteId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
