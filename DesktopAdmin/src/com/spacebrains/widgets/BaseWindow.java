@@ -1,5 +1,6 @@
 package com.spacebrains.widgets;
 
+import com.spacebrains.core.AppController;
 import com.spacebrains.interfaces.INamed;
 import com.spacebrains.ui.FormsManager;
 import com.spacebrains.core.util.BaseParams;
@@ -16,8 +17,13 @@ import static com.spacebrains.core.util.BaseParams.setDefaultFont;
 
 public abstract class BaseWindow extends JFrame implements WindowListener {
 
+    protected String windowTitle = BaseParams.APP_NAME;
+
+    protected AppMenu menu;
+    protected AppController appController;
+
     protected static final int DEFAULT_WIDTH = 550;
-    protected static final int DEFAULT_HEIGHT = 435;
+    protected static final int DEFAULT_HEIGHT = 485;
 
     protected int width = DEFAULT_WIDTH;
     protected int height = DEFAULT_HEIGHT;
@@ -35,12 +41,14 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
         initMainMenu();
 
         addWindowListener(this);
+
+        appController = new AppController();
     }
 
     private void initMainSettings(int width, int height) {
         this.width = width;
         this.height = height;
-        setTitle(BaseParams.APP_NAME);
+        setTitle(windowTitle);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         content = Box.createVerticalBox();
         content.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -59,7 +67,7 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
     }
 
     private void initMainMenu() {
-        AppMenu menu = new AppMenu();
+        menu = new AppMenu();
 
         setJMenuBar(menu);
 
@@ -97,6 +105,22 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
             }
         });
 
+        menu.getMiFileChangePswd().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                FormsManager.showChangePswdForm();
+            }
+        });
+
+        menu.getMiFileLogout().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                appController.logout();
+                setVisible(false);
+                FormsManager.showAuthorizationForm();
+            }
+        });
     }
 
     protected int getDeleteConfirmation(JFrame currentFrame, String objectName) {
@@ -132,5 +156,12 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
     @Override
     public void windowActivated(WindowEvent e) {
         initMainSettings(width, height);
+    }
+
+    protected Component setElementSize(Component component, Dimension dimension) {
+        component.setMinimumSize(dimension);
+        component.setMaximumSize(dimension);
+        component.setPreferredSize(dimension);
+        return component;
     }
 }

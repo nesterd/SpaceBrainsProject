@@ -1,20 +1,29 @@
 package com.spacebrains.widgets;
 
-import com.spacebrains.interfaces.INamed;
 import com.spacebrains.core.util.BaseParams;
+import com.spacebrains.interfaces.INamed;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import static com.spacebrains.core.util.BaseParams.BASE_TABLE_HEADER_FONT;
-import static com.spacebrains.core.util.BaseParams.TABLE_HEIGHT;
-import static com.spacebrains.core.util.BaseParams.TABLE_WIDTH;
+import static com.spacebrains.core.util.BaseParams.*;
 
 public class BaseTable extends JPanel {
 
     private JTable table;
+    private NamedTableModel tableModel;
+    TableRowSorter<NamedTableModel> sorter;
+
+    private JLabel filterLabel;
+    private JTextField filterField;
+
     private JScrollPane jScroll;
     ArrayList<? extends INamed> values;
     private final Button addBtn = new Button("Добавить");
@@ -27,16 +36,29 @@ public class BaseTable extends JPanel {
         this.values = values;
         setLayout(new GridBagLayout());
 
+        Box filterBox = Box.createHorizontalBox();
+
+        filterLabel = new JLabel("Фильтр: ");
+        filterLabel.setFont(BaseParams.BASE_TABLE_FONT);
+        filterLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        filterField = new JTextField();
+        filterField.setPreferredSize(new Dimension(100, 19));
+
+        filterBox.add(filterLabel);
+        filterBox.add(filterField);
+
         addBtn.setFont(BaseParams.BASE_BTN_FONT);
         editBtn.setFont(BaseParams.BASE_BTN_FONT);
         deleteBtn.setFont(BaseParams.BASE_BTN_FONT);
 
-        table = new JTable(new NamedTableModel(values));
+        tableModel = new NamedTableModel(values);
+        table = new JTable(tableModel);
         drawTable();
 
         int row = 0;
-        gbc.gridx = row;
-        gbc.gridy = 0; // столбец
+        gbc.gridx = 0; // столбец
+        gbc.gridy = row;
         gbc.gridwidth = 3; // сколько столбцов занимает элемент
 
         // "лишнее" пространство оставлять пустым
@@ -46,10 +68,12 @@ public class BaseTable extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL; // заполнять по горизонтали
         gbc.anchor = GridBagConstraints.BELOW_BASELINE; // привязка к центру
 
-        gbc.insets = new Insets(5, 5, 10, 5);// отступы
+        gbc.insets = new Insets(5, 5, 0, 5);// отступы
         gbc.ipadx = 5;
         gbc.ipady = 5;
 
+        add(filterBox, gbc);
+        gbc.gridy = ++row;
         add(jScroll, gbc);
 
         gbc.gridy = ++row;
@@ -89,7 +113,11 @@ public class BaseTable extends JPanel {
 
     public void updateValues(ArrayList<? extends INamed> values) {
         this.values = values;
-        table.setModel(new NamedTableModel(values));
+        tableModel = new NamedTableModel(values);
+        table.setModel(tableModel);
+        sorter = new TableRowSorter<> (tableModel);
+        table.setRowSorter(sorter);
+
         jScroll.updateUI();
         table.updateUI();
         table.getSelectionModel().setSelectionInterval(0, 0);
@@ -102,12 +130,38 @@ public class BaseTable extends JPanel {
         table.getTableHeader().setFont(BASE_TABLE_HEADER_FONT);
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        table.setAutoCreateRowSorter(true);
 
         table.setRowSelectionAllowed(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setColumnSelectionAllowed(false);
         table.getSelectionModel().setSelectionInterval(0, 0);
+
+        sorter = new TableRowSorter<> (tableModel);
+        table.setRowSorter(sorter);
+
+        // edit record on double click
+        table.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    editBtn.doClick();
+                }
+            }
+        });
+
+        filterField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String expr = filterField.getText().replaceAll(FILTER_EXCLUDE, "....");
+                sorter.setRowFilter(RowFilter.regexFilter(expr));
+                sorter.setSortKeys(null);
+            }
+        });
 
         jScroll = new JScrollPane(table);
         jScroll.createVerticalScrollBar();

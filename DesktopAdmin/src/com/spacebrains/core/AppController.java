@@ -14,6 +14,8 @@ public class AppController {
     private IRepository personRepo;
     private IRepository siteRepo;
 
+    private static String lastRequestMsg = SUCCESS;
+
     public AppController() {
         keywordRepo = new Repository();
         personRepo = new Repository();
@@ -33,18 +35,18 @@ public class AppController {
         if (login.equals("Admin")) {
             if (pswd.equals("123")) {
                 currentUser = new User(1, login, "someFakeAccessCode", true);
-                return SUCCESS;
-            } else return ERR_WRONG_PWSD;
-        }
-
-        if (login.equals("User")) {
+                lastRequestMsg = SUCCESS;
+            } else {
+                lastRequestMsg = ERR_WRONG_PWSD;
+            }
+        } else if (login.equals("User")) {
             if (pswd.equals("123")) {
                 currentUser = null;
-                return ERR_IS_USER;
-            } else return ERR_WRONG_PWSD;
-        }
+                lastRequestMsg = ERR_IS_USER;
+            } else lastRequestMsg = ERR_WRONG_PWSD;
+        } else lastRequestMsg = ERR_WRONG_LOGIN;
 
-        return ERR_WRONG_LOGIN;
+        return lastRequestMsg;
         // simple mock end
     }
 
@@ -67,5 +69,40 @@ public class AppController {
         if (currentUser == null) return false;
 
         return true;
+    }
+
+    /**
+     * @author Tatyana Vorobeva
+     * For GUI to check if can show MainWindowForm
+     * If false - AuthForm will be shown.
+     */
+    public boolean isAuthorized() {
+        if (currentUser == null) lastRequestMsg = AuthConstants.INVALID_SESSION;
+        return currentUser != null;
+    }
+
+    /**
+     * @author Tatyana Vorobeva
+     * For GUI to show user.login in MainWindowForm
+     */
+    public String userLogin() {
+        return currentUser != null ? currentUser.getLogin() : "";
+    }
+
+    /**
+     * @author Tatyana Vorobeva
+     * For GUI to request password changing
+     */
+    public String changePswd(String oldPswd, String newPswd) {
+        if (currentUser != null) {
+            if (oldPswd.equals("123")) { // for real request - currentPswd check should be on web-service side.
+                return AuthConstants.PSWD_CHANGED;
+            } else return AuthConstants.ERR_WRONG_PWSD;
+        } else
+            return AuthConstants.INVALID_SESSION;
+    }
+
+    public static String lastRequestMsg() {
+        return lastRequestMsg;
     }
 }

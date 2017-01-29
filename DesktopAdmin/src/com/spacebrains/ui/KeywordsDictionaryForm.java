@@ -18,9 +18,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import static com.spacebrains.core.util.BaseParams.APP_NAME;
+import static com.spacebrains.core.util.BaseParams.KEYWORDS_DICT;
 import static com.spacebrains.core.util.BaseParams.TABLE_WIDTH;
 
+/**
+ * @author Tatyana Vorobeva
+ */
 public class KeywordsDictionaryForm extends BaseWindow {
+
+    private static Person currentPerson;
 
     IPersons personRest = PersonsRestMock.getInstance();
     IKeywords rest = KeywordsRestMock.getInstance();
@@ -30,10 +37,11 @@ public class KeywordsDictionaryForm extends BaseWindow {
     BaseTable table = null;
 
     public KeywordsDictionaryForm() {
-        super(DEFAULT_WIDTH, DEFAULT_HEIGHT + 50);
+        super();
+        windowTitle = APP_NAME + ": " + KEYWORDS_DICT;
         JFrame currentFrame = this;
 
-        JLabel label = new JLabel("Справочник \"Ключевые слова\"");
+        JLabel label = new JLabel("Справочник \"" + KEYWORDS_DICT + "\"");
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -41,7 +49,8 @@ public class KeywordsDictionaryForm extends BaseWindow {
 
         editDialog = new BaseEditForm<>(rest, new Keyword(""));
 
-        table = new BaseTable(rest.getKeywords((Person) personChooser.getSelectedItem()));
+        currentPerson = (Person) personChooser.getSelectedItem();
+        table = new BaseTable(rest.getKeywords(currentPerson));
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,7 +88,8 @@ public class KeywordsDictionaryForm extends BaseWindow {
         personChooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
+                currentPerson = (Person) personChooser.getSelectedItem();
+                table.updateValues(rest.getKeywords(currentPerson));
             }
         });
 
@@ -106,6 +116,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
 
         if (personChooser == null) {
             personChooser = new JComboBox<>();
+            currentPerson = null;
         } else {
             personChooser.removeAllItems();
         }
@@ -115,7 +126,8 @@ public class KeywordsDictionaryForm extends BaseWindow {
         }
 
         if (personList.size() > 0) {
-            personChooser.setSelectedIndex(0);
+            if (currentPerson != null) personChooser.setSelectedItem(currentPerson);
+            else personChooser.setSelectedIndex(0);
         }
         personChooser.setMaximumSize(new Dimension(TABLE_WIDTH - 67, 30));
 
@@ -135,7 +147,6 @@ public class KeywordsDictionaryForm extends BaseWindow {
     @Override
     public void windowActivated(WindowEvent e) {
         super.windowActivated(e);
-        initPersonChooser();
         if (table != null) table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
     }
 }

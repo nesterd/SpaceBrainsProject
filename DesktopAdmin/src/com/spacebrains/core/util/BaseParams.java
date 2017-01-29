@@ -9,6 +9,13 @@ public abstract class BaseParams {
     public static final String BaseURL = "echo.jsontest.com";
 
     public static final String APP_NAME = "SpaceBrains";
+    public static final String AUTHORIZATION = "Авторизация";
+    public static final String SITES_DICT = "Сайты";
+    public static final String PERSONS_DICT = "Личности";
+    public static final String KEYWORDS_DICT = "Ключевые слова";
+    public static final String CHANGE_PSWD = "Смена пароля";
+    public static final String CRAWLER_STATS_WINDOW = "Статистика Краулера";
+
     public static final String ALERT_MSG = "Предупреждение";
     public static final int MAX_BTN_HEIGHT = 25;
 
@@ -25,6 +32,11 @@ public abstract class BaseParams {
 
     public static final int TABLE_WIDTH = 350;
     public static final int TABLE_HEIGHT = 192;
+
+    public static final Color DARK_GREEN = new Color(9, 156, 19);
+    public static final Color DARK_RED = new Color(191, 19, 19);
+
+    public static final String FILTER_EXCLUDE = "[*?+)(^:,'\"{}\\]\\[]|\\\\";
 
     public static Font getBaseFont(int size) {
         return getBaseFont(Font.PLAIN, size);

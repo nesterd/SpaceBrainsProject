@@ -2,7 +2,7 @@ package com.spacebrains.model;
 
 /**
  * @author Tatyana Vorobeva
- * Object created by Controller in case of successfull autorization. Pswd isn't necessary to be stored.
+ * Should be created by Controller in case of successfull autorization. Pswd isn't necessary to be stored.
  */
 public class User {
     private int userId;
