@@ -3,6 +3,13 @@ from models.person import PersonModel
 
 
 class Person(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('name',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                        )
+
     def get(self, Name=None, ID=None):
         if ID:
             person = PersonModel.find_by_id(ID)
