@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt import jwt_required
 from models.site import SiteModel
 
 
@@ -10,6 +11,7 @@ class Site(Resource):
                         help="This field cannot be left blank!"
                         )
 
+    # @jwt_required()
     def get(self, ID=None, Name=None):
         if ID:
             site = SiteModel.find_by_id(ID)
@@ -19,6 +21,7 @@ class Site(Resource):
             return site.json()
         return {'message': 'Site not found'}, 404
 
+    # @jwt_required()
     def post(self, Name):
         if SiteModel.find_by_name(Name):
             return {'message': "A site with name '{}' already exists.".format(Name)}, 400
@@ -31,6 +34,7 @@ class Site(Resource):
 
         return site.json(), 201
 
+    # @jwt_required()
     # Сделать удаление и по id, сейчас работает только по имени
     def delete(self, ID=None, Name=None):
         site = SiteModel.find_by_name(Name)
@@ -39,6 +43,7 @@ class Site(Resource):
 
         return {'message': 'Site deleted'}
 
+    # @jwt_required()
     def put(self, ID):
         data = Site.parser.parse_args()
 
@@ -55,5 +60,6 @@ class Site(Resource):
 
 
 class SiteList(Resource):
+    @jwt_required()
     def get(self):
         return {'sites': list(map(lambda x: x.json(), SiteModel.query.all()))}
