@@ -55,6 +55,7 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonPageRank.cs" />
     <Compile Include="Entities\Site.cs" />
+    <Compile Include="Entities\Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
