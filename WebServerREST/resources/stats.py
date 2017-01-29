@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.pages import PageModel
-from models.pages import SiteModel
+from models.site import SiteModel
 # from requests import PageModel # for debug
 # from requests import SiteModel # for debug
 
