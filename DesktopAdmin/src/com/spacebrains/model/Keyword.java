@@ -2,6 +2,9 @@ package com.spacebrains.model;
 
 import com.spacebrains.interfaces.INamed;
 
+/**
+ * @author Tatyana Vorobeva
+ */
 public class Keyword implements INamed<Keyword>, Comparable<Person> {
 
     private int keywordId;

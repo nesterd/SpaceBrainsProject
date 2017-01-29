@@ -1,5 +1,8 @@
 package com.spacebrains.model;
 
+/**
+ * @author Tatyana Vorobeva
+ */
 public class CrawlerStats {
     private Site site;
     private int linksCount;

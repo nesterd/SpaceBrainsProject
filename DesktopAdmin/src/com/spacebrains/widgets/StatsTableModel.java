@@ -47,6 +47,7 @@ public class StatsTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        return String.class;
+        if (columnIndex == SITE) return String.class;
+        else return Integer.class;
     }
 }

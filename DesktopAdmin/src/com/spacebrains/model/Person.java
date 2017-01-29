@@ -4,6 +4,9 @@ import com.spacebrains.interfaces.INamed;
 
 import java.util.ArrayList;
 
+/**
+ * @author Tatyana Vorobeva
+ */
 public class Person implements INamed<Person>, Comparable<Person> {
 
     private int personId;
