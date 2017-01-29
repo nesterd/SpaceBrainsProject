@@ -3,7 +3,9 @@
  */
 package com.spacebrains;
 
-import com.spacebrains.model.KeywordDto;
+import com.spacebrains.model.*;
+
+import java.util.Arrays;
 
 /**
  * @author oleg.chizhov
@@ -24,6 +26,12 @@ public class HttpTest {
 
 		KeywordDto key = new KeywordDto(1, "Путину", 1);
 		System.out.println(key.toJSONString());
+
+//		Storage<PersonDto> storage = new Storage<>();
+		KeywordRepository storage = new KeywordRepository();
+		PersonDto personDto = new PersonDto(1, "Медведев");
+		System.out.println(personDto);
+		System.out.println(Arrays.asList(storage.getByObject(personDto)));
 	}
 
 }

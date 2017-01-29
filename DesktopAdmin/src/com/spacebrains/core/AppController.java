@@ -1,8 +1,11 @@
 package com.spacebrains.core;
 
-import com.spacebrains.interfaces.IRepository;
-import com.spacebrains.model.Repository;
+import com.spacebrains.model.Keyword;
+import com.spacebrains.model.Person;
+import com.spacebrains.model.Site;
 import com.spacebrains.model.User;
+
+import java.util.ArrayList;
 
 import static com.spacebrains.core.AuthConstants.*;
 
@@ -10,14 +13,7 @@ public class AppController {
 
     private static User currentUser = null;
 
-    private IRepository keywordRepo;
-    private IRepository personRepo;
-    private IRepository siteRepo;
-
     public AppController() {
-        keywordRepo = new Repository();
-        personRepo = new Repository();
-        siteRepo = new Repository();
     }
 
     /**
@@ -67,5 +63,45 @@ public class AppController {
         if (currentUser == null) return false;
 
         return true;
+    }
+
+    /**
+     * @author Oleg Chizhov
+     * for GUI to request Persons
+     */
+    public ArrayList<Person> getPersons() {
+        return null;
+    }
+
+    public ArrayList<Keyword> getKeywordsByPerson(Person person) {
+        return null;
+    }
+
+    public ArrayList<Site> getSites() {
+        return null;
+    }
+
+    public void setPerson(Person person) {
+
+    }
+
+    public void setKeyword(Keyword keyword) {
+
+    }
+
+    public void setSite(Site site) {
+
+    }
+
+    public boolean deletePerson(Person person) {
+        return false;
+    }
+
+    public boolean deleteKeyword(Keyword keyword) {
+        return false;
+    }
+
+    public boolean deleteSite(Site site) {
+        return false;
     }
 }
