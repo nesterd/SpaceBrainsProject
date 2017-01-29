@@ -7,11 +7,13 @@ class PersonModel(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(80))
 
+    keywords = db.relationship('KeywordModel', lazy='dynamic')
+
     def __init__(self, Name):
         self.Name = Name
 
     def json(self):
-        return {'id': self.ID, 'name': self.Name}
+        return {'id': self.ID, 'name': self.Name, 'keywords': [keyword.json() for keyword in self.keywords.all()]}
 
     @classmethod
     def find_by_name(cls, Name):
