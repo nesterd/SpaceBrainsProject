@@ -7,28 +7,39 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class KeywordRepository {
-    private ArrayList<KeywordDto> keywords = new ArrayList<>();
-    private RESTApiProvider rest = new RESTApiProvider();
+    private ArrayList<KeywordDto> keywords;
+    private RESTApiProvider rest;
+    
+    public KeywordRepository() {
+    	keywords = new ArrayList<>();
+    	rest = new RESTApiProvider();
+    }
 
     public boolean put(KeywordDto keyword) {
         return rest.updateObject(keyword);
     }
 
+    /**
+     * Возвращает последний запрошенный список ключевых слов,
+     *  так как запрос списка всех ключевых слов без указания личности
+     *  не предусмотрен в рамках текущей версии REST API
+     * @return  ArrayList<KeywordDto>
+     */
     public ArrayList<KeywordDto> get() {
         return keywords;
     }
 
     public ArrayList<KeywordDto> getByObject(PersonDto person) {
-        ArrayList<KeywordDto> result = new ArrayList<KeywordDto>();
-        HashMap<Long, String> fromWeb = rest.getKeywordsByPerson(person);
+        keywords = new ArrayList<KeywordDto>();
+        HashMap<Long, String> fromRest = rest.getKeywordsByPerson(person);
         String value;
-        for (long i: fromWeb.keySet()) {
-            value = fromWeb.get(i);
+        for (long i: fromRest.keySet()) {
+            value = fromRest.get(i);
             KeywordDto keyword = new KeywordDto((int) i, value, person.getID());
             keyword.setPerson(person);
-            result.add(keyword);
+            keywords.add(keyword);
         }
-        return result;
+        return keywords;
     }
 
     public boolean delete(KeywordDto keyword) {

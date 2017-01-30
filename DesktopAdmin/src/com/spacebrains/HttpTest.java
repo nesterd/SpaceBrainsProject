@@ -32,6 +32,8 @@ public class HttpTest {
 		PersonDto personDto = new PersonDto(1, "Медведев");
 		System.out.println(personDto);
 		System.out.println(Arrays.asList(storage.getByObject(personDto)));
+		
+		System.out.println(Arrays.asList(storage.get()));
 	}
 
 }
