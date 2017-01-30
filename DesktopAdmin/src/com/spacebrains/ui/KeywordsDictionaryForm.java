@@ -24,7 +24,6 @@ public class KeywordsDictionaryForm extends BaseWindow {
 
     IPersons personRest = PersonsRestMock.getInstance();
     IKeywords rest = KeywordsRestMock.getInstance();
-    //IKeywords rest = KeywordsRest.getInstance();
 
     private JComboBox<Person> personChooser;
     BaseTable table = null;

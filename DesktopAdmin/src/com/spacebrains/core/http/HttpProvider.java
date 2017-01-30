@@ -2,12 +2,10 @@ package com.spacebrains.core.http;
 
 import com.spacebrains.core.util.RestURIBuilder;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -58,13 +56,22 @@ public class HttpProvider {
 		return entity;
 	}
 
-	private void doRequest(HttpRequestBase request, String requestURIString) {
+	/**
+	 * Constructs new connection and executes one of the HTTP methods
+	 * @param request HttpRequestBase object - request method type
+	 * @param requestURIString  String - URI
+	 * @return HttpStatus constant (int)
+	 */
+	private int doRequest(HttpRequestBase request, String requestURIString) {
 		CloseableHttpClient client = HttpClients.createDefault();
 		request.setURI(RestURIBuilder.buildURI(requestURIString));
 		CloseableHttpResponse response = null;
+		int status = 0;
 		try {
 			response = client.execute(request);
+			status = response.getStatusLine().getStatusCode();
 			HttpEntity entity = response.getEntity();
+//			response.getStatusLine();
 			if(entity != null) {
 				long len = entity.getContentLength();
 				if(len != -1 && len < 2048) {
@@ -86,30 +93,33 @@ public class HttpProvider {
 				e.printStackTrace();
 			}
 		}
-
+		return status;
 	}
 
-	public void doGetRequest(String requestURIString) {
-//        HttpGet httpGet = new HttpGet();
-//        doRequest(httpGet, requestURIString);
+	public int doGetMethod(String requestURIString) {
+        HttpGet httpGet = new HttpGet();
+        return doRequest(httpGet, requestURIString);
 //		innerJSONstring = new String("{ \"person\": [ { \"id\": 1, \"name\": \"lenta.ru\" }, { \"id\": 2, \"name\": \"rbk.ru\" } ] }");
-		innerJSONstring = new String("{ \"id\": 1, \"keywords\": [ { \"id\": 1, \"name\": \"Медведев\", \"person_id\": 2 }, { \"id\": 2, \"name\": \"Медведеву\", \"person_id\": 2 } ] }");
+//		innerJSONstring = new String("{ \"id\": 1, \"keywords\": [ { \"id\": 1, \"name\": \"Медведев\", \"person_id\": 2 }, { \"id\": 2, \"name\": \"Медведеву\", \"person_id\": 2 } ] }");
+//		return HttpStatus.SC_OK;
 	}
 	
-	public void doPutRequest(String requestURIString) {
+	public int doPutMethod(String requestURIString) {
 		StringEntity requestEntity = null;
 		if(innerJSONstring == null) {
-			return;
+			return 0;
 		}
 		requestEntity = prepareEntity(innerJSONstring);
 		requestEntity.setContentType("application/json");
 		HttpPut httpPut = new HttpPut();
 		httpPut.setEntity(requestEntity);
-		doRequest(httpPut, requestURIString);
+		int status = doRequest(httpPut, requestURIString);
 		httpPut.setURI(RestURIBuilder.buildURI(requestURIString));
+		return status;
 	}
 	
-	public void doDeleteRequest(String requestURI) {
-		//TODO: implement doDeleteRequest
+	public int doDeleteMethod(String requestURI) {
+		HttpDelete httpDelete = new HttpDelete();
+		return doRequest(httpDelete, requestURI);
 	}
 }

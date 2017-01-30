@@ -13,6 +13,10 @@ public class SiteDto extends Site implements IDbEntity, JSONAware {
         super(name);
     }
 
+    public SiteDto(Site site) {
+        super(site.getID(), site.getName());
+    }
+
     @Override
     public String getEntityTypeString() {
         return new String("site");

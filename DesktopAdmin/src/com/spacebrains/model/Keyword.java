@@ -62,9 +62,9 @@ public class Keyword implements INamed<Keyword>, Comparable<Person> {
 
     @Override
     public String toString() {
-        return "Keyword{" +
+        return "Keyword: {" +
                 "keywordId=" + keywordId +
                 ", name='" + name + '\'' +
-                "}\n\t" + person;
+                "}\t" + person;
     }
 }

@@ -61,7 +61,7 @@ public class Person implements INamed<Person>, Comparable<Person> {
 
     @Override
     public String toString() {
-        return "Person {" +
+        return "Person: {" +
                 "personId=" + personId +
                 ", name='" + name + "\'}";
     }

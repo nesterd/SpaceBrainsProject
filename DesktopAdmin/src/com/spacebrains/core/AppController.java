@@ -1,9 +1,6 @@
 package com.spacebrains.core;
 
-import com.spacebrains.model.Keyword;
-import com.spacebrains.model.Person;
-import com.spacebrains.model.Site;
-import com.spacebrains.model.User;
+import com.spacebrains.model.*;
 
 import java.util.ArrayList;
 
@@ -13,7 +10,14 @@ public class AppController {
 
     private static User currentUser = null;
 
+    private KeywordRepository keyRepo = null;
+    private PersonRepository personRepo = null;
+    private SiteRepository siteRepo = null;
+
     public AppController() {
+        keyRepo = new KeywordRepository();
+        personRepo = new PersonRepository();
+        siteRepo = new SiteRepository();
     }
 
     /**
@@ -70,38 +74,38 @@ public class AppController {
      * for GUI to request Persons
      */
     public ArrayList<Person> getPersons() {
-        return null;
+        return personRepo.get();
     }
 
     public ArrayList<Keyword> getKeywordsByPerson(Person person) {
-        return null;
+        return keyRepo.getByObject(person);
     }
 
     public ArrayList<Site> getSites() {
-        return null;
+        return siteRepo.get();
     }
 
-    public void setPerson(Person person) {
-
+    public boolean setPerson(Person person) {
+        return personRepo.put(person);
     }
 
-    public void setKeyword(Keyword keyword) {
-
+    public boolean setKeyword(Keyword keyword) {
+        return keyRepo.put(keyword);
     }
 
-    public void setSite(Site site) {
-
+    public boolean setSite(Site site) {
+        return siteRepo.put(site);
     }
 
     public boolean deletePerson(Person person) {
-        return false;
+        return personRepo.delete(person);
     }
 
     public boolean deleteKeyword(Keyword keyword) {
-        return false;
+        return keyRepo.delete(keyword);
     }
 
     public boolean deleteSite(Site site) {
-        return false;
+        return siteRepo.delete(site);
     }
 }

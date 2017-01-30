@@ -16,6 +16,10 @@ public class PersonDto extends Person implements IDbEntity, JSONAware {
         super(name);
     }
 
+    public PersonDto(Person person) {
+        super(person.getID(), person.getName());
+    }
+
     @Override
     public String toJSONString() {
         StringBuilder sb = new StringBuilder();

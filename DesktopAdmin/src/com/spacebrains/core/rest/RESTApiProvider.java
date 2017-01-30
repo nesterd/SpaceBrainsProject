@@ -1,6 +1,8 @@
-package com.spacebrains.core.http;
+package com.spacebrains.core.rest;
 
+import com.spacebrains.core.http.HttpProvider;
 import com.spacebrains.interfaces.IDbEntity;
+import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,6 +24,29 @@ public class RESTApiProvider {
          httpProvider = new HttpProvider();
     }
 
+    private void handleError(int status) {
+        switch (status) {
+            case HttpStatus.SC_NOT_FOUND: {
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject;
+                try {
+                    jsonObject = (JSONObject) parser.parse(httpProvider.getJSONString());
+                    String message = (String) jsonObject.get("message");
+                    throw new RuntimeException(message);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case HttpStatus.SC_OK: {
+                break;
+            }
+            default: {
+                throw new RuntimeException("Unexpected HTTP answer. Status: " + status);
+            }
+        }
+    }
+
     /**
      * Запрашивает список объектов справочника
      * @return
@@ -29,10 +54,10 @@ public class RESTApiProvider {
     public <T extends IDbEntity> HashMap<Long, String> getObjects(String reqString) {
         HashMap<Long, String> result = new HashMap<>();
         StringBuilder sb = new StringBuilder();
-        sb.append("/");
+        sb.append('/');
         sb.append(reqString);
-        sb.append("/");
-        httpProvider.doGetRequest(sb.toString());
+        int status = httpProvider.doGetMethod(sb.toString());
+        handleError(status);
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
         try {
@@ -63,7 +88,8 @@ public class RESTApiProvider {
         StringBuilder sb = new StringBuilder();
         sb.append("/person/");
         sb.append(reqObject.getID());
-        httpProvider.doGetRequest(sb.toString());
+        int status = httpProvider.doGetMethod(sb.toString());
+        handleError(status);
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
         try {
@@ -85,11 +111,28 @@ public class RESTApiProvider {
         return result;
     }
 
-    public boolean updateObject(IDbEntity reqObject) {
+    public <T extends IDbEntity> boolean updateObject(T reqObject) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('/');
+        sb.append(reqObject.getEntityTypeString());
+        sb.append('/');
+        sb.append(reqObject.getID());
+        int status = httpProvider.doPutMethod(sb.toString());
+        handleError(status);
+        if(status == HttpStatus.SC_OK)
+            return true;
         return false;
     }
 
-    public boolean deleteObject(IDbEntity reqObject) {
+    public <T extends IDbEntity> boolean deleteObject(T reqObject) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('/');
+        sb.append(reqObject.getEntityTypeString());
+        sb.append('/');
+        sb.append(reqObject.getID());
+        int status = httpProvider.doDeleteMethod(sb.toString());
+        if(status == HttpStatus.SC_OK)
+            return true;
         return false;
     }
 }
