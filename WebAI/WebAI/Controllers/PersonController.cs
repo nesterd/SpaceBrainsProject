@@ -10,6 +10,7 @@ using BusinessLogic.DTO;
 
 namespace WebAI.Controllers
 {
+    [Authorize]
     public class PersonController : Controller
     {
         IPersonService personService = null;

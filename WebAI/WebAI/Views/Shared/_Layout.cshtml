@@ -12,7 +12,7 @@
    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" @*style="background-color:burlywood"*@>
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -22,13 +22,16 @@
                 </button>
                 @Html.ActionLink("SpaceBrains", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            @*<div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                        <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                        <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                    </ul>
-                </div>*@
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    @*<li>
+                        @Html.Action("CurrentCart", "Cart")
+                    </li>*@
+                    <li>
+                        @Html.Action("CurrentUser", "Account")
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="container body-content">

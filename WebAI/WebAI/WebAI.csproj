@@ -183,6 +183,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IoC\AutofacConfig.cs" />
+    <Compile Include="Models\Account\LogInViewModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\KeyWordViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
@@ -253,10 +254,11 @@
     <Content Include="Views\Person\ChangePerson.cshtml" />
     <Content Include="Views\Person\ChangeKeyWord.cshtml" />
     <Content Include="Views\Site\Add.cshtml" />
+    <Content Include="Views\Account\LogIn.cshtml" />
+    <Content Include="Views\Account\_CurrentUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

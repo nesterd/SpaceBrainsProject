@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Domain.Entities.Users;
 
 namespace DataAccess.Initializer
 {
@@ -14,8 +15,15 @@ namespace DataAccess.Initializer
     {
         protected override void Seed(WebAIDbContext context)
         {
-            context.Persons.Add(new Person { Name = "Путин В.В." });
-            context.Persons.Add(new Person { Name = "Медведев Д.А." });
+            context.Users.AddRange(new List<User>()
+            {
+                new User { Login = "nester", Password = "12345", IsAdmin = true, Name = "Dan" }
+            });
+            context.SaveChanges();
+
+
+            context.Persons.Add(new Person { Name = "Путин В.В.", AdminId = 1 });
+            context.Persons.Add(new Person { Name = "Медведев Д.А.", AdminId = 1 });
             context.SaveChanges();
 
             context.KeyWords.AddRange(new List<KeyWord>
@@ -30,8 +38,8 @@ namespace DataAccess.Initializer
 
             context.Sites.AddRange(new List<Site>
             {
-                new Site { Name = "lenta.ru" },
-                new Site { Name = "mail.ru" }
+                new Site { Name = "lenta.ru", AdminId = 1  },
+                new Site { Name = "mail.ru", AdminId = 1  }
             });
             context.SaveChanges();
 
@@ -53,7 +61,9 @@ namespace DataAccess.Initializer
                 new PersonPageRank { PageId = 5, PersonId = 1, Rank = 7 },
                 new PersonPageRank { PageId = 2, PersonId = 2, Rank = 19 }
             });
-                
+
+            
+
         }
     }
 }

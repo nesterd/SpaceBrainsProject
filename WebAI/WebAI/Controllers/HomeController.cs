@@ -9,6 +9,7 @@ using WebAI.Models;
 
 namespace WebAI.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public HomeController()
@@ -22,17 +23,17 @@ namespace WebAI.Controllers
         }
 
  
-        public ActionResult Statistics()
-        {
-            return View(new List<StatisticsViewModel> {
-                new StatisticsViewModel { Id = 1,
-                Site = new SiteViewModel { Id = 1, Name = "lenta.ru", Url = "lenta.ru" },
-                CountAllLinks = 100,
-                CountNotVisitedLinks = 20,
-                CountVisitedLinks =90                
-                }
-            });
-        }
+        //public ActionResult Statistics()
+        //{
+        //    return View(new List<StatisticsViewModel> {
+        //        new StatisticsViewModel { Id = 1,
+        //        Site = new SiteViewModel { Id = 1, Name = "lenta.ru", Url = "lenta.ru" },
+        //        CountAllLinks = 100,
+        //        CountNotVisitedLinks = 20,
+        //        CountVisitedLinks =90                
+        //        }
+        //    });
+        //}
 
     }
 }

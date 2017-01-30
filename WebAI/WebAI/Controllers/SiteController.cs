@@ -11,6 +11,7 @@ using BusinessLogic.DTO;
 
 namespace WebAI.Controllers
 {
+    [Authorize]
     public class SiteController : Controller
     {
         ISiteService siteService = null;
