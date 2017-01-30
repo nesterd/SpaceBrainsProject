@@ -253,10 +253,10 @@
     <Content Include="Views\Person\ChangePerson.cshtml" />
     <Content Include="Views\Person\ChangeKeyWord.cshtml" />
     <Content Include="Views\Site\Add.cshtml" />
-    <Content Include="Views\Account\LogIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
