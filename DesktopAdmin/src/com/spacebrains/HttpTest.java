@@ -3,7 +3,10 @@
  */
 package com.spacebrains;
 
-import com.spacebrains.model.KeywordDto;
+import com.spacebrains.core.http.HttpProvider;
+import com.spacebrains.model.*;
+
+import java.util.Arrays;
 
 /**
  * @author oleg.chizhov
@@ -16,14 +19,23 @@ public class HttpTest {
 	 */
 	public static void main(String[] args) {
 
-//		HttpProvider provider = new HttpProvider();
-//		//provider.doGetRequest("/id/1/name/Путин");
-//		provider.putJSONString("{\n \"id\": \"1\",\n \"name\": \"%D0%9F%D1%83%D1%82%D0%B8%D0%BD\"\n}\n");
-//		provider.doPutRequest("/persons/1");
-//		System.out.println(provider.getJSONString());
+//		PersonRepository personRepository = new PersonRepository();
+//		System.out.println(Arrays.asList(personRepository.get()));
+//
+//		System.out.println("А теперь исправим в базе 4 запись");
+//		System.out.println(personRepository.put(new Person(4, "Мишаня")));
+//		System.out.println(Arrays.asList(personRepository.get()));
+//
+//		System.out.println("А теперь добавим в базу Навального");
+//		System.out.println(personRepository.put(new Person(5, "Навальный")));
+//		System.out.println(Arrays.asList(personRepository.get()));
 
-		KeywordDto key = new KeywordDto(1, "Путину", 1);
-		System.out.println(key.toJSONString());
+
+		SiteRepository siteRepository = new SiteRepository();
+		System.out.println(Arrays.asList(siteRepository.get()));
+		System.out.println("Изменим сайт с id=3:");
+		System.out.println(siteRepository.put(new Site(3,"ненормальный.рф")));
+		System.out.println(Arrays.asList(siteRepository.get()));
 	}
 
 }
