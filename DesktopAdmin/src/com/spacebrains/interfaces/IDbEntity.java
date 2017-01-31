@@ -8,4 +8,5 @@ public interface IDbEntity {
     public int getID();
     public void fromJSONString(String jsonString);
     public String toJSONString();
+    public String nameToJSONString();
 }

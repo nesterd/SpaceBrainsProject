@@ -117,6 +117,7 @@ public class RESTApiProvider {
         sb.append(reqObject.getEntityTypeString());
         sb.append('/');
         sb.append(reqObject.getID());
+        httpProvider.putJSONString(reqObject.nameToJSONString());
         int status = httpProvider.doPutMethod(sb.toString());
         handleError(status);
         if(status == HttpStatus.SC_OK)

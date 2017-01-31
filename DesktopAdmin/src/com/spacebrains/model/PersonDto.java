@@ -23,15 +23,26 @@ public class PersonDto extends Person implements IDbEntity, JSONAware {
     @Override
     public String toJSONString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{");
+        sb.append("{\"");
         sb.append(JSONObject.escape("id"));
-        sb.append(":");
+        sb.append("\":");
         sb.append(this.getID());
-        sb.append(",");
+        sb.append(",\"");
         sb.append(JSONObject.escape("name"));
-        sb.append(":");
-        sb.append("\"" + JSONObject.escape(this.getName()) + "\"");
-        sb.append("}");
+        sb.append("\":\"");
+        sb.append(JSONObject.escape(this.getName()));
+        sb.append("\"}");
+        return sb.toString();
+    }
+
+    @Override
+    public String nameToJSONString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ \"");
+        sb.append(JSONObject.escape("name"));
+        sb.append("\":\"");
+        sb.append(JSONObject.escape(this.getName()));
+        sb.append("\"}");
         return sb.toString();
     }
 
