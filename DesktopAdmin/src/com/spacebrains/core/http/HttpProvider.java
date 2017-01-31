@@ -13,6 +13,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class HttpProvider {
 	private String innerJSONstring = null;
@@ -47,12 +48,8 @@ public class HttpProvider {
 	 */
 	private StringEntity prepareEntity(String inputJSONString) {
 		StringEntity entity = null;
-		try {
-			entity = new StringEntity(inputJSONString);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		entity = new StringEntity(inputJSONString, "utf-8");
+		entity.setContentType("application/json");
 		return entity;
 	}
 
@@ -74,7 +71,7 @@ public class HttpProvider {
 //			response.getStatusLine();
 			if(entity != null) {
 				long len = entity.getContentLength();
-				if(len != -1 && len < 2048) {
+				if(len != -1) {
 					innerJSONstring = EntityUtils.toString(entity);
 				}
 			}
@@ -110,7 +107,6 @@ public class HttpProvider {
 			return 0;
 		}
 		requestEntity = prepareEntity(innerJSONstring);
-		requestEntity.setContentType("application/json");
 		HttpPut httpPut = new HttpPut();
 		httpPut.setEntity(requestEntity);
 		int status = doRequest(httpPut, requestURIString);
