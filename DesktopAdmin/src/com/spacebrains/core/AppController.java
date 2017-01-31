@@ -1,8 +1,7 @@
 package com.spacebrains.core;
 
-import com.spacebrains.interfaces.IRepository;
-import com.spacebrains.model.Repository;
-import com.spacebrains.model.User;
+import com.spacebrains.model.*;
+import java.util.ArrayList;
 
 import static com.spacebrains.core.AuthConstants.*;
 
@@ -10,16 +9,16 @@ public class AppController {
 
     private static User currentUser = null;
 
-    private IRepository keywordRepo;
-    private IRepository personRepo;
-    private IRepository siteRepo;
+    private KeywordRepository keyRepo = null;
+    private PersonRepository personRepo = null;
+    private SiteRepository siteRepo = null;
 
     private static String lastRequestMsg = SUCCESS;
 
     public AppController() {
-        keywordRepo = new Repository();
-        personRepo = new Repository();
-        siteRepo = new Repository();
+        keyRepo = new KeywordRepository();
+        personRepo = new PersonRepository();
+        siteRepo = new SiteRepository();
     }
 
     /**
@@ -104,5 +103,45 @@ public class AppController {
 
     public static String lastRequestMsg() {
         return lastRequestMsg;
+    }
+
+    /**
+     * @author Oleg Chizhov
+     * for GUI to request Persons
+     */
+    public ArrayList<Person> getPersons() {
+        return personRepo.get();
+    }
+
+    public ArrayList<Keyword> getKeywordsByPerson(Person person) {
+        return keyRepo.getByObject(person);
+    }
+
+    public ArrayList<Site> getSites() {
+        return siteRepo.get();
+    }
+
+    public boolean setPerson(Person person) {
+        return personRepo.put(person);
+    }
+
+    public boolean setKeyword(Keyword keyword) {
+        return keyRepo.put(keyword);
+    }
+
+    public boolean setSite(Site site) {
+        return siteRepo.put(site);
+    }
+
+    public boolean deletePerson(Person person) {
+        return personRepo.delete(person);
+    }
+
+    public boolean deleteKeyword(Keyword keyword) {
+        return keyRepo.delete(keyword);
+    }
+
+    public boolean deleteSite(Site site) {
+        return siteRepo.delete(site);
     }
 }

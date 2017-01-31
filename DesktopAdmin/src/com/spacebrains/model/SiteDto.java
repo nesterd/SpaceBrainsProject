@@ -6,26 +6,22 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class KeywordDto extends Keyword implements IDbEntity, JSONAware {
-    private int personId = 0;
-
-    public KeywordDto(int keywordId, String name, int personId) {
-        super(keywordId, name);
-        this.personId = personId;
+public class SiteDto extends Site implements IDbEntity, JSONAware {
+    public SiteDto(int siteId, String name) {
+        super(siteId, name);
     }
 
-    public KeywordDto(Keyword keyword) {
-        super(keyword.getID(), keyword.getName(), keyword.getPerson());
-        this.personId = keyword.getPerson().getID();
+    public SiteDto(String name) {
+        super(name);
     }
 
-    public int getPersonId() {
-        return  personId;
+    public SiteDto(Site site) {
+        super(site.getID(), site.getName());
     }
 
     @Override
     public String getEntityTypeString() {
-        return new String("keyword");
+        return new String("site");
     }
 
     @Override
@@ -35,10 +31,8 @@ public class KeywordDto extends Keyword implements IDbEntity, JSONAware {
             JSONObject obj = (JSONObject) (parser.parse(jsonString));
             int id = (int) obj.get("id");
             String name = (String) obj.get("name");
-            int personId = (int) obj.get("person_id");
             this.setID(id);
             this.setName(name);
-            this.setPerson(new Person(personId, name));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -49,17 +43,13 @@ public class KeywordDto extends Keyword implements IDbEntity, JSONAware {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"");
         sb.append(JSONObject.escape("id"));
-        sb.append("\": ");
+        sb.append("\":");
         sb.append(this.getID());
-        sb.append(", \"");
+        sb.append(",\"");
         sb.append(JSONObject.escape("name"));
-        sb.append("\": \"");
+        sb.append("\":\"");
         sb.append(JSONObject.escape(this.getName()));
-        sb.append("\", \"");
-        sb.append(JSONObject.escape("person_id"));
-        sb.append("\": ");
-        sb.append(this.getPersonId());
-        sb.append("}");
+        sb.append("\"}");
         return sb.toString();
     }
 

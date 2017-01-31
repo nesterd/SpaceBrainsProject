@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.Enumeration;
 
 public abstract class BaseParams {
-    public static final String BaseURL = "echo.jsontest.com";
+    public static final String BaseURL = "93.174.131.56:5000";
 
     public static final String APP_NAME = "SpaceBrains";
     public static final String AUTHORIZATION = "Авторизация";
