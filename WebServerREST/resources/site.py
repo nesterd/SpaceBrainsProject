@@ -36,9 +36,11 @@ class Site(Resource):
         return site.json(), 201
 
     # @jwt_required()
-    # Сделать удаление и по id, сейчас работает только по имени
     def delete(self, ID=None, Name=None):
-        site = SiteModel.find_by_name(Name)
+        if ID:
+            site = SiteModel.find_by_id(ID)
+        else:
+            site = SiteModel.find_by_name(Name)
         if site:
             site.delete_from_db()
 
@@ -53,7 +55,7 @@ class Site(Resource):
         if site:
             site.Name = data['name']
         else:
-            site = SiteModel(ID, data['name'])
+            site = SiteModel(data['name'])
 
         site.save_to_db()
 
