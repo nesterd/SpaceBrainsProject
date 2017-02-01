@@ -1,5 +1,6 @@
 package com.spacebrains.ui;
 
+import com.spacebrains.core.AppController;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.widgets.BaseWindow;
@@ -172,12 +173,12 @@ public class ChangePswdForm extends BaseWindow {
     }
 
     private String getChangePswdAnswer() {
-        if (!appController.isAuthorized()) return AuthConstants.INVALID_SESSION;
+        if (!AppController.getInstance().isAuthorized()) return AuthConstants.INVALID_SESSION;
         if (getPswdText(oldPswdField).length() < 1) return AuthConstants.NEED_OLD_PSWD;
         if (getPswdText(newPswdField).length() < 1) return AuthConstants.NEED_NEW_PSWD;
         if (!getPswdText(newPswdField).equals(getPswdText(repeatPswdField))) return AuthConstants.NOT_MATCHING_PSWD;
 
-        return appController.changePswd(getPswdText(oldPswdField), getPswdText(newPswdField));
+        return AppController.getInstance().changePswd(getPswdText(oldPswdField), getPswdText(newPswdField));
     }
 
     private void setErrorMsg(Color color, String errorMsg) {
@@ -229,7 +230,10 @@ public class ChangePswdForm extends BaseWindow {
     }
 
     private void setMainLabelText() {
-        mainLabel.setText(BaseParams.CHANGE_PSWD + (appController.isAuthorized() ? " для " + appController.userLogin() : ""));
+        mainLabel.setText(BaseParams.CHANGE_PSWD
+                + (AppController.getInstance().isAuthorized()
+                    ? " для " + AppController.getInstance().userLogin()
+                    : ""));
     }
 
     @Override

@@ -7,6 +7,7 @@ import static com.spacebrains.core.AuthConstants.*;
 
 public class AppController {
 
+    private static AppController instance;
     private static User currentUser = null;
 
     private KeywordRepository keyRepo = null;
@@ -15,10 +16,15 @@ public class AppController {
 
     private static String lastRequestMsg = SUCCESS;
 
-    public AppController() {
+    private AppController() {
         keyRepo = new KeywordRepository();
         personRepo = new PersonRepository();
         siteRepo = new SiteRepository();
+    }
+
+    public static AppController getInstance() {
+        if (instance == null) instance = new AppController();
+        return instance;
     }
 
     /**

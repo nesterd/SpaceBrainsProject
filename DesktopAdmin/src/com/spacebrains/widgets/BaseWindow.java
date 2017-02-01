@@ -20,7 +20,6 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
     protected String windowTitle = BaseParams.APP_NAME;
 
     protected AppMenu menu;
-    protected AppController appController;
 
     protected static final int DEFAULT_WIDTH = 550;
     protected static final int DEFAULT_HEIGHT = 485;
@@ -29,7 +28,7 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
     protected int height = DEFAULT_HEIGHT;
 
     protected Box content;
-    protected BaseEditForm<INamed> editDialog;
+    protected BaseEditForm<? extends INamed> editDialog;
 
     public BaseWindow() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -41,8 +40,6 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
         initMainMenu();
 
         addWindowListener(this);
-
-        appController = new AppController();
     }
 
     private void initMainSettings(int width, int height) {
@@ -116,7 +113,7 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
         menu.getMiFileLogout().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                appController.logout();
+                AppController.getInstance().logout();
                 setVisible(false);
                 FormsManager.showAuthorizationForm();
             }

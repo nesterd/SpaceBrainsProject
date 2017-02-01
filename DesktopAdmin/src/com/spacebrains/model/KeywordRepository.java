@@ -41,6 +41,9 @@ public class KeywordRepository {
      */
     public ArrayList<Keyword> getByObject(Person person) {
         keywords = new ArrayList<Keyword>();
+
+        if (person == null) return keywords;
+
         HashMap<Long, String> fromRest = rest.getKeywordsByPerson(new PersonDto(person));
         String value;
         for (long i: fromRest.keySet()) {
@@ -66,7 +69,7 @@ public class KeywordRepository {
       * @return int
      */
     public int size() {
-        return keywords.size();
+        return keywords != null ? keywords.size() : 0;
     }
 
     public Iterator<Keyword> iterator() {

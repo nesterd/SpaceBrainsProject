@@ -1,5 +1,6 @@
 package com.spacebrains.ui;
 
+import com.spacebrains.core.AppController;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.widgets.BaseWindow;
@@ -88,8 +89,14 @@ public class AuthForm extends BaseWindow {
         pswdField.setFont(getBaseFont(FIELD_HEIGHT - 1));
         setElementSize(pswdField, new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 
+
+        // <<< Temporary for tests
+        loginField.setText("Admin");
+        pswdField.grabFocus();
+        // End temporary part >>>
+
         loginBtn = new Button(LOGIN_BTN_LBL);
-        loginBtn.grabFocus();
+//        loginBtn.grabFocus();
         forgotBtn = new Button(FORGOT_LBL);
         forgotBtn.setFont(getBaseFont(FIELD_HEIGHT - 4));
         setElementSize(forgotBtn, new Dimension(FIELD_WIDTH - 15, FIELD_HEIGHT));
@@ -165,7 +172,7 @@ public class AuthForm extends BaseWindow {
     }
 
     private void tryToLogin() {
-        String answer = appController.login(loginField.getText(), getPswdText());
+        String answer = AppController.getInstance().login(loginField.getText(), getPswdText());
         if (answer.equals(AuthConstants.SUCCESS)) {
             this.setVisible(false);
             FormsManager.showMainWindowForm();

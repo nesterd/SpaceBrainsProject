@@ -1,15 +1,12 @@
 package com.spacebrains.ui;
 
-import com.spacebrains.core.rest.KeywordsRestMock;
-import com.spacebrains.interfaces.IKeywords;
-import com.spacebrains.interfaces.IPersons;
+import com.spacebrains.core.AppController;
+import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.Keyword;
 import com.spacebrains.model.Person;
-import com.spacebrains.core.rest.PersonsRestMock;
-import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.BaseEditForm;
 import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;
+import com.spacebrains.widgets.KeywordEditForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import static com.spacebrains.core.util.BaseParams.APP_NAME;
-import static com.spacebrains.core.util.BaseParams.KEYWORDS_DICT;
-import static com.spacebrains.core.util.BaseParams.TABLE_WIDTH;
+import static com.spacebrains.core.util.BaseParams.*;
 
 /**
  * @author Tatyana Vorobeva
@@ -28,9 +23,6 @@ import static com.spacebrains.core.util.BaseParams.TABLE_WIDTH;
 public class KeywordsDictionaryForm extends BaseWindow {
 
     private static Person currentPerson;
-
-    IPersons personRest = PersonsRestMock.getInstance();
-    IKeywords rest = KeywordsRestMock.getInstance();
 
     private JComboBox<Person> personChooser;
     BaseTable table = null;
@@ -46,16 +38,16 @@ public class KeywordsDictionaryForm extends BaseWindow {
 
         initPersonChooser();
 
-        editDialog = new BaseEditForm<>(rest, new Keyword(""));
+        editDialog = new KeywordEditForm(new Keyword(""));
 
         currentPerson = (Person) personChooser.getSelectedItem();
-        table = new BaseTable(rest.getKeywords(currentPerson));
+        table = new BaseTable(AppController.getInstance().getKeywordsByPerson(currentPerson));
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, new Keyword("", (Person) personChooser.getSelectedItem()));
+                editDialog = new KeywordEditForm(new Keyword("", (Person) personChooser.getSelectedItem()));
                 editDialog.setVisible(true);
-                table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
+                table.updateValues(AppController.getInstance().getKeywordsByPerson((Person) personChooser.getSelectedItem()));
             }
         });
         table.getEditBtn().addActionListener(new ActionListener() {
@@ -64,9 +56,9 @@ public class KeywordsDictionaryForm extends BaseWindow {
                 Keyword keyword = (Keyword) table.getSelectedItem();
                 if (keyword == null) keyword = new Keyword("");
                 keyword.setPerson((Person) personChooser.getSelectedItem());
-                editDialog = new BaseEditForm<>(rest, keyword);
+                editDialog = new KeywordEditForm(keyword);
                 editDialog.setVisible(true);
-                table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
+                table.updateValues(AppController.getInstance().getKeywordsByPerson((Person) personChooser.getSelectedItem()));
             }
         });
         table.getDeleteBtn().addActionListener(new ActionListener() {
@@ -77,8 +69,8 @@ public class KeywordsDictionaryForm extends BaseWindow {
 
                     if (userChoice == JOptionPane.YES_OPTION) {
                         System.out.println("Delete: " + table.getSelectedItem());
-                        rest.delete((Keyword) table.getSelectedItem());
-                        table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
+                        AppController.getInstance().deleteKeyword((Keyword) table.getSelectedItem());
+                        table.updateValues(AppController.getInstance().getKeywordsByPerson((Person) personChooser.getSelectedItem()));
                     }
                 }
             }
@@ -88,7 +80,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 currentPerson = (Person) personChooser.getSelectedItem();
-                table.updateValues(rest.getKeywords(currentPerson));
+                table.updateValues(AppController.getInstance().getKeywordsByPerson(currentPerson));
             }
         });
 
@@ -111,7 +103,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
     }
 
     private void initPersonChooser() {
-        ArrayList<Person> personList = personRest.getPersons();
+        ArrayList<Person> personList = AppController.getInstance().getPersons();
 
         if (personChooser == null) {
             personChooser = new JComboBox<>();
@@ -120,7 +112,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
             personChooser.removeAllItems();
         }
 
-        for(Person person : personRest.getPersons()){
+        for(Person person : AppController.getInstance().getPersons()){
             personChooser.addItem(person);
         }
 
@@ -146,6 +138,6 @@ public class KeywordsDictionaryForm extends BaseWindow {
     @Override
     public void windowActivated(WindowEvent e) {
         super.windowActivated(e);
-        if (table != null) table.updateValues(rest.getKeywords((Person) personChooser.getSelectedItem()));
+        if (table != null) table.updateValues(AppController.getInstance().getKeywordsByPerson((Person) personChooser.getSelectedItem()));
     }
 }

@@ -1,12 +1,11 @@
 package com.spacebrains.ui;
 
-import com.spacebrains.core.rest.SitesRestMock;
+import com.spacebrains.core.AppController;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.interfaces.ISites;
 import com.spacebrains.model.Site;
-import com.spacebrains.widgets.BaseEditForm;
 import com.spacebrains.widgets.BaseTable;
 import com.spacebrains.widgets.BaseWindow;
+import com.spacebrains.widgets.SiteEditForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +20,6 @@ import static com.spacebrains.core.util.BaseParams.SITES_DICT;
  * @author Tatyana Vorobeva
  */
 public class SitesDictionaryForm extends BaseWindow {
-
-    ISites rest = SitesRestMock.getInstance();
     BaseTable table = null;
 
     public SitesDictionaryForm() {
@@ -34,22 +31,22 @@ public class SitesDictionaryForm extends BaseWindow {
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        table = new BaseTable(rest.getSites());
+        table = new BaseTable(AppController.getInstance().getSites());
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Add new site");
-                editDialog = new BaseEditForm<>(rest, new Site(""));
+                editDialog = new SiteEditForm(new Site(""));
                 editDialog.setVisible(true);
-                table.updateValues(rest.getSites());
+                table.updateValues(AppController.getInstance().getSites());
             }
         });
         table.getEditBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, table.getSelectedItem());
+                editDialog = new SiteEditForm((Site) table.getSelectedItem());
                 editDialog.setVisible(true);
-                table.updateValues(rest.getSites());
+                table.updateValues(AppController.getInstance().getSites());
             }
         });
         table.getDeleteBtn().addActionListener(new ActionListener() {
@@ -60,8 +57,8 @@ public class SitesDictionaryForm extends BaseWindow {
 
                     if (userChoice == JOptionPane.YES_OPTION) {
                         System.out.println("Delete: " + table.getSelectedItem());
-                        rest.delete((Site) table.getSelectedItem());
-                        table.updateValues(rest.getSites());
+                        AppController.getInstance().deleteSite((Site) table.getSelectedItem());
+                        table.updateValues(AppController.getInstance().getSites());
                     }
                 }
             }
@@ -77,6 +74,6 @@ public class SitesDictionaryForm extends BaseWindow {
     @Override
     public void windowActivated(WindowEvent e) {
         super.windowActivated(e);
-        if (table != null) table.updateValues(rest.getSites());
+        if (table != null) table.updateValues(AppController.getInstance().getSites());
     }
 }
