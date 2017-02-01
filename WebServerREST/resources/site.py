@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.site import SiteModel
+from models.pages import PageModel
 
 
 class Site(Resource):
@@ -52,7 +53,7 @@ class Site(Resource):
         if site:
             site.Name = data['name']
         else:
-            site = SiteModel(id, data['name'])
+            site = SiteModel(ID, data['name'])
 
         site.save_to_db()
 
@@ -60,6 +61,15 @@ class Site(Resource):
 
 
 class SiteList(Resource):
-    @jwt_required()
+    # @jwt_required()
     def get(self):
         return {'sites': list(map(lambda x: x.json(), SiteModel.query.all()))}
+
+
+class PagesList(Resource):
+#    @jwt_required()
+    def get(self, ID):
+        # пройти каждую страничку и вывести их Rank из RankModel
+        # pages = PageModel.query.filter_by(SiteID=ID)
+        #for rank in RankModel.query.filter_by(SiteID=ID):
+        return {'pages': PageModel.query.filter_by(SiteID=ID).count()}
