@@ -17,3 +17,10 @@ class RankModel(db.Model):
     Persons = db.relationship('PersonModel')
     Pages = db.relationship('PageModel')
     Rank = db.Column(db.Integer)
+
+    def json(self):
+        return {"PersonsID": self.PersonsID, "Rank": self.Rank}
+
+    @classmethod
+    def find_by_person(cls, PersonsID):
+        return cls.query.filter_by(PersonsID=PersonsID).first()
