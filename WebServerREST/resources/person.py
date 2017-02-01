@@ -31,13 +31,15 @@ class Person(Resource):
 
         return person.json(), 201
 
+    # добавить удаление по ID
     def delete(self, Name):
         person = PersonModel.find_by_name(Name)
         if person:
             person.delete_from_db()
 
-        return {'message': 'Site deleted'}
+        return {'message': 'Person deleted'}
 
+    # добавить проверку, если не существует, то POST
     def put(self, ID):
         data = Person.parser.parse_args()
 
@@ -46,7 +48,7 @@ class Person(Resource):
         if person:
             person.Name = data['name']
         else:
-            person = PersonModel(id, data['name'])
+            person = PersonModel(ID, data['name'])
 
         person.save_to_db()
 
