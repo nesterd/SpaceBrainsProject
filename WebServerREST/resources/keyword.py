@@ -47,6 +47,7 @@ class Keyword(Resource):
 
         return {'message': 'Keyword deleted'}
 
+    # исправить, не работает
     def put(self, ID, PersonID=None):
         data = Keyword.parser.parse_args()
 
