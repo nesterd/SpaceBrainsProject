@@ -14,10 +14,11 @@ class PageModel(db.Model):
     Site = db.relationship('SiteModel')
 
     def json(self):
-        return {'site':                     SiteModel.query.filter_by(ID=self.SiteID).first().Name,                  #self.SiteID,
+        return {'ID':                       self.SiteID,
+                'site':                     SiteModel.query.filter_by(ID=self.SiteID).first().Name,                  #self.SiteID,
                 'total_count':              PageModel.query.filter_by(SiteID=self.SiteID).count(),
-                'total_count_not_round':    PageModel.query.filter_by(LastScanDate=None).count(),
-                'total_count_round':        PageModel.query.filter(PageModel.LastScanDate!=None).count()}
+                'total_count_not_round':    PageModel.query.filter_by(SiteID=self.SiteID, LastScanDate=None).count(),
+                'total_count_round':        PageModel.query.filter(PageModel.SiteID==self.SiteID, PageModel.LastScanDate!=None).count()}
 
     @classmethod
     def find_by_id(cls, ID):
