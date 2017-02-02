@@ -7,7 +7,7 @@ class KeywordModel(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(80))
     PersonID = db.Column(db.Integer, db.ForeignKey('Persons.ID'))
-    person = db.relationship('PersonModel')
+    Person = db.relationship('PersonModel')
 
     def __init__(self, Name, PersonID):
         self.Name = Name

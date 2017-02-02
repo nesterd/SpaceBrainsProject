@@ -49,7 +49,7 @@ class CRUD:
             return False, 'unsupported this method' + method
 
     def delete(self, method, tabel_model, id):
-        if method == 'DEL':
+        if method == 'DELETE':
             delete_this = tabel_model.query.filter_by(id).first()
             self.db.session.delete(delete_this)
             db.session.commit()
@@ -74,4 +74,4 @@ obj = CRUD(db)
 obj.update('PUT', data_for_add_table, 7)
 # DELETE
 obj = CRUD(db)
-obj.delete('DEL', tabel_model, 7)
+obj.delete('DELETE', tabel_model, 7)

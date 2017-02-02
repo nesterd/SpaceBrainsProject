@@ -6,13 +6,14 @@ from models.pages import PageModel
 
 class Site(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('name',
-                        type=str,
-                        required=True,
-                        help="This field cannot be left blank!"
-                        )
+    parser.add_argument(
+        'name',
+        type=str,
+        required=True,
+        help="This field cannot be left blank!"
+    )
 
-    # @jwt_required()
+    @jwt_required()
     def get(self, ID=None, Name=None):
         if ID:
             site = SiteModel.find_by_id(ID)
@@ -22,7 +23,7 @@ class Site(Resource):
             return site.json()
         return {'message': 'Site not found'}, 404
 
-    # @jwt_required()
+    @jwt_required()
     def post(self, Name):
         if SiteModel.find_by_name(Name):
             return {'message': "A site with name '{}' already exists.".format(Name)}, 400
@@ -35,7 +36,7 @@ class Site(Resource):
 
         return site.json(), 201
 
-    # @jwt_required()
+    @jwt_required()
     def delete(self, ID=None, Name=None):
         if ID:
             site = SiteModel.find_by_id(ID)
@@ -46,7 +47,7 @@ class Site(Resource):
 
         return {'message': 'Site deleted'}
 
-    # @jwt_required()
+    @jwt_required()
     def put(self, ID):
         data = Site.parser.parse_args()
 
@@ -63,15 +64,15 @@ class Site(Resource):
 
 
 class SiteList(Resource):
-    # @jwt_required()
+    @jwt_required()
     def get(self):
         return {'sites': list(map(lambda x: x.json(), SiteModel.query.all()))}
 
 
 class PagesList(Resource):
-#    @jwt_required()
+    @jwt_required()
     def get(self, ID):
         # пройти каждую страничку и вывести их Rank из RankModel
         # pages = PageModel.query.filter_by(SiteID=ID)
-        #for rank in RankModel.query.filter_by(SiteID=ID):
+        # for rank in RankModel.query.filter_by(SiteID=ID):
         return {'pages': PageModel.query.filter_by(SiteID=ID).count()}

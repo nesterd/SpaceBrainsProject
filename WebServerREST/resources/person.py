@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt import jwt_required
 from models.person import PersonModel
 
 
@@ -10,6 +11,7 @@ class Person(Resource):
                         help="This field cannot be left blank!"
                         )
 
+    @jwt_required()
     def get(self, Name=None, ID=None):
         if ID:
             person = PersonModel.find_by_id(ID)
@@ -19,6 +21,7 @@ class Person(Resource):
             return person.json()
         return {'message': 'Person not found'}, 404
 
+    @jwt_required()
     def post(self, Name):
         if PersonModel.find_by_name(Name):
             return {'message': "A person with name '{}' already exists.".format(Name)}, 400
@@ -31,6 +34,7 @@ class Person(Resource):
 
         return person.json(), 201
 
+    @jwt_required()
     def delete(self, Name=None, ID=None):
         if ID:
             person = PersonModel.find_by_id(ID)
@@ -41,6 +45,7 @@ class Person(Resource):
 
         return {'message': 'Person deleted'}
 
+    @jwt_required()
     def put(self, ID):
         data = Person.parser.parse_args()
         person = PersonModel.find_by_id(ID)
@@ -56,5 +61,6 @@ class Person(Resource):
 
 
 class PersonList(Resource):
+    @jwt_required()
     def get(self):
         return {'persons': list(map(lambda x: x.json(), PersonModel.query.all()))}

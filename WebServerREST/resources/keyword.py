@@ -5,18 +5,20 @@ from models.keyword import KeywordModel
 
 class Keyword(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('PersonID',
-                        type=int,
-                        required=True,
-                        help="Every keyword needs a person id.")
+    parser.add_argument(
+        'PersonID',
+        type=int,
+        required=True,
+        help="Every keyword needs a person id.")
     parser1 = reqparse.RequestParser()
-    parser1.add_argument('name',
-                        type=str,
-                        required=True,
-                        help="This field cannot be left blank!"
-                        )
+    parser1.add_argument(
+        'name',
+        type=str,
+        required=True,
+        help="This field cannot be left blank!"
+    )
 
-#    @jwt_required()
+    @jwt_required()
     def get(self, ID=None, Name=None):
         if ID:
             keyword = KeywordModel.find_by_id(ID)
@@ -27,6 +29,7 @@ class Keyword(Resource):
             return keyword.json()
         return {'message': 'Item not found'}, 404
 
+    @jwt_required()
     def post(self, Name):
         if KeywordModel.find_by_name(Name):
             return {'message': "An keyword with name '{}' already exists.".format(Name)}, 400
@@ -42,6 +45,7 @@ class Keyword(Resource):
 
         return keyword.json(), 201
 
+    @jwt_required()
     def delete(self, ID=None, Name=None):
         if ID:
             keyword = KeywordModel.find_by_id(ID)
@@ -53,6 +57,7 @@ class Keyword(Resource):
 
         return {'message': 'Keyword deleted'}
 
+    @jwt_required()
     def put(self, ID, PersonID=None):
         data = Keyword.parser1.parse_args()
 
@@ -69,5 +74,6 @@ class Keyword(Resource):
 
 
 class KeywordList(Resource):
+    @jwt_required()
     def get(self):
         return {'keywords': list(map(lambda x: x.json(), KeywordModel.query.all()))}

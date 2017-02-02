@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt import jwt_required
 from models.pages import PageModel
 from models.site import SiteModel
 # from requests import PageModel # for debug
@@ -13,6 +14,7 @@ class Pages(Resource):
     #                     help="For specific statistics, you must specify the SiteID!"
     #                     )
     # @classmethod #for debug
+    @jwt_required()
     def get(self, ID=None, Name=None):
         if ID:
             stat = PageModel.find_by_id(ID)
@@ -22,7 +24,9 @@ class Pages(Resource):
             return stat.json()
         return {'message': 'Stat not found'}, 404
 
+
 class StatList(Resource):
     # @classmethod #for debug
+    @jwt_required()
     def get(self):
         return {'stat for sites': list(map(lambda x: x.json(), SiteModel.query.all()))}
