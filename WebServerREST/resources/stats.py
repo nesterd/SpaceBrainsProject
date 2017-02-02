@@ -25,4 +25,10 @@ class Pages(Resource):
 class StatList(Resource):
     # @classmethod #for debug
     def get(self):
-        return {'stat for sites': list(map(lambda x: x.json(), SiteModel.query.all()))}
+        #pass
+        return {'base statistic': [PageModel.find_by_id(el.ID).json() for el in SiteModel.query.all() if
+                                   PageModel.find_by_id(el.ID)]}
+
+    
+
+
