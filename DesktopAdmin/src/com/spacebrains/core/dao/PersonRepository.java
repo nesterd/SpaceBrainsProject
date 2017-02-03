@@ -1,6 +1,7 @@
-package com.spacebrains.model;
+package com.spacebrains.core.dao;
 
 import com.spacebrains.core.rest.RESTApiProvider;
+import com.spacebrains.model.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class PersonRepository {
      * @return true в случае удачного сохранения
      */
     public boolean put(Person person) {
-        return rest.updateObject(new PersonDto(person));
+        return rest.updateObject(new PersonDao(person));
     }
 
     /**
@@ -46,7 +47,7 @@ public class PersonRepository {
      * @return true в случае удачного удаления
      */
     public boolean delete(Person person) {
-        return rest.deleteObject(new PersonDto(person));
+        return rest.deleteObject(new PersonDao(person));
     }
 
     /**
@@ -61,4 +62,35 @@ public class PersonRepository {
         return persons.iterator();
     }
 
+    private static class PersonDao extends DbObject {
+
+        PersonDao(String jsonString) {
+            super();
+            addProperty("id", 0);
+            addProperty("name",null);
+            buildFromJSON(jsonString);
+        }
+
+        PersonDao(Person person) {
+            super();
+            addProperty("id", person.getID());
+            addProperty("name", person.getName());
+        }
+
+        @Override
+        public String getEntityName() {
+            return "person";
+        }
+
+        @Override
+        public String toJSONString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("{\"");
+            for (String key: getProperties()) {
+                this.propertyToJSON(key);
+            }
+            sb.append("}");
+            return sb.toString();
+        }
+    }
 }

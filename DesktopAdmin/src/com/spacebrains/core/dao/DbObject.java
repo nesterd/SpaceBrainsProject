@@ -1,17 +1,20 @@
-package com.spacebrains.model;
+package com.spacebrains.core.dao;
 
+import com.spacebrains.interfaces.IDAOaware;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
-public abstract class DbObject implements JSONAware {
-    private HashMap<String, Object> fields;
+public abstract class DbObject implements JSONAware, IDAOaware {
+    private LinkedHashMap<String, Object> fields;
 
     public DbObject() {
-        fields = new HashMap<String, Object>();
+        fields = new LinkedHashMap<>();
     }
 
     /**
@@ -19,7 +22,7 @@ public abstract class DbObject implements JSONAware {
      * @param jsonString
      *
     public DbObject(String jsonString) {
-    fields = new HashMap<String, Object>();
+    super();
     addProperty("id", 0);
     addProperty("name",null);
     buildFromJSON(jsonString);
@@ -45,6 +48,10 @@ public abstract class DbObject implements JSONAware {
         fields.replace(key, value);
     }
 
+    public Set<String> getProperties() {
+        return fields.keySet();
+    }
+
     public void buildFromJSON(String jsonString) {
         JSONParser parser = new JSONParser();
         try {
@@ -60,11 +67,13 @@ public abstract class DbObject implements JSONAware {
 
     public String propertyToJSON(String key) {
         StringBuilder sb = new StringBuilder();
-        sb.append("{ \"");
+        sb.append("{");
+        sb.append("\"");
         sb.append(JSONObject.escape(key));
         sb.append("\":\"");
         sb.append(JSONObject.escape(getProperty(key).toString()));
-        sb.append("\"}");
+        sb.append("\"");
+        sb.append("}");
         return sb.toString();
     }
 }

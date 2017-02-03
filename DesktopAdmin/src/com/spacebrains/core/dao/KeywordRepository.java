@@ -1,6 +1,8 @@
-package com.spacebrains.model;
+package com.spacebrains.core.dao;
 
 import com.spacebrains.core.rest.RESTApiProvider;
+import com.spacebrains.model.Keyword;
+import com.spacebrains.model.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +23,7 @@ public class KeywordRepository {
      * @return true в случае удачного сохранения
      */
     public boolean put(Keyword keyword) {
-        return rest.updateObject(new KeywordDto(keyword));
+        return rest.updateObject(new KeywordDao(keyword));
     }
 
     /**
@@ -44,12 +46,11 @@ public class KeywordRepository {
 
         if (person == null) return keywords;
 
-        HashMap<Long, String> fromRest = rest.getKeywordsByPerson(new PersonDto(person));
+        HashMap<Long, String> fromRest = rest.getKeywordsByPerson(person);
         String value;
         for (long i: fromRest.keySet()) {
             value = fromRest.get(i);
-            KeywordDto keyword = new KeywordDto((int) i, value, person.getID());
-            keyword.setPerson(person);
+            Keyword keyword = new Keyword((int) i, value, person);
             keywords.add(keyword);
         }
         return keywords;
@@ -61,7 +62,7 @@ public class KeywordRepository {
      * @return true в случае удачного удаления
      */
     public boolean delete(Keyword keyword) {
-        return rest.deleteObject(new KeywordDto(keyword));
+        return rest.deleteObject(new KeywordDao(keyword));
     }
 
     /**
@@ -74,5 +75,45 @@ public class KeywordRepository {
 
     public Iterator<Keyword> iterator() {
         return keywords.iterator();
+    }
+
+    private class KeywordDao extends DbObject {
+        KeywordDao(String jsonString) {
+            super();
+            addProperty("id", 0);
+            addProperty("name",null);
+            addProperty("person_id", 0);
+            buildFromJSON(jsonString);
+        }
+
+        KeywordDao(Keyword keyword) {
+            super();
+            addProperty("id", keyword.getID());
+            addProperty("name", keyword.getName());
+            addProperty("person_id", keyword.getPerson().getID());
+        }
+
+        KeywordDao(int id, String name, int personId) {
+            super();
+            addProperty("id", id);
+            addProperty("name", name);
+            addProperty("person_id", personId);
+        }
+
+        @Override
+        public String getEntityName() {
+            return "keyword";
+        }
+
+        @Override
+        public String toJSONString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("{\"");
+            for (String key: getProperties()) {
+                this.propertyToJSON(key);
+            }
+            sb.append("}");
+            return sb.toString();
+        }
     }
 }

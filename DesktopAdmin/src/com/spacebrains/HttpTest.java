@@ -3,7 +3,8 @@
  */
 package com.spacebrains;
 
-import com.spacebrains.core.http.HttpProvider;
+import com.spacebrains.core.dao.KeywordRepository;
+import com.spacebrains.core.dao.PersonRepository;
 import com.spacebrains.model.*;
 
 import java.util.Arrays;

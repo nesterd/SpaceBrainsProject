@@ -1,10 +1,10 @@
-package com.spacebrains.model;
+package com.spacebrains.core.dao;
 
 import com.spacebrains.core.rest.RESTApiProvider;
+import com.spacebrains.model.Site;
+import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class SiteRepository {
     private ArrayList<Site> sites;
@@ -21,7 +21,7 @@ public class SiteRepository {
      * @return true в случае удачного сохранения
      */
     public boolean put(Site site) {
-        return rest.updateObject(new SiteDto(site));
+        return rest.updateObject(new SiteDao(site));
     }
 
     /**
@@ -46,7 +46,7 @@ public class SiteRepository {
      * @return true в случае удачного удаления
      */
     public boolean delete(Site site) {
-        return rest.deleteObject(new SiteDto(site));
+        return rest.deleteObject(new SiteDao(site));
     }
 
     /**
@@ -61,4 +61,35 @@ public class SiteRepository {
         return sites.iterator();
     }
 
+    private static class SiteDao extends DbObject {
+
+        SiteDao(String jsonString) {
+            super();
+            addProperty("id", 0);
+            addProperty("name",null);
+            buildFromJSON(jsonString);
+        }
+
+        SiteDao(Site site) {
+            super();
+            addProperty("id", site.getID());
+            addProperty("name", site.getName());
+        }
+
+        @Override
+        public String getEntityName() {
+            return "site";
+        }
+
+        @Override
+        public String toJSONString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("{\"");
+            for (String key: getProperties()) {
+                this.propertyToJSON(key);
+            }
+            sb.append("}");
+            return sb.toString();
+        }
+    }
 }

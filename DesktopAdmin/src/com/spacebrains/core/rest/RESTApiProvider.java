@@ -1,7 +1,8 @@
 package com.spacebrains.core.rest;
 
+import com.spacebrains.core.dao.DbObject;
 import com.spacebrains.core.http.HttpProvider;
-import com.spacebrains.interfaces.IDbEntity;
+import com.spacebrains.model.Person;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -51,7 +52,7 @@ public class RESTApiProvider {
      * Запрашивает список объектов справочника
      * @return
      */
-    public <T extends IDbEntity> HashMap<Long, String> getObjects(String reqString) {
+    public <T extends DbObject> HashMap<Long, String> getObjects(String reqString) {
         HashMap<Long, String> result = new HashMap<>();
         StringBuilder sb = new StringBuilder();
         sb.append('/');
@@ -83,11 +84,12 @@ public class RESTApiProvider {
      * @param reqObject объект из хранилища данных, по id которого будет отправлен запрос
      * @return
      */
-    public <T extends IDbEntity> HashMap<Long, String> getKeywordsByPerson(T reqObject) {
+    public <T extends DbObject> HashMap<Long, String> getKeywordsByPerson(Person reqObject) {
         HashMap<Long, String> result = new HashMap<>();
         StringBuilder sb = new StringBuilder();
         sb.append("/person/");
         sb.append(reqObject.getID());
+//        sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doGetMethod(sb.toString());
         handleError(status);
         JSONParser parser = new JSONParser();
@@ -111,13 +113,16 @@ public class RESTApiProvider {
         return result;
     }
 
-    public <T extends IDbEntity> boolean updateObject(T reqObject) {
+    public <T extends DbObject> boolean updateObject(T reqObject) {
         StringBuilder sb = new StringBuilder();
         sb.append('/');
-        sb.append(reqObject.getEntityTypeString());
+//        sb.append(reqObject.getEntityTypeString());
+        sb.append(reqObject.getEntityName());
         sb.append('/');
-        sb.append(reqObject.getID());
-        httpProvider.putJSONString(reqObject.nameToJSONString());
+//        sb.append(reqObject.getID());
+        sb.append(reqObject.getProperty("id"));
+//        httpProvider.setJSONString(reqObject.nameToJSONString());
+        httpProvider.setJSONString(reqObject.propertyToJSON("name"));
         int status = httpProvider.doPutMethod(sb.toString());
         handleError(status);
         if(status == HttpStatus.SC_OK)
@@ -125,12 +130,14 @@ public class RESTApiProvider {
         return false;
     }
 
-    public <T extends IDbEntity> boolean deleteObject(T reqObject) {
+    public <T extends DbObject> boolean deleteObject(T reqObject) {
         StringBuilder sb = new StringBuilder();
         sb.append('/');
-        sb.append(reqObject.getEntityTypeString());
+//        sb.append(reqObject.getEntityTypeString());
+        sb.append(reqObject.getEntityName());
         sb.append('/');
-        sb.append(reqObject.getID());
+//        sb.append(reqObject.getID());
+        sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doDeleteMethod(sb.toString());
         if(status == HttpStatus.SC_OK)
             return true;

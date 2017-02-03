@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.*;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -39,7 +40,7 @@ public class HttpProvider {
 	 *  that innerJSONString complies to JSON specification
 	 *  Use only for debug
 	 */
-	public void putJSONString(String inputJSONString) {
+	public void setJSONString(String inputJSONString) {
 		innerJSONstring = inputJSONString;
 	}
 	
@@ -62,28 +63,32 @@ public class HttpProvider {
 	private int doRequest(HttpRequestBase request, String requestURIString) {
 		CloseableHttpClient client = HttpClients.createDefault();
 		request.setURI(RestURIBuilder.buildURI(requestURIString));
+		// for debug purposes :
+		System.out.println(request.getRequestLine());
 		CloseableHttpResponse response = null;
 		int status = 0;
 		try {
 			response = client.execute(request);
 			status = response.getStatusLine().getStatusCode();
 			HttpEntity entity = response.getEntity();
-//			response.getStatusLine();
+			System.out.println(response.getStatusLine());
 			if(entity != null) {
 				long len = entity.getContentLength();
 				if(len != -1) {
 					innerJSONstring = EntityUtils.toString(entity);
 				}
 			}
-		} catch (ClientProtocolException e) {
+		} catch (ClientProtocolException | HttpHostConnectException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		} finally {
 			try {
-				response.close();
+				if (response != null) response.close();
 				client.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

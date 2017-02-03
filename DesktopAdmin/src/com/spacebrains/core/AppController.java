@@ -1,5 +1,8 @@
 package com.spacebrains.core;
 
+import com.spacebrains.core.dao.KeywordRepository;
+import com.spacebrains.core.dao.PersonRepository;
+import com.spacebrains.core.dao.SiteRepository;
 import com.spacebrains.model.*;
 import java.util.ArrayList;
 
@@ -109,6 +112,10 @@ public class AppController {
 
     public static String lastRequestMsg() {
         return lastRequestMsg;
+    }
+
+    public static void setLastRequestMsg(String msg) {
+        lastRequestMsg = msg;
     }
 
     /**
