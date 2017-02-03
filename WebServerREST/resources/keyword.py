@@ -11,10 +11,13 @@ class Keyword(Resource):
                         help="Every keyword needs a person id.")
     parser1 = reqparse.RequestParser()
     parser1.add_argument('name',
-                        type=str,
-                        required=True,
-                        help="This field cannot be left blank!"
-                        )
+                         type=str,
+                         required=True,
+                         help="This field cannot be left blank!")
+    parser1.add_argument('PersonID',
+                         type=int,
+                         required=True,
+                         help="Every keyword needs a person id.")
 
 #    @jwt_required()
     def get(self, ID=None, Name=None):
@@ -53,15 +56,14 @@ class Keyword(Resource):
 
         return {'message': 'Keyword deleted'}
 
-    def put(self, ID, PersonID=None):
+    def put(self, ID):
         data = Keyword.parser1.parse_args()
-
         keyword = KeywordModel.find_by_id(ID)
 
         if keyword:
             keyword.Name = data['name']
         else:
-            keyword = KeywordModel(data['name'])
+            keyword = KeywordModel(data['name'], data['PersonID'])
 
         keyword.save_to_db()
 
