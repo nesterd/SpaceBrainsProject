@@ -22,7 +22,6 @@ class Person(Resource):
     def post(self, Name):
         if PersonModel.find_by_name(Name):
             return {'message': "A person with name '{}' already exists.".format(Name)}, 400
-
         person = PersonModel(Name)
         try:
             person.save_to_db()
@@ -58,3 +57,23 @@ class Person(Resource):
 class PersonList(Resource):
     def get(self):
         return {'persons': list(map(lambda x: x.json(), PersonModel.query.all()))}
+
+
+class CreatePerson(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('name',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                        )
+
+    # @jwt_required()
+    def post(self):
+        data = CreatePerson.parser.parse_args()
+        person = PersonModel(data['name'])
+
+        if PersonModel.find_by_name(data['name']):
+            return {'message': "A person with name '{}' already exists.".format(data['name'])}, 400
+
+        person.save_to_db()
+        return person.json(), 201

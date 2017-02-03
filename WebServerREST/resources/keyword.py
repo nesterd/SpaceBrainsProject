@@ -71,3 +71,27 @@ class Keyword(Resource):
 class KeywordList(Resource):
     def get(self):
         return {'keywords': list(map(lambda x: x.json(), KeywordModel.query.all()))}
+
+
+class CreateKeyword(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('PersonID',
+                        type=int,
+                        required=True,
+                        help="Every keyword needs a person id.")
+    parser.add_argument('name',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                        )
+
+    # @jwt_required()
+    def post(self):
+        data = CreateKeyword.parser.parse_args()
+        keyword = KeywordModel(data['name'], data['PersonID'])
+
+        if KeywordModel.find_by_name(data['name']):
+            return {'message': "A keyword with name '{}' already exists.".format(data['name'])}, 400
+
+        keyword.save_to_db()
+        return keyword.json(), 201

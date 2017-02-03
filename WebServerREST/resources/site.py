@@ -75,3 +75,23 @@ class PagesList(Resource):
         # pages = PageModel.query.filter_by(SiteID=ID)
         #for rank in RankModel.query.filter_by(SiteID=ID):
         return {'pages': PageModel.query.filter_by(SiteID=ID).count()}
+
+
+class CreateSite(Resource):
+    parser2 = reqparse.RequestParser()
+    parser2.add_argument('name',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                        )
+
+    # @jwt_required()
+    def post(self):
+        data = CreateSite.parser2.parse_args()
+        site = SiteModel(data['name'])
+
+        if SiteModel.find_by_name(data['name']):
+            return {'message': "A site with name '{}' already exists.".format(data['name'])}, 400
+
+        site.save_to_db()
+        return site.json(), 201
