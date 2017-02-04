@@ -81,14 +81,14 @@ public class RESTApiProvider {
 
     /**
      * Запрашивает у веб-сервиса набор объектов, связанных с указанным
-     * @param reqObject объект из хранилища данных, по id которого будет отправлен запрос
+     * @param personId объект из хранилища данных, по id которого будет отправлен запрос
      * @return
      */
-    public <T extends DbObject> HashMap<Long, String> getKeywordsByPerson(Person reqObject) {
+    public <T extends DbObject> HashMap<Long, String> getKeywordsByPerson(int personId) {
         HashMap<Long, String> result = new HashMap<>();
         StringBuilder sb = new StringBuilder();
         sb.append("/person/");
-        sb.append(reqObject.getID());
+        sb.append(personId);
 //        sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doGetMethod(sb.toString());
         handleError(status);
@@ -122,7 +122,8 @@ public class RESTApiProvider {
 //        sb.append(reqObject.getID());
         sb.append(reqObject.getProperty("id"));
 //        httpProvider.setJSONString(reqObject.nameToJSONString());
-        httpProvider.setJSONString(reqObject.propertyToJSON("name"));
+//        httpProvider.setJSONString(reqObject.propertyToJSON("name"));
+        httpProvider.setJSONString(reqObject.toJSONString());
         int status = httpProvider.doPutMethod(sb.toString());
         handleError(status);
         if(status == HttpStatus.SC_OK)

@@ -7,6 +7,7 @@ import com.spacebrains.model.Person;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 
 public class KeywordRepository {
     private ArrayList<Keyword> keywords;
@@ -46,7 +47,7 @@ public class KeywordRepository {
 
         if (person == null) return keywords;
 
-        HashMap<Long, String> fromRest = rest.getKeywordsByPerson(person);
+        HashMap<Long, String> fromRest = rest.getKeywordsByPerson(person.getID());
         String value;
         for (long i: fromRest.keySet()) {
             value = fromRest.get(i);
@@ -103,17 +104,6 @@ public class KeywordRepository {
         @Override
         public String getEntityName() {
             return "keyword";
-        }
-
-        @Override
-        public String toJSONString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("{\"");
-            for (String key: getProperties()) {
-                this.propertyToJSON(key);
-            }
-            sb.append("}");
-            return sb.toString();
         }
     }
 }

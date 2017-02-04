@@ -81,16 +81,5 @@ public class PersonRepository {
         public String getEntityName() {
             return "person";
         }
-
-        @Override
-        public String toJSONString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("{\"");
-            for (String key: getProperties()) {
-                this.propertyToJSON(key);
-            }
-            sb.append("}");
-            return sb.toString();
-        }
     }
 }

@@ -115,7 +115,7 @@ public class HttpProvider {
 		HttpPut httpPut = new HttpPut();
 		httpPut.setEntity(requestEntity);
 		int status = doRequest(httpPut, requestURIString);
-		httpPut.setURI(RestURIBuilder.buildURI(requestURIString));
+//		httpPut.setURI(RestURIBuilder.buildURI(requestURIString));
 		return status;
 	}
 	

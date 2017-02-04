@@ -80,16 +80,5 @@ public class SiteRepository {
         public String getEntityName() {
             return "site";
         }
-
-        @Override
-        public String toJSONString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("{\"");
-            for (String key: getProperties()) {
-                this.propertyToJSON(key);
-            }
-            sb.append("}");
-            return sb.toString();
-        }
     }
 }

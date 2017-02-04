@@ -1,16 +1,15 @@
 package com.spacebrains.core.dao;
 
-import com.spacebrains.interfaces.IDAOaware;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-public abstract class DbObject implements JSONAware, IDAOaware {
+public abstract class DbObject implements JSONAware {
     private LinkedHashMap<String, Object> fields;
 
     public DbObject() {
@@ -67,12 +66,27 @@ public abstract class DbObject implements JSONAware, IDAOaware {
 
     public String propertyToJSON(String key) {
         StringBuilder sb = new StringBuilder();
-        sb.append("{");
         sb.append("\"");
         sb.append(JSONObject.escape(key));
         sb.append("\":\"");
         sb.append(JSONObject.escape(getProperty(key).toString()));
         sb.append("\"");
+        return sb.toString();
+    }
+
+    @Override
+    public String toJSONString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        Set<String> properties = getProperties();
+        Iterator<String> iterator = properties.iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            sb.append(propertyToJSON(key));
+            if(iterator.hasNext()) {
+                sb.append(',');
+            }
+        }
         sb.append("}");
         return sb.toString();
     }
