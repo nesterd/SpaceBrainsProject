@@ -1,7 +1,10 @@
 package com.spacebrains.ui;
 
+import com.spacebrains.widgets.base.BaseWindow;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author Tatyana Vorobeva
@@ -11,25 +14,35 @@ import java.awt.*;
  */
 public class FormsManager {
 
+    private static ArrayList<BaseWindow> menuWindows = new ArrayList<>();
+
     private static MainWindowForm mainWindowForm;
     private static AuthForm authorizationForm;
     private static ChangePswdForm changePswdForm;
     private static PersonsDictionaryForm personsDictionaryForm;
     private static KeywordsDictionaryForm keywordsDictionaryForm;
     private static SitesDictionaryForm sitesDictionaryForm;
-    private static CrawlerStatsForm сrawlerStatsForm;
+    private static CrawlerStatsForm crawlerStatsForm;
+    private static UsersDictionaryForm usersForm;
 
     private FormsManager() {}
 
     private static void activateForm(JFrame frame) {
         frame.setVisible(true);
         frame.setState(Frame.NORMAL);
+
+        for (BaseWindow window : menuWindows) {
+            if (window != null) window.menu.switchForUserRights();
+        }
     }
 
     public static MainWindowForm showMainWindowForm() {
         if (mainWindowForm == null) {
             mainWindowForm = new MainWindowForm();
+            menuWindows.add(mainWindowForm);
+            mainWindowForm.wasAlreadyOpenedBefore = true;
         } else {
+            mainWindowForm.refreshGreetings();
             activateForm(mainWindowForm);
         }
         return mainWindowForm;
@@ -38,6 +51,7 @@ public class FormsManager {
     public static AuthForm showAuthorizationForm() {
         if (authorizationForm == null) {
             authorizationForm = new AuthForm();
+            authorizationForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(authorizationForm);
         }
@@ -47,6 +61,8 @@ public class FormsManager {
     public static ChangePswdForm showChangePswdForm() {
         if (changePswdForm == null) {
             changePswdForm = new ChangePswdForm();
+            menuWindows.add(changePswdForm);
+            changePswdForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(changePswdForm);
         }
@@ -56,6 +72,8 @@ public class FormsManager {
     public static PersonsDictionaryForm showPersonsDictionaryForm() {
         if (personsDictionaryForm == null) {
             personsDictionaryForm = new PersonsDictionaryForm();
+            menuWindows.add(personsDictionaryForm);
+            personsDictionaryForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(personsDictionaryForm);
         }
@@ -65,6 +83,8 @@ public class FormsManager {
     public static KeywordsDictionaryForm showKeywordsDictionaryForm() {
         if (keywordsDictionaryForm == null) {
             keywordsDictionaryForm = new KeywordsDictionaryForm();
+            menuWindows.add(keywordsDictionaryForm);
+            keywordsDictionaryForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(keywordsDictionaryForm);
         }
@@ -74,6 +94,8 @@ public class FormsManager {
     public static SitesDictionaryForm showSitesDictionaryForm() {
         if (sitesDictionaryForm == null) {
             sitesDictionaryForm = new SitesDictionaryForm();
+            menuWindows.add(sitesDictionaryForm);
+            sitesDictionaryForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(sitesDictionaryForm);
         }
@@ -81,11 +103,24 @@ public class FormsManager {
     }
 
     public static CrawlerStatsForm showCrawlerStatsForm() {
-        if (сrawlerStatsForm == null) {
-            сrawlerStatsForm = new CrawlerStatsForm();
+        if (crawlerStatsForm == null) {
+            crawlerStatsForm = new CrawlerStatsForm();
+            menuWindows.add(crawlerStatsForm);
+            crawlerStatsForm.wasAlreadyOpenedBefore = true;
         } else {
-            activateForm(сrawlerStatsForm);
+            activateForm(crawlerStatsForm);
         }
-        return сrawlerStatsForm;
+        return crawlerStatsForm;
+    }
+
+    public static UsersDictionaryForm showUsersForm() {
+        if (usersForm == null) {
+            usersForm = new UsersDictionaryForm();
+            menuWindows.add(usersForm);
+            usersForm.wasAlreadyOpenedBefore = true;
+        } else {
+            activateForm(usersForm);
+        }
+        return usersForm;
     }
 }

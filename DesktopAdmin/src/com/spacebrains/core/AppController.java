@@ -3,6 +3,7 @@ package com.spacebrains.core;
 import com.spacebrains.core.dao.KeywordRepository;
 import com.spacebrains.core.dao.PersonRepository;
 import com.spacebrains.core.dao.SiteRepository;
+import com.spacebrains.core.rest.UsersRestMock;
 import com.spacebrains.model.*;
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import static com.spacebrains.core.AuthConstants.*;
 public class AppController {
 
     private static AppController instance;
+    private static Person lastChosenPerson;
     private static User currentUser = null;
 
     private KeywordRepository keyRepo = null;
@@ -40,20 +42,7 @@ public class AppController {
         // currentUser should be saved in case of successful authorizaion
 
         // simple mock start
-        if (login.equals("Admin")) {
-            if (pswd.equals("123")) {
-                currentUser = new User(1, login, "someFakeAccessCode", true);
-                lastRequestMsg = SUCCESS;
-            } else {
-                lastRequestMsg = ERR_WRONG_PWSD;
-            }
-        } else if (login.equals("User")) {
-            if (pswd.equals("123")) {
-                currentUser = null;
-                lastRequestMsg = ERR_IS_USER;
-            } else lastRequestMsg = ERR_WRONG_PWSD;
-        } else lastRequestMsg = ERR_WRONG_LOGIN;
-
+        UsersRestMock.getInstance().login(login, pswd);
         return lastRequestMsg;
         // simple mock end
     }
@@ -70,31 +59,12 @@ public class AppController {
 
     /**
      * @author Tatyana Vorobeva
-     * For GUI to request logout.
-     * Should send to REST a special request to invalidate accessCode;
-     */
-    public boolean isAdmin() {
-        if (currentUser == null) return false;
-
-        return true;
-    }
-
-    /**
-     * @author Tatyana Vorobeva
      * For GUI to check if can show MainWindowForm
      * If false - AuthForm will be shown.
      */
     public boolean isAuthorized() {
         if (currentUser == null) lastRequestMsg = AuthConstants.INVALID_SESSION;
         return currentUser != null;
-    }
-
-    /**
-     * @author Tatyana Vorobeva
-     * For GUI to show user.login in MainWindowForm
-     */
-    public String userLogin() {
-        return currentUser != null ? currentUser.getLogin() : "";
     }
 
     /**
@@ -156,5 +126,56 @@ public class AppController {
 
     public boolean deleteSite(Site site) {
         return siteRepo.delete(site);
+    }
+
+    public static Person getLastChosenPerson() {
+        return lastChosenPerson;
+    }
+
+    public static void setLastChosenPerson(Person lastChosenPerson) {
+        AppController.lastChosenPerson = lastChosenPerson;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        AppController.currentUser = currentUser;
+    }
+
+    public ArrayList<User> getUsers() {
+//        return userRepo.get();
+
+        // simple mock
+        return UsersRestMock.getInstance().getUsers();
+        // end simple mock
+    }
+
+    public boolean setUser(User user) {
+//        return userRepo.put(user);
+
+        // simple mock
+        return UsersRestMock.getInstance().save(user).equals(RepoConstants.SUCCESS);
+        // end simple mock
+    }
+
+    public boolean deleteUser(User user) {
+        //        return userRepo.delete(user);
+
+        // simple mock
+        return UsersRestMock.getInstance().delete(user);
+        // end simple mock
+    }
+
+    /**
+     * @author Tatyana Vorobeva
+     */
+    public Role getCurrentUserRole() {
+        return (currentUser != null) ? currentUser.getRole() : Role.USER;
+    }
+
+    public String getCurrentUserLogin() {
+        return (currentUser != null) ? currentUser.getLogin() : "Guest";
+    }
+
+    public String getCurrentUserName() {
+        return (currentUser != null) ? currentUser.getName() : "Guest";
     }
 }

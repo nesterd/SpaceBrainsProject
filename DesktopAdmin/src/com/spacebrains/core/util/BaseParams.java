@@ -13,6 +13,8 @@ public abstract class BaseParams {
     public static final String SITES_DICT = "Сайты";
     public static final String PERSONS_DICT = "Личности";
     public static final String KEYWORDS_DICT = "Ключевые слова";
+    public static final String USERS_DICT = "Пользователи";
+    public static final String ADMINS_DICT = "Администраторы";
     public static final String CHANGE_PSWD = "Смена пароля";
     public static final String CRAWLER_STATS_WINDOW = "Статистика Краулера";
 
@@ -35,6 +37,7 @@ public abstract class BaseParams {
 
     public static final Color DARK_GREEN = new Color(9, 156, 19);
     public static final Color DARK_RED = new Color(191, 19, 19);
+    public static final Color DARK_BLUE = new Color(0, 19, 127);
 
     public static final String FILTER_EXCLUDE = "[*?+)(^:,'\"{}\\]\\[]|\\\\";
 

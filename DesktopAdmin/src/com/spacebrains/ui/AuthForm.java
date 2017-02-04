@@ -3,8 +3,8 @@ package com.spacebrains.ui;
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.BaseWindow;
-import com.spacebrains.widgets.Button;
+import com.spacebrains.widgets.base.BaseWindow;
+import com.spacebrains.widgets.base.Button;
 
 import javax.swing.*;
 import java.awt.*;

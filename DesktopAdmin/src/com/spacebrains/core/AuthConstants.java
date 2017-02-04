@@ -8,6 +8,7 @@ public abstract class AuthConstants {
     public static final String USER_WEB_INTERFACE_LINK = "http://www.geekbrains.ru";
 
     public static final String SUCCESS = " ";
+    public static final String NOT_ANSWERED = "Сервер не отвечает";
 
     public static final String ERR_WRONG_LOGIN = "Логин не найден";
     public static final String ERR_WRONG_PWSD = "Неверный пароль";
@@ -19,4 +20,12 @@ public abstract class AuthConstants {
     public static final String PSWD_CHANGED = "Пароль изменен";
     public static final String NEED_OLD_PSWD = "Не введен старый пароль";
     public static final String NEED_NEW_PSWD = "Не введен новый пароль";
+
+    public static final String USER_NAME_EMPTY = "Не заполнено имя пользователя";
+    public static final String USER_LOGIN_EMPTY = "Не заполнен логин пользователя";
+    public static final String USER_PSWD_EMPTY = "Не заполнен пароль пользователя";
+    public static final String USER_LOGIN_EXISTS = "Этот логин уже занят";
+    public static final String USER_EMAIL_EXISTS = "Этот e-mail уже занят";
+    public static final String USER_EMAIL_EMPTY = "Не заполнен e-mail пользователя";
+    public static final String USER_EMAIL_FORMAT = "Неверный формат e-mail";
 }

@@ -1,4 +1,4 @@
-package com.spacebrains.widgets;
+package com.spacebrains.widgets.base;
 
 import com.spacebrains.core.RepoConstants;
 import com.spacebrains.core.util.BaseParams;
@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import static com.spacebrains.core.util.BaseParams.DARK_BLUE;
 import static com.spacebrains.core.util.BaseParams.DARK_RED;
 import static com.spacebrains.core.util.BaseParams.getBaseFont;
 
@@ -61,8 +62,12 @@ public abstract class BaseEditForm<T extends INamed> extends JDialog {
                 obj.setName(editField.getText());
                 String answer = RepoConstants.SUCCESS;
 
-                if (editField.getText().length() < 1) answer = RepoConstants.NAME_EMPTY;
-                else answer = save(obj);
+                if (editField.getText().length() < 1) {
+                    answer = RepoConstants.NAME_EMPTY;
+                } else {
+                    setErrorMsg(DARK_BLUE, "Сохраняем...");
+                    answer = save(obj);
+                }
 
                 if (!answer.equals(RepoConstants.SUCCESS)) {
                     setErrorMsg(DARK_RED, answer);

@@ -3,6 +3,7 @@ package com.spacebrains.widgets;
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.RepoConstants;
 import com.spacebrains.model.Keyword;
+import com.spacebrains.widgets.base.BaseEditForm;
 
 public class KeywordEditForm extends BaseEditForm<Keyword> {
 

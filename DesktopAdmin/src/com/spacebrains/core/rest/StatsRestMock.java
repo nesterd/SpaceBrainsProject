@@ -1,5 +1,6 @@
 package com.spacebrains.core.rest;
 
+import com.spacebrains.core.AppController;
 import com.spacebrains.interfaces.IStats;
 import com.spacebrains.model.CrawlerStats;
 import com.spacebrains.model.Site;
@@ -13,7 +14,7 @@ public class StatsRestMock implements IStats {
     ArrayList<CrawlerStats> crawlerStats = new ArrayList();;
 
     public StatsRestMock() {
-        ArrayList<Site> siteList = SitesRestMock.getInstance().getSites();
+        ArrayList<Site> siteList = AppController.getInstance().getSites();
 
         for (Site site : siteList) {
             int totalCount = Generator.getRnd().nextInt(29) + 1;

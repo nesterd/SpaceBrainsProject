@@ -3,6 +3,7 @@ package com.spacebrains.widgets;
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.RepoConstants;
 import com.spacebrains.model.Site;
+import com.spacebrains.widgets.base.BaseEditForm;
 
 public class SiteEditForm extends BaseEditForm<Site> {
 

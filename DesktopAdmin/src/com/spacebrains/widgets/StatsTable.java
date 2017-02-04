@@ -2,6 +2,7 @@ package com.spacebrains.widgets;
 
 import com.spacebrains.model.CrawlerStats;
 import com.spacebrains.core.util.BaseParams;
+import com.spacebrains.widgets.base.StatsTableModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

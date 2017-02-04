@@ -3,6 +3,7 @@ package com.spacebrains.widgets;
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.RepoConstants;
 import com.spacebrains.model.Person;
+import com.spacebrains.widgets.base.BaseEditForm;
 
 public class PersonEditForm extends BaseEditForm<Person> {
 
@@ -17,9 +18,10 @@ public class PersonEditForm extends BaseEditForm<Person> {
     @Override
     protected String save(Person person) {
         try {
-            return AppController.getInstance().setPerson(person)
-                    ? RepoConstants.SUCCESS
-                    : RepoConstants.NOT_ANSWERED;
+            if (AppController.getInstance().setPerson(person) == true) {
+                AppController.setLastChosenPerson(person);
+                return RepoConstants.SUCCESS;
+            } else return RepoConstants.NOT_ANSWERED;
         } catch (RuntimeException e) {
             return RepoConstants.NOT_ANSWERED;
         }

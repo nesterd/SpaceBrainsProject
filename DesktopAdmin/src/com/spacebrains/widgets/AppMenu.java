@@ -1,5 +1,8 @@
 package com.spacebrains.widgets;
 
+import com.spacebrains.core.AppController;
+import com.spacebrains.model.Role;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +32,7 @@ public class AppMenu extends JMenuBar {
 
     public static final String M_DICTS = "Справочники";
     public static final String MI_USERS = "Пользователи";
+    public static final String MI_ADMINS = "Администраторы";
     public static final String MI_SITES = "Сайты";
     public static final String MI_PERSONS = "Личности";
     public static final String MI_KEYWORDS = "Ключевые слова";
@@ -42,7 +46,6 @@ public class AppMenu extends JMenuBar {
     private void initMainMenu() {
         mFile = new JMenu(M_FILE);
         miFileCrawlerStats = new JMenuItem(MI_CRAWLER_STATS);
-        miFileCrawlerStats.setVisible(false);
         miFileChangePswd = new JMenuItem(MI_CHANGE_PSWD);
         miFileLogout = new JMenuItem(MI_LOGOUT);
         miFileExit = new JMenuItem(MI_EXIT);
@@ -64,14 +67,13 @@ public class AppMenu extends JMenuBar {
 
     private void initDictsMenu() {
         mDicts = new JMenu(M_DICTS);
-        miDictsUsers = new JMenuItem(MI_USERS + " (v.3.0)");
+        miDictsUsers = new JMenuItem(MI_USERS);
         miDictsSites = new JMenuItem(MI_SITES);
         miDictsPersons = new JMenuItem(MI_PERSONS);
         miDictsKeywords = new JMenuItem(MI_KEYWORDS);
 
         add(mDicts);
         mDicts.add(miDictsUsers);
-        miDictsUsers.setEnabled(false);
         mFile.addSeparator(); // разделительная линия
         mDicts.add(miDictsSites);
         mDicts.add(miDictsPersons);
@@ -104,5 +106,35 @@ public class AppMenu extends JMenuBar {
 
     public JMenuItem getMiDictsKeywords() {
         return miDictsKeywords;
+    }
+
+    public void switchForUserRights() {
+        Role userRole = AppController.getInstance().getCurrentUserRole();
+
+        if (userRole.equals(Role.SUPER_ADMIN)) {
+            miDictsUsers.setText(MI_ADMINS);
+            miDictsKeywords.setEnabled(false);
+            miDictsPersons.setEnabled(false);
+            miDictsSites.setEnabled(false);
+            miFileCrawlerStats.setEnabled(false);
+        }
+        if (userRole.equals(Role.ADMIN)) {
+            miDictsUsers.setText(MI_USERS);
+            miDictsKeywords.setEnabled(true);
+            miDictsPersons.setEnabled(true);
+            miDictsSites.setEnabled(true);
+            miFileCrawlerStats.setEnabled(true);
+        }
+
+        miDictsKeywords.updateUI();
+        miDictsPersons.updateUI();
+        miDictsSites.updateUI();
+        miDictsUsers.updateUI();
+        mDicts.updateUI();
+
+        miFileCrawlerStats.updateUI();
+        mFile.updateUI();
+
+        this.updateUI();
     }
 }

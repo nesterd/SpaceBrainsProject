@@ -3,7 +3,7 @@ package com.spacebrains.ui;
 import com.spacebrains.interfaces.IStats;
 import com.spacebrains.core.rest.StatsRestMock;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.BaseWindow;
+import com.spacebrains.widgets.base.BaseWindow;
 import com.spacebrains.widgets.StatsTable;
 
 import javax.swing.*;
@@ -42,6 +42,8 @@ public class CrawlerStatsForm extends BaseWindow {
     public void windowActivated(WindowEvent e) {
         super.windowActivated(e);
         if (table != null) table.updateValues(rest.getCrawlerStats());
+
+        wasAlreadyOpenedBefore = true;
     }
 
 }

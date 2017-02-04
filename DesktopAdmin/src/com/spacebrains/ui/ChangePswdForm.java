@@ -3,8 +3,8 @@ package com.spacebrains.ui;
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.BaseWindow;
-import com.spacebrains.widgets.Button;
+import com.spacebrains.widgets.base.BaseWindow;
+import com.spacebrains.widgets.base.Button;
 
 import javax.swing.*;
 import java.awt.*;
@@ -232,7 +232,7 @@ public class ChangePswdForm extends BaseWindow {
     private void setMainLabelText() {
         mainLabel.setText(BaseParams.CHANGE_PSWD
                 + (AppController.getInstance().isAuthorized()
-                    ? " для " + AppController.getInstance().userLogin()
+                    ? " для " + AppController.getInstance().getCurrentUserLogin()
                     : ""));
     }
 
@@ -240,5 +240,6 @@ public class ChangePswdForm extends BaseWindow {
     public void windowActivated(WindowEvent e) {
         super.windowActivated(e);
         setMainLabelText();
+        wasAlreadyOpenedBefore = true;
     }
 }

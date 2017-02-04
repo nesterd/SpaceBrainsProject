@@ -1,9 +1,10 @@
-package com.spacebrains.widgets;
+package com.spacebrains.widgets.base;
 
 import com.spacebrains.core.AppController;
 import com.spacebrains.interfaces.INamed;
 import com.spacebrains.ui.FormsManager;
 import com.spacebrains.core.util.BaseParams;
+import com.spacebrains.widgets.AppMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,9 +18,10 @@ import static com.spacebrains.core.util.BaseParams.setDefaultFont;
 
 public abstract class BaseWindow extends JFrame implements WindowListener {
 
+    public boolean wasAlreadyOpenedBefore = false;
     protected String windowTitle = BaseParams.APP_NAME;
 
-    protected AppMenu menu;
+    public AppMenu menu;
 
     protected static final int DEFAULT_WIDTH = 550;
     protected static final int DEFAULT_HEIGHT = 485;
@@ -65,9 +67,7 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
 
     private void initMainMenu() {
         menu = new AppMenu();
-
         setJMenuBar(menu);
-
         JFrame currentWindow = this;
 
         menu.getMiDictsPersons().addActionListener(new ActionListener() {
@@ -105,7 +105,7 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
         menu.getMiFileChangePswd().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+                currentWindow.setVisible(false);
                 FormsManager.showChangePswdForm();
             }
         });
@@ -114,8 +114,16 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AppController.getInstance().logout();
-                setVisible(false);
+                currentWindow.setVisible(false);
                 FormsManager.showAuthorizationForm();
+            }
+        });
+
+        menu.getMiDictsUsers().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentWindow.setVisible(false);
+                FormsManager.showUsersForm();
             }
         });
     }

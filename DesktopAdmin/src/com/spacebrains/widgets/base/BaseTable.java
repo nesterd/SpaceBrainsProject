@@ -1,4 +1,4 @@
-package com.spacebrains.widgets;
+package com.spacebrains.widgets.base;
 
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.interfaces.INamed;
@@ -19,13 +19,13 @@ public class BaseTable extends JPanel {
 
     private JTable table;
     private NamedTableModel tableModel;
-    TableRowSorter<NamedTableModel> sorter;
+    private TableRowSorter<NamedTableModel> sorter;
 
     private JLabel filterLabel;
     private JTextField filterField;
 
     private JScrollPane jScroll;
-    ArrayList<? extends INamed> values;
+    private ArrayList<? extends INamed> values;
     private final Button addBtn = new Button("Добавить");
     private final Button editBtn = new Button("Изменить");
     private final Button deleteBtn = new Button("Удалить");
@@ -52,8 +52,7 @@ public class BaseTable extends JPanel {
         editBtn.setFont(BaseParams.BASE_BTN_FONT);
         deleteBtn.setFont(BaseParams.BASE_BTN_FONT);
 
-        tableModel = new NamedTableModel(values);
-        table = new JTable(tableModel);
+        prepareTable();
         drawTable();
 
         int row = 0;
@@ -88,6 +87,11 @@ public class BaseTable extends JPanel {
 
         setMinimumSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
         setAlignmentX(CENTER_ALIGNMENT);
+    }
+
+    protected void prepareTable() {
+        tableModel = new NamedTableModel(values);
+        table = new JTable(tableModel);
     }
 
     public Button getAddBtn() {
@@ -136,8 +140,7 @@ public class BaseTable extends JPanel {
         table.setColumnSelectionAllowed(false);
         table.getSelectionModel().setSelectionInterval(0, 0);
 
-        sorter = new TableRowSorter<> (tableModel);
-        table.setRowSorter(sorter);
+        refreshSorter();
 
         // edit record on double click
         table.addMouseListener(new MouseAdapter() {
@@ -147,6 +150,16 @@ public class BaseTable extends JPanel {
                 }
             }
         });
+
+        jScroll = new JScrollPane(table);
+        jScroll.createVerticalScrollBar();
+        jScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        table.setPreferredScrollableViewportSize(new Dimension(TABLE_WIDTH - 20, TABLE_HEIGHT ));
+    }
+
+    private void refreshSorter() {
+        sorter = new TableRowSorter<> (tableModel);
+        table.setRowSorter(sorter);
 
         filterField.addKeyListener(new KeyListener() {
             @Override
@@ -162,10 +175,5 @@ public class BaseTable extends JPanel {
                 sorter.setSortKeys(null);
             }
         });
-
-        jScroll = new JScrollPane(table);
-        jScroll.createVerticalScrollBar();
-        jScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        table.setPreferredScrollableViewportSize(new Dimension(TABLE_WIDTH - 20, TABLE_HEIGHT ));
     }
 }

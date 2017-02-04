@@ -3,8 +3,8 @@ package com.spacebrains.ui;
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.Site;
-import com.spacebrains.widgets.BaseTable;
-import com.spacebrains.widgets.BaseWindow;
+import com.spacebrains.widgets.base.BaseTable;
+import com.spacebrains.widgets.base.BaseWindow;
 import com.spacebrains.widgets.SiteEditForm;
 
 import javax.swing.*;
@@ -74,6 +74,7 @@ public class SitesDictionaryForm extends BaseWindow {
     @Override
     public void windowActivated(WindowEvent e) {
         super.windowActivated(e);
-        if (table != null) table.updateValues(AppController.getInstance().getSites());
+        if (table != null && wasAlreadyOpenedBefore) table.updateValues(AppController.getInstance().getSites());
+        wasAlreadyOpenedBefore = true;
     }
 }

@@ -1,4 +1,4 @@
-package com.spacebrains.widgets;
+package com.spacebrains.widgets.base;
 
 import com.spacebrains.core.util.BaseParams;
 
