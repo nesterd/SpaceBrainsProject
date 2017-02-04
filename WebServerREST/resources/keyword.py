@@ -5,7 +5,7 @@ from models.keyword import KeywordModel
 
 class Keyword(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('PersonID',
+    parser.add_argument('person_id',
                         type=int,
                         required=True,
                         help="Every keyword needs a person id.")
@@ -14,7 +14,7 @@ class Keyword(Resource):
                          type=str,
                          required=True,
                          help="This field cannot be left blank!")
-    parser1.add_argument('PersonID',
+    parser1.add_argument('person_id',
                          type=int,
                          required=True,
                          help="Every keyword needs a person id.")
@@ -63,7 +63,7 @@ class Keyword(Resource):
         if keyword:
             keyword.Name = data['name']
         else:
-            keyword = KeywordModel(data['name'], data['PersonID'])
+            keyword = KeywordModel(data['name'], data['person_id'])
 
         keyword.save_to_db()
 
