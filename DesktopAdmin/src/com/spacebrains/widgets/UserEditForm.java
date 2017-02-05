@@ -171,14 +171,14 @@ public class UserEditForm extends JDialog {
         gbc.insets = new Insets(0, 20, 0, 5); // отступы
         gbc.gridy = ++row;
         gbc.gridwidth = 1; // сколько столбцов занимает элемент
-        add(new FieldLabel("Пароль" + ((user == null || user.getID() == 0) ? "*:" : ":")), gbc);
+        add(new FieldLabel("Пароль" + ((user != null && user.getID() != 0) ? "*:" : ":")), gbc);
 
         gbc.gridwidth = 2; // сколько столбцов занимает элемент
         gbc.gridx = GridBagConstraints.RELATIVE;
         gbc.insets = new Insets(5, 5, 0, 50); // отступы
         add(pswdField, gbc);
 
-        if (user == null || user.getID() == 0) {
+        if (user != null && user.getID() != 0) {
             gbc.insets = new Insets(0, 50, 10, 50); // отступы
             gbc.gridx = 0;
             gbc.gridy = ++row;
