@@ -7,7 +7,7 @@ from flask_jwt import JWT
 from datetime import timedelta
 
 from security import authenticate, identity
-from resources.user import UserRegister
+from resources.user import UserRegister, UserListView, User, AdminView
 
 from resources.site import Site, SiteList
 from resources.person import Person, PersonList
@@ -45,6 +45,10 @@ api.add_resource(
 api.add_resource(StatList, '/base_statistic')  # Stats
 
 api.add_resource(UserRegister, '/register')
+
+api.add_resource(UserListView, '/users')
+api.add_resource(User, '/user/<int:id>')
+api.add_resource(AdminView, '/admins')
 
 if __name__ == '__main__':
     log = logging.getLogger(__name__)
