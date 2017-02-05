@@ -24,8 +24,8 @@ class UserModel(db.Model):
     sites = db.relationship('SiteModel')
     persons = db.relationship('PersonModel')
 
-    def __init__(self, username, password, name, email, role, admin, id=None):
-        self.id = id
+    def __init__(self, username, password, name, email, role, admin):
+        #self.id = id
         self.username = username
         self.password = password
         self.name = name
@@ -33,7 +33,7 @@ class UserModel(db.Model):
         self.role = role
         self.admin = admin
 
-    def json():
+    def json(self):
         return {
             'id': self.id,
             'name': self.name,
