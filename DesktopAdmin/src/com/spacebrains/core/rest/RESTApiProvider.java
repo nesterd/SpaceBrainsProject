@@ -89,14 +89,12 @@ public class RESTApiProvider {
         StringBuilder sb = new StringBuilder();
         sb.append("/person/");
         sb.append(personId);
-//        sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doGetMethod(sb.toString());
         handleError(status);
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
         try {
             jsonObject = (JSONObject) parser.parse(httpProvider.getJSONString());
-//            JSONArray array = (JSONArray) jsonObject.get(reqObject.getEntityTypeString());
             JSONArray array = (JSONArray) jsonObject.get("keywords");
             Iterator<JSONObject> iterator = array.iterator();
             long key;
@@ -116,32 +114,37 @@ public class RESTApiProvider {
     public <T extends DbObject> boolean updateObject(T reqObject) {
         StringBuilder sb = new StringBuilder();
         sb.append('/');
-//        sb.append(reqObject.getEntityTypeString());
         sb.append(reqObject.getEntityName());
         sb.append('/');
-//        sb.append(reqObject.getID());
         sb.append(reqObject.getProperty("id"));
-//        httpProvider.setJSONString(reqObject.nameToJSONString());
-//        httpProvider.setJSONString(reqObject.propertyToJSON("name"));
         httpProvider.setJSONString(reqObject.toJSONString());
         int status = httpProvider.doPutMethod(sb.toString());
         handleError(status);
-        if(status == HttpStatus.SC_OK)
-            return true;
-        return false;
+        if(status != HttpStatus.SC_OK) {
+            throw new RuntimeException(httpProvider.getStatusLine());
+        }
+        return true;
     }
 
     public <T extends DbObject> boolean deleteObject(T reqObject) {
         StringBuilder sb = new StringBuilder();
         sb.append('/');
-//        sb.append(reqObject.getEntityTypeString());
         sb.append(reqObject.getEntityName());
         sb.append('/');
-//        sb.append(reqObject.getID());
         sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doDeleteMethod(sb.toString());
-        if(status == HttpStatus.SC_OK)
-            return true;
-        return false;
+        if(status != HttpStatus.SC_OK) {
+            throw new RuntimeException(httpProvider.getStatusLine());
+        }
+        return true;
+    }
+
+    public <T extends DbObject> String register(T reqObject) {
+        httpProvider.setJSONString(reqObject.toJSONString());
+        int status = httpProvider.doPostMethod ("/register");
+        if(status != HttpStatus.SC_OK) {
+            throw new RuntimeException(httpProvider.getStatusLine());
+        }
+        return httpProvider.getStatusLine();
     }
 }

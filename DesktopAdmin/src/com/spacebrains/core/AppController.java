@@ -91,17 +91,39 @@ public class AppController {
     /**
      * @author Oleg Chizhov
      * for GUI to request Persons
+     * Попробуй в GUI примерно такую обработку исключений
      */
     public ArrayList<Person> getPersons() {
-        return personRepo.get();
+        ArrayList<Person> persons = new ArrayList<>();
+        try {
+            persons = personRepo.get();
+        } catch (RuntimeException e) {
+            setLastRequestMsg(e.getMessage());
+            System.out.println(lastRequestMsg());
+        }
+        return persons;
     }
 
     public ArrayList<Keyword> getKeywordsByPerson(Person person) {
-        return keyRepo.getByObject(person);
+        ArrayList<Keyword> keywords =new ArrayList<>();
+        try {
+            keywords = keyRepo.getByObject(person);
+        } catch (RuntimeException e) {
+            setLastRequestMsg(e.getMessage());
+            System.out.println(lastRequestMsg());
+        }
+        return keywords;
     }
 
     public ArrayList<Site> getSites() {
-        return siteRepo.get();
+        ArrayList<Site> sites = new ArrayList<>();
+        try {
+            sites = siteRepo.get();
+        } catch (RuntimeException e) {
+            setLastRequestMsg(e.getMessage());
+            System.out.println(lastRequestMsg());
+        }
+        return sites;
     }
 
     public boolean setPerson(Person person) {
