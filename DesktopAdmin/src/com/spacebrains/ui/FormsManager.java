@@ -40,6 +40,7 @@ public class FormsManager {
         if (mainWindowForm == null) {
             mainWindowForm = new MainWindowForm();
             menuWindows.add(mainWindowForm);
+            mainWindowForm.menu.switchForUserRights();
             mainWindowForm.wasAlreadyOpenedBefore = true;
         } else {
             mainWindowForm.refreshGreetings();
@@ -62,6 +63,7 @@ public class FormsManager {
         if (changePswdForm == null) {
             changePswdForm = new ChangePswdForm();
             menuWindows.add(changePswdForm);
+            changePswdForm.menu.switchForUserRights();
             changePswdForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(changePswdForm);
@@ -73,6 +75,7 @@ public class FormsManager {
         if (personsDictionaryForm == null) {
             personsDictionaryForm = new PersonsDictionaryForm();
             menuWindows.add(personsDictionaryForm);
+            personsDictionaryForm.menu.switchForUserRights();
             personsDictionaryForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(personsDictionaryForm);
@@ -84,6 +87,7 @@ public class FormsManager {
         if (keywordsDictionaryForm == null) {
             keywordsDictionaryForm = new KeywordsDictionaryForm();
             menuWindows.add(keywordsDictionaryForm);
+            keywordsDictionaryForm.menu.switchForUserRights();
             keywordsDictionaryForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(keywordsDictionaryForm);
@@ -95,6 +99,7 @@ public class FormsManager {
         if (sitesDictionaryForm == null) {
             sitesDictionaryForm = new SitesDictionaryForm();
             menuWindows.add(sitesDictionaryForm);
+            sitesDictionaryForm.menu.switchForUserRights();
             sitesDictionaryForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(sitesDictionaryForm);
@@ -106,6 +111,7 @@ public class FormsManager {
         if (crawlerStatsForm == null) {
             crawlerStatsForm = new CrawlerStatsForm();
             menuWindows.add(crawlerStatsForm);
+            crawlerStatsForm.menu.switchForUserRights();
             crawlerStatsForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(crawlerStatsForm);
@@ -117,6 +123,7 @@ public class FormsManager {
         if (usersForm == null) {
             usersForm = new UsersDictionaryForm();
             menuWindows.add(usersForm);
+            usersForm.menu.switchForUserRights();
             usersForm.wasAlreadyOpenedBefore = true;
         } else {
             activateForm(usersForm);
