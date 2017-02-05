@@ -1,12 +1,11 @@
 package com.spacebrains.ui;
 
-import com.spacebrains.interfaces.IPersons;
-import com.spacebrains.model.Person;
-import com.spacebrains.core.rest.PersonsRestMock;
+import com.spacebrains.core.AppController;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.BaseEditForm;
-import com.spacebrains.widgets.BaseTable;
-import com.spacebrains.widgets.BaseWindow;
+import com.spacebrains.model.Person;
+import com.spacebrains.widgets.base.BaseTable;
+import com.spacebrains.widgets.base.BaseWindow;
+import com.spacebrains.widgets.PersonEditForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,34 +13,40 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import static com.spacebrains.core.util.BaseParams.APP_NAME;
+import static com.spacebrains.core.util.BaseParams.PERSONS_DICT;
+
+/**
+ * @author Tatyana Vorobeva
+ */
 public class PersonsDictionaryForm extends BaseWindow {
 
-    IPersons rest = PersonsRestMock.getInstance();
     BaseTable table = null;
 
     public PersonsDictionaryForm() {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        windowTitle = APP_NAME + ": " + PERSONS_DICT;
         JFrame currentFrame = this;
 
-        JLabel label = new JLabel("Справочник \"Личности\"");
+        JLabel label = new JLabel("Справочник \"" + PERSONS_DICT + "\"");
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        table = new BaseTable(rest.getPersons());
+        table = new BaseTable(AppController.getInstance().getPersons());
         table.getAddBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, new Person(""));
+                editDialog = new PersonEditForm(new Person(""));
                 editDialog.setVisible(true);
-                table.updateValues(rest.getPersons());
+                table.updateValues(AppController.getInstance().getPersons());
             }
         });
         table.getEditBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editDialog = new BaseEditForm<>(rest, table.getSelectedItem());
+                editDialog = new PersonEditForm((Person) table.getSelectedItem());
                 editDialog.setVisible(true);
-                table.updateValues(rest.getPersons());
+                table.updateValues(AppController.getInstance().getPersons());
             }
         });
         table.getDeleteBtn().addActionListener(new ActionListener() {
@@ -52,8 +57,8 @@ public class PersonsDictionaryForm extends BaseWindow {
 
                     if (userChoice == JOptionPane.YES_OPTION) {
                         System.out.println("Delete: " + table.getSelectedItem());
-                        rest.delete((Person) table.getSelectedItem());
-                        table.updateValues(rest.getPersons());
+                        AppController.getInstance().deletePerson((Person) table.getSelectedItem());
+                        table.updateValues(AppController.getInstance().getPersons());
                     }
                 }
             }
@@ -69,6 +74,7 @@ public class PersonsDictionaryForm extends BaseWindow {
     @Override
     public void windowActivated(WindowEvent e) {
         super.windowActivated(e);
-        if (table != null) table.updateValues(rest.getPersons());
+        if (table != null && wasAlreadyOpenedBefore) table.updateValues(AppController.getInstance().getPersons());
+        wasAlreadyOpenedBefore = true;
     }
 }

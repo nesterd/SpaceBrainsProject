@@ -2,6 +2,9 @@ package com.spacebrains.model;
 
 import com.spacebrains.interfaces.INamed;
 
+/**
+ * @author Tatyana Vorobeva
+ */
 public class Site implements INamed<Site>, Comparable<Person> {
 
     private int siteId;

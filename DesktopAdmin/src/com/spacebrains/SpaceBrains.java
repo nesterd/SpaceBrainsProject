@@ -1,11 +1,11 @@
 package com.spacebrains;
 
-import com.spacebrains.ui.MainWindow;
+import com.spacebrains.ui.FormsManager;
 
-/** Main class of out application. */
+/** Main class of our application. */
 public class SpaceBrains {
 
     public static void main(String[] args) {
-        new MainWindow();
+        FormsManager.showAuthorizationForm();
     }
 }
