@@ -1,0 +1,60 @@
+INSERT INTO `ratepersons`.`roles` (`ID`, `Name`) VALUES ('1', 'root');
+
+INSERT INTO `ratepersons`.`users` (`ID`, `Name`, `Login`, `Password`, `AdminID`, `RoleID`) VALUES ('1', 'Супер администратор', 'root', 'password', '1', '1');
+
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`, `AdminID`) VALUES ('1', 'lenta.ru', '1');
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`, `AdminID`) VALUES ('2', 'rambler.ru', '1');
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`, `AdminID`) VALUES ('3', 'geekbrains.ru', '1');
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`, `AdminID`) VALUES ('4', 'yandex.ru', '1');
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`, `AdminID`) VALUES ('5', 'mail.ru', '1');
+
+INSERT INTO `ratepersons`.`persons` (`ID`, `Name`, `AdminID`) VALUES ('1', "Путин", '1');
+INSERT INTO `ratepersons`.`keywords` (`Name`, `PersonID`) VALUES ('Путину','1');
+INSERT INTO `ratepersons`.`keywords` (`Name`, `PersonID`) VALUES ('Путиным', '1');
+INSERT INTO `ratepersons`.`keywords` (`Name`, `PersonID`) VALUES ('Путине', '1');
+
+
+
+
+INSERT INTO `ratepersons`.`persons` (`ID`, `Name`, `AdminID`) VALUES ('2', "Медведев", '1');
+INSERT INTO `ratepersons`.`keywords` (`Name`, `PersonID`) VALUES ('Медведеву', '2');
+INSERT INTO `ratepersons`.`keywords` (`Name`, `PersonID`) VALUES ('Медведеным', '2');
+INSERT INTO `ratepersons`.`keywords` (`Name`, `PersonID`) VALUES ('Медведева', '2');
+
+
+INSERT INTO `ratepersons`.`pages` (`Url`, `SiteID`) VALUES ('http://lenta.ru/robots.txt', '1');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('2', 'http://lenta.ru/sitemap', '1');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('3', 'http://lenta.ru/post/1', '1');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('4', 'http://lenta.ru/post/2', '1');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('5', 'http://lenta.ru/post/3/main', '1');
+
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('7', 'http://rambler.ru/sitemap', '2');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('8', 'http://rambler.ru/post/1', '2');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('9', 'http://rambler.ru/post/2', '2');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('10', 'http://rambler.ru/post/3/main', '2');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('11', 'http://rambler.ru/post/3/main/1', '2');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('31', 'http://rambler.ru/post/3/main', '2');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('32', 'http://rambler.ru/post/3/main/1', '2');
+
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('12', 'http://geekbrains.ru/sitemap', '3');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('13', 'http://geekbrains.ru/post/1', '3');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('14', 'http://geekbrains.ru/post/2', '3');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('15', 'http://geekbrains.ru/post/3/main', '3');
+
+
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('17', 'http://yandex.ru/sitemap', '4');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('18', 'http://yandex.ru/post/1', '4');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('19', 'http://yandex.ru/post/2', '4');
+
+
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('22', 'http://mail.ru/sitemap', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('23', 'http://mail.ru/post/1', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('24', 'http://mail.ru/post/2', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('25', 'http://mail.ru/post/3/main', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('26', 'http://mail.ru/post/3/main/1', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('27', 'http://mail.ru/post/1', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('28', 'http://mail.ru/post/2', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('29', 'http://mail.ru/post/3/main', '5');
+INSERT INTO `ratepersons`.`pages` (`ID`, `Url`, `SiteID`) VALUES ('30', 'http://mail.ru/post/3/main/1', '5');
+
+INSERT INTO `ratepersons`.`personpagerank` (`PersonID`, `PageID`, `Rank`) VALUES ('1', '1', '10');
