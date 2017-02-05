@@ -1,6 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.user import UserModel
+from security import identity
+from flask_jwt import current_identity
 
 
 class UserRegister(Resource):
@@ -19,10 +21,16 @@ class UserRegister(Resource):
         help="Password cannot be blank."
     )
     parser.add_argument(
-        'is_admin',
-        type=bool,
+        'role',
+        type=int,
         required=True,
         help="Choose user role, please."
+    )
+    parser.add_argument(
+        'email',
+        type=str,
+        required=True,
+        help="Any box for letters?"
     )
     parser.add_argument(
         'name',
@@ -34,11 +42,12 @@ class UserRegister(Resource):
     @jwt_required()
     def post(self):
         data = UserRegister.parser.parse_args()
+        admin = current_identity.id
 
         if UserModel.find_by_username(data['username']):
             return {"message": "A user with that username already exists"}, 400
 
-        user = UserModel(**data)
+        user = UserModel(admin=admin, **data)
         user.save_to_db()
 
         return {"message": "User created successfully."}, 201

@@ -1,5 +1,6 @@
 from db import db
 from sqlalchemy.orm import synonym
+from models.roles import RoleModel
 
 
 class UserModel(db.Model):
@@ -9,22 +10,45 @@ class UserModel(db.Model):
     Name = db.Column(db.String(75))
     Login = db.Column(db.String(15))
     Password = db.Column(db.String(255))
-    Is_Admin = db.Column(db.Boolean)
-    AdminID = db.Column(db.Integer, db.ForeignKey('Users.ID'))
-    id = synonym('ID')
+    Email = db.Column(db.String(255))
+    RoleID = db.Column(db.Integer, db.ForeignKey('Roles.ID'))
+    AdminID = db.Column(db.Integer, db.ForeignKey('Users.AdminID'))
 
-    def __init__(self, Login, Password):
-        self.Login = Login
-        self.Password = Password
+    id = synonym('ID')
+    name = synonym('Name')
+    username = synonym('Login')
+    password = synonym('Password')
+    email = synonym('Email')
+    role = synonym('RoleID')
+    admin = synonym('AdminID')
+    sites = db.relationship('SiteModel')
+    persons = db.relationship('PersonModel')
+
+    def __init__(self, username, password, name, email, role, admin, id=None):
+        self.id = id
+        self.username = username
+        self.password = password
+        self.name = name
+        self.email = email
+        self.role = role
+        self.admin = admin
+
+    def json():
+        return {
+            'id': self.id,
+            'name': self.name,
+            'role': self.role,
+            'admin': self.admin
+        }
 
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def find_by_username(cls, Login):
-        return cls.query.filter_by(Login=Login).first()
+    def find_by_username(cls, username):
+        return cls.query.filter_by(username=username).first()
 
     @classmethod
-    def find_by_id(cls, ID):
-        return cls.query.filter_by(id=ID).first()
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()

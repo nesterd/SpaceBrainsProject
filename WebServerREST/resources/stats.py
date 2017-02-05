@@ -15,11 +15,11 @@ class Pages(Resource):
     #                     )
     # @classmethod #for debug
     @jwt_required()
-    def get(self, ID=None, Name=None):
-        if ID:
-            stat = PageModel.find_by_id(ID)
+    def get(self, id=None, name=None):
+        if id:
+            stat = PageModel.find_by_id(id)
         else:
-            stat = PageModel.find_by_name(Name)
+            stat = PageModel.find_by_name(name)
         if stat:
             return stat.json()
         return {'message': 'Stat not found'}, 404
@@ -29,4 +29,9 @@ class StatList(Resource):
     # @classmethod #for debug
     @jwt_required()
     def get(self):
-        return {'stat for sites': list(map(lambda x: x.json(), SiteModel.query.all()))}
+        # pass
+        return {
+            'base statistic': [PageModel.find_by_id(el.id).json()
+                               for el in SiteModel.query.all()
+                               if PageModel.find_by_id(el.id)]
+        }

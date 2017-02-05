@@ -1,12 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from models.sites import SiteModel
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passwd@localhost/mydatabase'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passwd@localhost/mydatabase'
 db = SQLAlchemy(app)
 
 
-class Sites(db.Model):
+'''class Sites(db.Model):
     __tablename__ = 'Sites'
     ID = db.Column('id', db.Integer, primary_key=True)
     Name = db.Column('name', db.String)
@@ -14,6 +15,7 @@ class Sites(db.Model):
     def __init__(self, id, name):
         self.id = ID
         self.name = Name
+'''
 
 
 class CRUD:

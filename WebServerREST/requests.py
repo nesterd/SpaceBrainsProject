@@ -4,14 +4,16 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
+from models.pages import PageModel
+from models.sites import SiteModel
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passwd@localhost/mydatabase'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passwd@localhost/mydatabase'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class PageModel(db.Model):
+'''class PageModel(db.Model):
     __tablename__ = 'Pages'
 
     ID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -20,25 +22,24 @@ class PageModel(db.Model):
     FoundDateTime = db.Column(db.DateTime)
     LastScanDate = db.Column(db.DateTime)
     Site = db.relationship('SiteModel')
+'''
 
-
-class SiteModel(db.Model):
+'''class SiteModel(db.Model):
     __tablename__ = 'Sites'
 
     ID = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(80))
+'''
 # 1.Сколько ссылок с этого сайта всего находится в БД;
-
 # session.query(func.count(Pages.id)).scalar()
-PageModel.query.filter(PageModel.ID).count()
+PageModel.query.filter(PageModel.id).count()
 
-# 2. Сколько ссылок с этого сайта не обходилось никогда, но они уже хранятся в БД;
-
-PageModel.query.filter(PageModel.LastScanDate == None).count()
+# 2. Сколько ссылок с этого сайта не обходилось никогда, но они уже хранятся
+# в БД;
+PageModel.query.filter(if PageModel.scan is None).count()
 
 # 3. Сколько ссылок с этого сайта уже обходилось когда-либо
-
-PageModel.query.filter(PageModel.LastScanDate != None).count()
+PageModel.query.filter(if PageModel.scan is not None).count()
 
 """
 
