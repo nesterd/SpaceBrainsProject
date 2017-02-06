@@ -35,18 +35,18 @@ class UserRegister(Resource):
     @jwt_required()
     def post(self):
         data = UserRegister.parser.parse_args()
-        admin = current_identity.id
+        current_user = current_identity.id
         if current_identity.role == 1:
-            role = 2
+            newuser_role = 2
         elif current_identity.role == 2:
-            role = 3
+            newuser_role = 3
         else:
             return {'message': 'You cannot create users.'}, 403
 
         if UserModel.find_by_username(data['username']):
             return {'message': 'A user with that username already exists'}, 400
 
-        user = UserModel(admin=admin, role=role, **data)
+        user = UserModel(admin=current_user, role=newuser_role, **data)
         user.save_to_db()
 
         return {'message': 'User created successfully.'}, 201
@@ -67,12 +67,6 @@ class User(Resource):
         help='Password cannot be blank.'
     )
     parser.add_argument(
-        'role',
-        type=int,
-        required=True,
-        help='Choose user role, please.'
-    )
-    parser.add_argument(
         'email',
         type=str,
         required=True,
@@ -87,9 +81,9 @@ class User(Resource):
 
     @jwt_required()
     def get(self, id):
-        admin = current_identity.id
+        current_user = current_identity.id
         user = UserModel.find_by_id(id)
-        if user and user.admin == admin:   # проверяем принадлежит ли запрашиваемый user к этому админу
+        if user and user.admin == current_user:
             return user.json()
         return {'message': 'User not found'}, 404
 
@@ -101,58 +95,83 @@ class User(Resource):
             user = UserModel.find_by_name(name)
         if user:
             user.delete_from_db()
-
-        return {'message': 'User deleted'}
+        return {
+            'message': 'User deleted'
+        }, 200
 
     @jwt_required()
     def put(self, id):
-        data = User.parser.parse_args()
-        user = UserModel.find_by_id(id)
+        current_user = current_identity.id
 
-        admin = current_identity.id
+        def create_or_modyfy():
+            data = User.parser.parse_args()
+            user = UserModel.find_by_id(id)
+            if user and user.admin == current_user:
+                user.name = (
+                    data['name'] if data['name'] else user.name
+                )
+                user.email = (
+                    data['email'] if data['email'] else user.email
+                )
+                user.username = (
+                    data['username'] if data['username'] else user.username
+                )
+                user.password = (
+                    data['password'] if data['password'] else user.password
+                )
+            else:
+                user = UserModel(admin=current_user, role=newuser_role, **data)
+            user.save_to_db()
+            return user.json()
+
         if current_identity.role == 1:
-            role = 2
+            newuser_role = 2
+            return create_or_modyfy()
         elif current_identity.role == 2:
-            role = 3
+            newuser_role = 3
+            return create_or_modyfy()
         else:
-            return {'message': 'You cannot modify users.'}, 403
-
-        if user:
-            user.name = data['name']
-            user.email = data['email']
-            user.username = data['username']
-            user.password = data['password']
-        else:
-            user = UserModel(admin=admin, role=role, **data)
-
-        user.save_to_db()
-        return user.json()
+            return {
+                'message': 'You cannot modify users.'
+            }, 403
 
 
 class UserListView(Resource):
     @jwt_required()
     def get(self):
-        admin = current_identity.id
-        return {
-            'users': list(map(
-                lambda x: x.json(),
-                UserModel.query.filter_by(admin=admin)
-                )
-            ),  # what is this mystical 'x'? Who is it? What is it?
-        }
+        current_user = current_identity.id
+
+        if current_identity.role == 2:
+            return {
+                'users': list(map(
+                    lambda x: x.json(),
+                    UserModel.query.filter_by(admin=current_user)
+                    )
+                ),  # what is this mystical 'x'? Who or what is it?
+            }
+        else:
+            return {
+                'message': 'You have no rights for this!',
+            }, 403
 
 
 class AdminView(Resource):
     @jwt_required()
     def get(self):
-        admin = current_identity.id
-        return {
-            'admins': list(map(
-                lambda x: x.json(),
-                UserModel.query.filter_by(
-                    role=2,
-                    admin=admin
+        current_user = current_identity.id
+
+        if current_identity.role == 1:
+            return {
+                'admins': list(map(
+                    lambda x: x.json(),
+                    UserModel.query.filter_by(
+                        role=2,
+                        admin=current_user
+                        )
                     )
-                )
-            ),
-        }
+                ),
+            }
+        else:
+            return {
+                'message': 'You have no rights for this!',
+            }, 403
