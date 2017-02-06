@@ -38,7 +38,7 @@ class UserModel(db.Model):
             'name': self.name,
             'role': self.role,
             'email': self.email,
-            'admin': self.admin
+            'admin_id': self.admin
         }
 
     def save_to_db(self):
