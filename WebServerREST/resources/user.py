@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.user import UserModel
-from security import identity
 from flask_jwt import current_identity
 
 
@@ -12,45 +11,45 @@ class UserRegister(Resource):
         'username',
         type=str,
         required=True,
-        help="Username cannot be blank."
+        help='Username cannot be blank.'
     )
     parser.add_argument(
         'password',
         type=str,
         required=True,
-        help="Password cannot be blank."
-    )
-    parser.add_argument(
-        'role',
-        type=int,
-        required=True,
-        help="Choose user role, please."
+        help='Password cannot be blank.'
     )
     parser.add_argument(
         'email',
         type=str,
         required=True,
-        help="Any box for letters?"
+        help='Any box for letters?'
     )
     parser.add_argument(
         'name',
         type=str,
         required=True,
-        help="Name cannot be blank."
+        help='Name cannot be blank.'
     )
 
     @jwt_required()
     def post(self):
         data = UserRegister.parser.parse_args()
         admin = current_identity.id
+        if current_identity.role == 1:
+            role = 2
+        elif current_identity.role == 2:
+            role = 3
+        else:
+            return {'message': 'You cannot create users.'}, 403
 
         if UserModel.find_by_username(data['username']):
-            return {"message": "A user with that username already exists"}, 400
+            return {'message': 'A user with that username already exists'}, 400
 
-        user = UserModel(admin=admin, **data)
+        user = UserModel(admin=admin, role=role, **data)
         user.save_to_db()
 
-        return {"message": "User created successfully."}, 201
+        return {'message': 'User created successfully.'}, 201
 
 
 class User(Resource):
@@ -59,31 +58,31 @@ class User(Resource):
         'username',
         type=str,
         required=True,
-        help="Username cannot be blank."
+        help='Username cannot be blank.'
     )
     parser.add_argument(
         'password',
         type=str,
         required=True,
-        help="Password cannot be blank."
+        help='Password cannot be blank.'
     )
     parser.add_argument(
         'role',
         type=int,
         required=True,
-        help="Choose user role, please."
+        help='Choose user role, please.'
     )
     parser.add_argument(
         'email',
         type=str,
         required=True,
-        help="Any box for letters?"
+        help='Any box for letters?'
     )
     parser.add_argument(
         'name',
         type=str,
         required=True,
-        help="Name cannot be blank."
+        help='Name cannot be blank.'
     )
 
     @jwt_required()
@@ -111,15 +110,20 @@ class User(Resource):
         user = UserModel.find_by_id(id)
 
         admin = current_identity.id
+        if current_identity.role == 1:
+            role = 2
+        elif current_identity.role == 2:
+            role = 3
+        else:
+            return {'message': 'You cannot modify users.'}, 403
 
         if user:
             user.name = data['name']
             user.email = data['email']
             user.username = data['username']
             user.password = data['password']
-            user.admin = admin
         else:
-            user = UserModel(admin=admin, **data)
+            user = UserModel(admin=admin, role=role, **data)
 
         user.save_to_db()
         return user.json()
@@ -130,7 +134,11 @@ class UserListView(Resource):
     def get(self):
         admin = current_identity.id
         return {
-            'users': list(map(lambda x: x.json(), UserModel.query.filter_by(admin=admin))),
+            'users': list(map(
+                lambda x: x.json(),
+                UserModel.query.filter_by(admin=admin)
+                )
+            ),  # what is this mystical 'x'? Who is it? What is it?
         }
 
 
@@ -139,5 +147,12 @@ class AdminView(Resource):
     def get(self):
         admin = current_identity.id
         return {
-            'admins': list(map(lambda x: x.json(), UserModel.query.filter_by(role=2, admin=admin))),
+            'admins': list(map(
+                lambda x: x.json(),
+                UserModel.query.filter_by(
+                    role=2,
+                    admin=admin
+                    )
+                )
+            ),
         }
