@@ -20,8 +20,6 @@ class RankModel(db.Model):
     page = synonym('PageID')
     person = synonym('PersonID')
     rank = synonym('Rank')
-    # persons = db.relationship('PersonModel')
-    # pages = db.relationship('PageModel')
 
     def __init__(self, person, page, rank):
         self.page = page

@@ -8,11 +8,12 @@ from models.site import SiteModel
 
 class Pages(Resource):
     # parser = reqparse.RequestParser()
-    # parser.add_argument('SiteID',
-    #                     type=int,
-    #                     required=True,
-    #                     help="For specific statistics, you must specify the SiteID!"
-    #                     )
+    # parser.add_argument('
+    #   SiteID',
+    #   type=int,
+    #   required=True,
+    #   help="For specific statistics, you must specify the SiteID!"
+    #   )
     # @classmethod #for debug
     @jwt_required()
     def get(self, id=None, name=None):

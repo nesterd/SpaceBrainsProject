@@ -21,8 +21,7 @@ class PageModel(db.Model):
     site_id = synonym('SiteID')
     persons = db.relationship('RankModel', lazy='dynamic')
 
-    def __init__(self, id, url, found, scan, site_id):
-        self.id = id
+    def __init__(self, url, found, scan, site_id):
         self.url = url
         self.found = found
         self.scan = scan

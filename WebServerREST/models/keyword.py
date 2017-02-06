@@ -14,13 +14,16 @@ class KeywordModel(db.Model):
     name = synonym('Name')
     person_id = synonym('PersonID')
 
-    def __init__(self, id, name, person_id):
-        self.id = id
+    def __init__(self, name, person_id):
         self.name = name
         self.person_id = person_id
 
     def json(self):
-        return {'id': self.id, 'name': self.name, 'person_id': self.person_id}
+        return {
+            'id': self.id,
+            'name': self.name,
+            'person_id': self.person_id
+        }
 
     @classmethod
     def find_by_name(cls, name):

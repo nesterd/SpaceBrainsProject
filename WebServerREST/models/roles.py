@@ -12,6 +12,5 @@ class RoleModel(db.Model):
     name = synonym('Name')
     users = db.relationship('UserModel', lazy='dynamic')
 
-    def __init__(self, id, name):
-        self.id = id
+    def __init__(self, name):
         self.name = name

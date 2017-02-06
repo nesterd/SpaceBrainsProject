@@ -25,7 +25,6 @@ class UserModel(db.Model):
     persons = db.relationship('PersonModel')
 
     def __init__(self, username, password, name, email, role, admin):
-        #self.id = id
         self.username = username
         self.password = password
         self.name = name
@@ -38,6 +37,7 @@ class UserModel(db.Model):
             'id': self.id,
             'name': self.name,
             'role': self.role,
+            'email': self.email,
             'admin': self.admin
         }
 

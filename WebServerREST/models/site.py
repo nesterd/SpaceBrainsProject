@@ -14,8 +14,7 @@ class SiteModel(db.Model):
     admin = synonym('AdminID')
     pages = db.relationship('PageModel', lazy='dynamic')
 
-    def __init__(self, admin, name=None, id=None):
-        self.id = id
+    def __init__(self, admin, name=None):
         self.name = name
         self.admin = admin
 

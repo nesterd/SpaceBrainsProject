@@ -5,11 +5,12 @@ from models.person import PersonModel
 
 class Person(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('name',
-                        type=str,
-                        required=True,
-                        help="This field cannot be left blank!"
-                        )
+    parser.add_argument(
+        'name',
+        type=str,
+        required=True,
+        help="This field cannot be left blank!"
+    )
 
     @jwt_required()
     def get(self, name=None, id=None):
@@ -24,10 +25,14 @@ class Person(Resource):
     @jwt_required()
     def post(self, name):
         if PersonModel.find_by_name(name):
-            return {'message': "A person with name '{}' already exists.".format(name)}, 400
+            return {
+                'message': "A person with name '{}' already exists.".format(
+                    name
+                )
+            }, 400
 
-        admin = current_identity.id
-        person = PersonModel(name=name, admin=admin)
+        current_user = current_identity.id
+        person = PersonModel(name=name, admin=current_user)
         try:
             person.save_to_db()
         except:
@@ -50,23 +55,26 @@ class Person(Resource):
     def put(self, id):
         data = Person.parser.parse_args()
         person = PersonModel.find_by_id(id)
-        admin = current_identity.id
+        current_user = current_identity.id
 
         if person:
             person.name = data['name']
-            person.admin = admin
+            person.admin = current_user
         else:
-            person = PersonModel(name=data['name'], admin=admin)
+            person = PersonModel(name=data['name'], admin=current_user)
 
         person.save_to_db()
-
         return person.json()
 
 
 class PersonList(Resource):
     @jwt_required()
     def get(self):
-        return {'persons': list(map(lambda x: x.json(), PersonModel.query.all()))}
+        return {
+            'persons': list(map(
+                lambda x: x.json(), PersonModel.query.all()
+            ))
+        }
 
 
 class CreatePerson(Resource):
@@ -80,11 +88,16 @@ class CreatePerson(Resource):
 
     @jwt_required()
     def post(self):
+        current_user = current_identity.id
         data = CreatePerson.parser.parse_args()
-        person = PersonModel(name=data['name'])
+        person = PersonModel(name=data['name'], admin=current_user)
 
         if PersonModel.find_by_name(data['name']):
-            return {'message': "A person with name '{}' already exists.".format(data['name'])}, 400
+            return {
+                'message': "A person with name '{}' already exists.".format(
+                    data['name']
+                )
+            }, 400
 
         person.save_to_db()
         return person.json(), 201

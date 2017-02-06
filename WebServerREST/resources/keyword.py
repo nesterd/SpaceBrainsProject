@@ -38,7 +38,11 @@ class Keyword(Resource):
     @jwt_required()
     def post(self, name):
         if KeywordModel.find_by_name(name):
-            return {'message': "An keyword with name '{}' already exists.".format(name)}, 400
+            return {
+                'message': "An keyword with name '{}' already exists.".format(
+                    name
+                )
+            }, 400
 
         data = Keyword.parser.parse_args()
         keyword = KeywordModel(name=name, **data)
@@ -112,7 +116,11 @@ class CreateKeyword(Resource):
             person_id=data['person_id'])
 
         if KeywordModel.find_by_name(data['name']):
-            return {'message': "A keyword with name '{}' already exists.".format(data['name'])}, 400
+            return {
+                'message': "A keyword with name '{}' already exists.".format(
+                    data['name']
+                )
+            }, 400
 
         keyword.save_to_db()
         return keyword.json(), 201

@@ -16,8 +16,7 @@ class PersonModel(db.Model):
     keywords = db.relationship('KeywordModel', lazy='dynamic')
     pages = db.relationship('RankModel', lazy='dynamic')
 
-    def __init__(self, name, admin, id=None):
-        self.id = id
+    def __init__(self, name, admin):
         self.name = name
         self.admin = admin
 

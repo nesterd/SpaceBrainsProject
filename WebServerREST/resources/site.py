@@ -26,10 +26,12 @@ class Site(Resource):
     @jwt_required()
     def post(self, name):
         if SiteModel.find_by_name(name):
-            return {'message': "A site with name '{}' already exists.".format(name)}, 400
+            return {
+                'message': "A site with name '{}' already exists.".format(name)
+            }, 400
 
-        admin = current_identity.id
-        site = SiteModel(name, admin=admin)
+        current_user = current_identity.id
+        site = SiteModel(name, admin=current_user)
         try:
             site.save_to_db()
         except:
@@ -52,13 +54,13 @@ class Site(Resource):
     def put(self, id):
         data = Site.parser.parse_args()
         site = SiteModel.find_by_id(id)
-        admin = current_identity.id
+        current_user = current_identity.id
 
         if site:
             site.name = data['name']
-            site.admin = admin
+            site.admin = current_user
         else:
-            site = SiteModel(name=data['name'], admin=admin)
+            site = SiteModel(name=data['name'], admin=current_user)
 
         site.save_to_db()
         return site.json()
@@ -93,10 +95,15 @@ class CreateSite(Resource):
     @jwt_required()
     def post(self):
         data = CreateSite.parser2.parse_args()
-        site = SiteModel(name=data['name'])
+        current_user = current_identity.id
+        site = SiteModel(name=data['name'], admin=current_user)
 
         if SiteModel.find_by_name(data['name']):
-            return {'message': "A site with name '{}' already exists.".format(data['name'])}, 400
+            return {
+                'message': "A site with name '{}' already exists.".format(
+                    data['name']
+                )
+            }, 400
 
         site.save_to_db()
         return site.json(), 201
