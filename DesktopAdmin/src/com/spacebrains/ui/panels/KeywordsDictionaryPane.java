@@ -1,18 +1,16 @@
-package com.spacebrains.ui;
+package com.spacebrains.ui.panels;
 
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.Keyword;
 import com.spacebrains.model.Person;
-import com.spacebrains.widgets.base.BaseTable;
-import com.spacebrains.widgets.base.BaseWindow;
 import com.spacebrains.widgets.KeywordEditForm;
+import com.spacebrains.widgets.base.BaseTable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import static com.spacebrains.core.util.BaseParams.*;
@@ -20,17 +18,17 @@ import static com.spacebrains.core.util.BaseParams.*;
 /**
  * @author Tatyana Vorobeva
  */
-public class KeywordsDictionaryForm extends BaseWindow {
+public class KeywordsDictionaryPane extends BasePane {
 
     private static Person currentPerson;
 
     private JComboBox<Person> personChooser;
     BaseTable table = null;
 
-    public KeywordsDictionaryForm() {
+    public KeywordsDictionaryPane() {
         super();
         windowTitle = APP_NAME + ": " + KEYWORDS_DICT;
-        JFrame currentFrame = this;
+        JPanel currentPanel = this;
 
         JLabel label = new JLabel("Справочник \"" + KEYWORDS_DICT + "\"");
         label.setFont(BaseParams.BASE_LABEL_FONT);
@@ -65,7 +63,7 @@ public class KeywordsDictionaryForm extends BaseWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (table.getSelectedItem() != null) {
-                    int userChoice = getDeleteConfirmation(currentFrame, table.getSelectedItem().getName());
+                    int userChoice = getDeleteConfirmation(currentPanel, table.getSelectedItem().getName());
 
                     if (userChoice == JOptionPane.YES_OPTION) {
                         System.out.println("Delete: " + table.getSelectedItem());
@@ -138,8 +136,8 @@ public class KeywordsDictionaryForm extends BaseWindow {
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
-        super.windowActivated(e);
+    public void refreshData() {
+        System.out.println("[KeywordsDictionaryPane] Active");
 
         if (AppController.getInstance().getLastChosenPerson() != null && wasAlreadyOpenedBefore) {
             for (int i = 0; i <= personChooser.getItemCount(); i++) {

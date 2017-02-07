@@ -1,23 +1,24 @@
-package com.spacebrains.ui;
+package com.spacebrains.ui.panels;
 
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.base.BaseWindow;
-import com.spacebrains.widgets.base.Button;
+import com.spacebrains.ui.PaneManager;
+import com.spacebrains.widgets.base.FormattedButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import static com.spacebrains.core.util.BaseParams.DARK_GREEN;
-import static com.spacebrains.core.util.BaseParams.DARK_RED;
-import static com.spacebrains.core.util.BaseParams.getBaseFont;
+import static com.spacebrains.core.util.BaseParams.*;
 
 /**
  * @author Tatyana Vorobeva
  */
-public class ChangePswdForm extends BaseWindow {
+public class ChangePswdPane extends BasePane {
 
     private GridBagConstraints gbc = new GridBagConstraints();
 
@@ -27,7 +28,7 @@ public class ChangePswdForm extends BaseWindow {
     private JPasswordField oldPswdField;
     private JPasswordField newPswdField;
     private JPasswordField repeatPswdField;
-    private Button changeBtn;
+    private FormattedButton changeBtn;
 
     private final int FIELD_WIDTH = 140;
     private final int FIELD_HEIGHT = 18;
@@ -51,9 +52,8 @@ public class ChangePswdForm extends BaseWindow {
         }
     };
 
-    public ChangePswdForm() {
+    public ChangePswdPane() {
         super();
-        currentFrame = this;
         windowTitle = BaseParams.APP_NAME + ": " + BaseParams.CHANGE_PSWD;
         setLayout(new GridBagLayout());
 
@@ -85,7 +85,7 @@ public class ChangePswdForm extends BaseWindow {
         repeatPswdField.setFont(getBaseFont(FIELD_HEIGHT - 1));
         setElementSize(repeatPswdField, new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 
-        changeBtn = new Button("Сменить");
+        changeBtn = new FormattedButton("Сменить");
 
         // размещение элементов
         int row = 0;
@@ -164,8 +164,7 @@ public class ChangePswdForm extends BaseWindow {
 //            JOptionPane.showMessageDialog(currentFrame, answer, BaseParams.APP_NAME, JOptionPane.PLAIN_MESSAGE);
         } else {
             if (answer.equals(AuthConstants.INVALID_SESSION)) {
-                setVisible(false);
-                FormsManager.showAuthorizationForm();
+                PaneManager.switchToAuthPane();
             } else {
                 setErrorMsg(DARK_RED, answer);
             }
@@ -196,37 +195,6 @@ public class ChangePswdForm extends BaseWindow {
         newPswdField.addKeyListener(ENTER_KEY_LISTENER);
         repeatPswdField.addKeyListener(ENTER_KEY_LISTENER);
         changeBtn.addActionListener(ACTION_LISTENER);
-
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                oldPswdField.setText("");
-                newPswdField.setText("");
-                repeatPswdField.setText("");
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {}
-
-            @Override
-            public void windowClosed(WindowEvent e) {}
-
-            @Override
-            public void windowIconified(WindowEvent e) {}
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-                oldPswdField.setText("");
-                newPswdField.setText("");
-                repeatPswdField.setText("");
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
     }
 
     private void setMainLabelText() {
@@ -237,9 +205,7 @@ public class ChangePswdForm extends BaseWindow {
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
-        super.windowActivated(e);
-        setMainLabelText();
-        wasAlreadyOpenedBefore = true;
+    public void refreshData() {
+        System.out.println("[ChangePswdPane] Active");
     }
 }

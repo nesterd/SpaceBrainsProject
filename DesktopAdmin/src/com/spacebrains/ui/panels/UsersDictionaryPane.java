@@ -1,4 +1,4 @@
-package com.spacebrains.ui;
+package com.spacebrains.ui.panels;
 
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.util.BaseParams;
@@ -6,29 +6,27 @@ import com.spacebrains.model.Role;
 import com.spacebrains.model.User;
 import com.spacebrains.widgets.UserEditForm;
 import com.spacebrains.widgets.UsersTable;
-import com.spacebrains.widgets.base.BaseWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 import static com.spacebrains.core.util.BaseParams.*;
 
 /**
  * @author Tatyana Vorobeva
  */
-public class UsersDictionaryForm extends BaseWindow {
+public class UsersDictionaryPane extends BasePane {
 
     UsersTable table = null;
     private UserEditForm editDialog = null;
     private JLabel dictLabel;
 
-    public UsersDictionaryForm() {
+    public UsersDictionaryPane() {
         super(DEFAULT_WIDTH + 200, DEFAULT_HEIGHT);
         windowTitle = APP_NAME + ": " + KEYWORDS_DICT;
-        JFrame currentFrame = this;
+        JPanel currentPanel = this;
 
         dictLabel = new JLabel();
         setDictLabelText();
@@ -58,7 +56,7 @@ public class UsersDictionaryForm extends BaseWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (table.getSelectedItem() != null) {
-                    int userChoice = getDeleteConfirmation(currentFrame, table.getSelectedItem().getName());
+                    int userChoice = getDeleteConfirmation(currentPanel, table.getSelectedItem().getName());
 
                     if (userChoice == JOptionPane.YES_OPTION) {
                         System.out.println("Delete: " + table.getSelectedItem());
@@ -89,8 +87,8 @@ public class UsersDictionaryForm extends BaseWindow {
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
-        super.windowActivated(e);
+    public void refreshData() {
+        System.out.println("[UsersDictionaryPane] Active");
         if (wasAlreadyOpenedBefore) {
             setDictLabelText();
             if (table != null) table.updateValues(AppController.getInstance().getUsers());

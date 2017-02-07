@@ -3,6 +3,7 @@ package com.spacebrains.core;
 import com.spacebrains.core.dao.KeywordRepository;
 import com.spacebrains.core.dao.PersonRepository;
 import com.spacebrains.core.dao.SiteRepository;
+import com.spacebrains.core.rest.StatsRestMock;
 import com.spacebrains.core.rest.UsersRestMock;
 import com.spacebrains.model.*;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class AppController {
     private static AppController instance;
     private static Person lastChosenPerson;
     private static User currentUser = null;
+    private static String lastLogin = "";
 
     private KeywordRepository keyRepo = null;
     private PersonRepository personRepo = null;
@@ -43,6 +45,7 @@ public class AppController {
 
         // simple mock start
         UsersRestMock.getInstance().login(login, pswd);
+        lastLogin = login;
         return lastRequestMsg;
         // simple mock end
     }
@@ -95,34 +98,43 @@ public class AppController {
      */
     public ArrayList<Person> getPersons() {
         ArrayList<Person> persons = new ArrayList<>();
+        String answer = "";
         try {
             persons = personRepo.get();
+            answer = RepoConstants.SUCCESS;
         } catch (RuntimeException e) {
-            setLastRequestMsg(e.getMessage());
-            System.out.println(lastRequestMsg());
+            answer = e.getMessage();
         }
+        setLastRequestMsg(answer);
+        System.out.println(lastRequestMsg());
         return persons;
     }
 
     public ArrayList<Keyword> getKeywordsByPerson(Person person) {
         ArrayList<Keyword> keywords =new ArrayList<>();
+        String answer = "";
         try {
             keywords = keyRepo.getByObject(person);
+            answer = RepoConstants.SUCCESS;
         } catch (RuntimeException e) {
-            setLastRequestMsg(e.getMessage());
-            System.out.println(lastRequestMsg());
+            answer = e.getMessage();
         }
+        setLastRequestMsg(answer);
+        System.out.println(lastRequestMsg());
         return keywords;
     }
 
     public ArrayList<Site> getSites() {
         ArrayList<Site> sites = new ArrayList<>();
+        String answer = "";
         try {
             sites = siteRepo.get();
+            answer = RepoConstants.SUCCESS;
         } catch (RuntimeException e) {
-            setLastRequestMsg(e.getMessage());
-            System.out.println(lastRequestMsg());
+            answer = e.getMessage();
         }
+        setLastRequestMsg(answer);
+        System.out.println(lastRequestMsg());
         return sites;
     }
 
@@ -199,5 +211,19 @@ public class AppController {
 
     public String getCurrentUserName() {
         return (currentUser != null) ? currentUser.getName() : "Guest";
+    }
+
+    public ArrayList<CrawlerStats> getCrawlerStats() {
+        // simple mock
+        return StatsRestMock.getInstance().getCrawlerStats();
+        // simple mosk end
+    }
+
+    /**
+     * @author Tatyana Vorobeva
+     * For auto-filling AuthPane.login after logout
+     * */
+    public static String getLastLogin() {
+        return lastLogin.length() < 1 ? "" : lastLogin;
     }
 }

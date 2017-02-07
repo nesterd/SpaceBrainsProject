@@ -1,14 +1,11 @@
-package com.spacebrains.ui;
+package com.spacebrains.ui.panels;
 
-import com.spacebrains.interfaces.IStats;
-import com.spacebrains.core.rest.StatsRestMock;
+import com.spacebrains.core.AppController;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.base.BaseWindow;
 import com.spacebrains.widgets.StatsTable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 
 import static com.spacebrains.core.util.BaseParams.APP_NAME;
 import static com.spacebrains.core.util.BaseParams.CRAWLER_STATS_WINDOW;
@@ -16,12 +13,11 @@ import static com.spacebrains.core.util.BaseParams.CRAWLER_STATS_WINDOW;
 /**
  * @author Tatyana Vorobeva
  */
-public class CrawlerStatsForm extends BaseWindow {
+public class CrawlerStatsPane extends BasePane {
 
-    IStats rest = StatsRestMock.getInstance();
     StatsTable table = null;
 
-    public CrawlerStatsForm() {
+    public CrawlerStatsPane() {
         super(DEFAULT_WIDTH + 200, DEFAULT_HEIGHT);
         windowTitle = APP_NAME + ": " + CRAWLER_STATS_WINDOW;
 
@@ -29,7 +25,7 @@ public class CrawlerStatsForm extends BaseWindow {
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        table = new StatsTable(rest.getCrawlerStats());
+        table = new StatsTable(AppController.getInstance().getCrawlerStats());
 
         content.add(new JLabel(" "));
         content.add(label);
@@ -39,11 +35,10 @@ public class CrawlerStatsForm extends BaseWindow {
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
-        super.windowActivated(e);
-        if (table != null) table.updateValues(rest.getCrawlerStats());
+    public void refreshData() {
+        System.out.println("[CrawlerStatsPane] Active");
+        if (table != null) table.updateValues(AppController.getInstance().getCrawlerStats());
 
         wasAlreadyOpenedBefore = true;
     }
-
 }

@@ -1,17 +1,15 @@
-package com.spacebrains.ui;
+package com.spacebrains.ui.panels;
 
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.Site;
-import com.spacebrains.widgets.base.BaseTable;
-import com.spacebrains.widgets.base.BaseWindow;
 import com.spacebrains.widgets.SiteEditForm;
+import com.spacebrains.widgets.base.BaseTable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 import static com.spacebrains.core.util.BaseParams.APP_NAME;
 import static com.spacebrains.core.util.BaseParams.SITES_DICT;
@@ -19,13 +17,13 @@ import static com.spacebrains.core.util.BaseParams.SITES_DICT;
 /**
  * @author Tatyana Vorobeva
  */
-public class SitesDictionaryForm extends BaseWindow {
+public class SitesDictionaryPane extends BasePane {
     BaseTable table = null;
 
-    public SitesDictionaryForm() {
+    public SitesDictionaryPane() {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         windowTitle = APP_NAME + ": " + SITES_DICT;
-        JFrame currentFrame = this;
+        JPanel currentPanel = this;
 
         JLabel label = new JLabel("Справочник \"" + SITES_DICT + "\"");
         label.setFont(BaseParams.BASE_LABEL_FONT);
@@ -53,7 +51,7 @@ public class SitesDictionaryForm extends BaseWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (table.getSelectedItem() != null) {
-                    int userChoice = getDeleteConfirmation(currentFrame, table.getSelectedItem().getName());
+                    int userChoice = getDeleteConfirmation(currentPanel, table.getSelectedItem().getName());
 
                     if (userChoice == JOptionPane.YES_OPTION) {
                         System.out.println("Delete: " + table.getSelectedItem());
@@ -67,14 +65,12 @@ public class SitesDictionaryForm extends BaseWindow {
         content.add(new JLabel(" "));
         content.add(label);
         content.add(table);
-
-        setVisible(true);
+        setVisible(false);
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
-        super.windowActivated(e);
+    public void refreshData() {
+        System.out.println("[SitesDictionaryPane] Active");
         if (table != null && wasAlreadyOpenedBefore) table.updateValues(AppController.getInstance().getSites());
-        wasAlreadyOpenedBefore = true;
     }
 }

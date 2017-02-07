@@ -4,7 +4,7 @@ import com.spacebrains.core.AppController;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.User;
-import com.spacebrains.widgets.base.Button;
+import com.spacebrains.widgets.base.FormattedButton;
 import com.spacebrains.widgets.base.FieldLabel;
 
 import javax.swing.*;
@@ -34,8 +34,8 @@ public class UserEditForm extends JDialog {
 
     private User user;
     private GridBagConstraints gbc = new GridBagConstraints();
-    private Button saveBtn = new Button("Сохранить");
-    private Button cancelBtn = new Button("Отменить");
+    private FormattedButton saveBtn = new FormattedButton("Сохранить");
+    private FormattedButton cancelBtn = new FormattedButton("Отменить");
 
     public UserEditForm(User user) {
         this(user, DEFAULT_WIDTH, DEFAULT_HEIGHT);

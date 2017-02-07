@@ -26,9 +26,9 @@ public class BaseTable extends JPanel {
 
     private JScrollPane jScroll;
     private ArrayList<? extends INamed> values;
-    private final Button addBtn = new Button("Добавить");
-    private final Button editBtn = new Button("Изменить");
-    private final Button deleteBtn = new Button("Удалить");
+    private final FormattedButton addBtn = new FormattedButton("Добавить");
+    private final FormattedButton editBtn = new FormattedButton("Изменить");
+    private final FormattedButton deleteBtn = new FormattedButton("Удалить");
     private GridBagConstraints gbc = new GridBagConstraints();
 
     public BaseTable(ArrayList<? extends INamed> values) {
@@ -94,15 +94,15 @@ public class BaseTable extends JPanel {
         table = new JTable(tableModel);
     }
 
-    public Button getAddBtn() {
+    public FormattedButton getAddBtn() {
         return addBtn;
     }
 
-    public Button getEditBtn() {
+    public FormattedButton getEditBtn() {
         return editBtn;
     }
 
-    public Button getDeleteBtn() {
+    public FormattedButton getDeleteBtn() {
         return deleteBtn;
     }
 

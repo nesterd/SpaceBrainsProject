@@ -2,6 +2,7 @@ package com.spacebrains.widgets;
 
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.User;
+import com.spacebrains.widgets.base.FormattedButton;
 import com.spacebrains.widgets.base.UsersTableModel;
 
 import javax.swing.*;
@@ -27,9 +28,9 @@ public class UsersTable extends JPanel {
 
     protected JScrollPane jScroll;
     protected ArrayList<User> values;
-    protected final com.spacebrains.widgets.base.Button addBtn = new com.spacebrains.widgets.base.Button("Добавить");
-    protected final com.spacebrains.widgets.base.Button editBtn = new com.spacebrains.widgets.base.Button("Изменить");
-    protected final com.spacebrains.widgets.base.Button deleteBtn = new com.spacebrains.widgets.base.Button("Удалить");
+    protected final FormattedButton addBtn = new FormattedButton("Добавить");
+    protected final FormattedButton editBtn = new FormattedButton("Изменить");
+    protected final FormattedButton deleteBtn = new FormattedButton("Удалить");
     protected GridBagConstraints gbc = new GridBagConstraints();
 
     public UsersTable(ArrayList<User> values) {
@@ -97,15 +98,15 @@ public class UsersTable extends JPanel {
         table = new JTable(tableModel);
     }
 
-    public com.spacebrains.widgets.base.Button getAddBtn() {
+    public FormattedButton getAddBtn() {
         return addBtn;
     }
 
-    public com.spacebrains.widgets.base.Button getEditBtn() {
+    public FormattedButton getEditBtn() {
         return editBtn;
     }
 
-    public com.spacebrains.widgets.base.Button getDeleteBtn() {
+    public FormattedButton getDeleteBtn() {
         return deleteBtn;
     }
 

@@ -4,8 +4,7 @@ import com.spacebrains.core.AppController;
 import com.spacebrains.model.Role;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * @author Tatyana Vorobeva
