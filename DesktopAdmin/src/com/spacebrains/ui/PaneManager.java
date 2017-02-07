@@ -1,5 +1,7 @@
 package com.spacebrains.ui;
 
+import com.spacebrains.core.AppController;
+import com.spacebrains.core.RepoConstants;
 import com.spacebrains.ui.panels.*;
 
 public class PaneManager {
@@ -38,7 +40,24 @@ public class PaneManager {
     }
 
     private static void switchToPane(BasePane newPane, int width, int height) {
-        appWindow().switchContentPane(newPane, width, height);
+        String msg = "";
+        if (!newPane.equals(loadingPane)) {
+            try {
+                appWindow().switchContentPane(newPane, width, height);
+                msg = AppController.lastRequestMsg();
+            } catch (Exception e) {
+                msg = e.getLocalizedMessage();
+            }
+            if (!msg.equals(RepoConstants.SUCCESS)) {
+                msg = msg.contains("HttpHostConnectException")
+                        ? RepoConstants.NOT_ANSWERED
+                        : msg; // temporary mock
+                switchToLoadingPane();
+                loadingPane.refreshMessage(msg);
+            }
+        } else {
+            appWindow().switchContentPane(newPane, width, height);
+        }
         appWindow().hideMenu(newPane instanceof AuthPane);
     }
 
