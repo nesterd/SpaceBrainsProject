@@ -7,7 +7,8 @@ from resources.user import UserRegister
 
 from resources.site import Site, SiteList
 from resources.person import Person, PersonList
-from resources.stats import Pages as Stats, StatList
+from resources.stats import Pages as Stats, StatList, Rank, RankList,\
+RankDay, RankDayList, RankTime, RankTimeList
 from models.pages import PageModel
 from resources.keyword import Keyword, KeywordList
 
@@ -33,9 +34,16 @@ api.add_resource(Person, '/person/<string:Name>', '/person/<int:ID>')
 api.add_resource(PersonList, '/persons')
 api.add_resource(Keyword, '/keyword/<string:Name>', '/keyword/<int:ID>')
 api.add_resource(KeywordList, '/keywords')
-api.add_resource(Stats, '/base_statistic/<int:ID>', '/base_statistic/<string:Name>') #Stats
-api.add_resource(StatList, '/base_statistic')  # Stats
-
+api.add_resource(Stats, '/base_statistic/<int:ID>', '/base_statistic/<string:Name>')
+api.add_resource(StatList, '/base_statistic')
+api.add_resource(Rank, '/rank_statistic/<int:ID>', '/rank_statistic/<string:Name>')
+api.add_resource(RankList, '/rank_statistic')
+api.add_resource(RankDay, '/day_statistic/<int:ID>/<string:Date>',
+                 '/day_statistic/<string:Name>/<string:Date>')
+api.add_resource(RankDayList, '/day_statistic/base/<string:Date>')
+api.add_resource(RankTime, '/time_statistic/<int:ID>/<string:Date1>/<string:Date2>',
+                 '/time_statistic/<string:Name>/<string:Date1>/<string:Date2>')
+api.add_resource(RankTimeList, '/time_statistic/base/<string:Date1>/<string:Date2>')
 api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':
