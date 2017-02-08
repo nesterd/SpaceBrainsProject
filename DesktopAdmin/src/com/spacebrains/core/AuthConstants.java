@@ -9,7 +9,9 @@ public abstract class AuthConstants {
 
     public static final String SUCCESS = " ";
     public static final String NOT_ANSWERED = "Сервер не отвечает";
+    public static final String NOT_FOUND = "Страница не найдена";
 
+    public static final String ERR_WRONG_CREDENTIALS = "Неверный логин/пароль";
     public static final String ERR_WRONG_LOGIN = "Логин не найден";
     public static final String ERR_WRONG_PWSD = "Неверный пароль";
     public static final String INVALID_SESSION = "Сессия истекла";

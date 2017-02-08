@@ -1,7 +1,9 @@
 package com.spacebrains.core.http;
 
+import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.RestURIBuilder;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.HttpHostConnectException;
@@ -16,6 +18,7 @@ public class HttpProvider {
 	private String innerJSONstring = null;
 	private String statusLine = null;
 	private static HttpProvider instance;
+	private String token = null;
 
 	public static HttpProvider getInstance() {
 		if(instance == null) {
@@ -60,12 +63,15 @@ public class HttpProvider {
 	private int doRequest(HttpRequestBase request, String requestURIString) {
 		CloseableHttpClient client = HttpClients.createDefault();
 		request.setURI(RestURIBuilder.buildURI(requestURIString));
+
 		// for debug purposes :
 		System.out.println(request.getRequestLine());
 		CloseableHttpResponse response = null;
 		int status = 0;
 		statusLine = null;
 		try {
+			if(token != null)
+				request.setHeader("Authorization", "JWT " + token);
 			response = client.execute(request);
 			status = response.getStatusLine().getStatusCode();
 			HttpEntity entity = response.getEntity();
@@ -79,8 +85,8 @@ public class HttpProvider {
 		} catch (ClientProtocolException | HttpHostConnectException e) {
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
-			statusLine = e.getMessage();
-			throw new RuntimeException(e);
+//			statusLine = e.getMessage();
+			throw new RuntimeException(AuthConstants.NOT_ANSWERED);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,5 +133,13 @@ public class HttpProvider {
 		HttpPost httpPost = new HttpPost();
 		httpPost.setEntity(requestEntity);
 		return doRequest(httpPost, requestURIString);
+	}
+
+	/**
+	 * Set up Authorization token it httpRequest
+	 * @param token
+	 */
+	public void authorize(String token) {
+		this.token = token;
 	}
 }

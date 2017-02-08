@@ -4,6 +4,7 @@ import com.spacebrains.core.dao.KeywordRepository;
 import com.spacebrains.core.dao.PersonRepository;
 import com.spacebrains.core.dao.SiteRepository;
 import com.spacebrains.core.rest.StatsRestMock;
+import com.spacebrains.core.dao.UserRepository;
 import com.spacebrains.core.rest.UsersRestMock;
 import com.spacebrains.model.*;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class AppController {
     private KeywordRepository keyRepo = null;
     private PersonRepository personRepo = null;
     private SiteRepository siteRepo = null;
+    private UserRepository userRepo = null;
 
     private static String lastRequestMsg = SUCCESS;
 
@@ -27,6 +29,7 @@ public class AppController {
         keyRepo = new KeywordRepository();
         personRepo = new PersonRepository();
         siteRepo = new SiteRepository();
+        userRepo = new UserRepository();
     }
 
     public static AppController getInstance() {

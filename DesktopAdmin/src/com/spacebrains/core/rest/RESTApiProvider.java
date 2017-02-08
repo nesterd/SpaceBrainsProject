@@ -1,7 +1,10 @@
 package com.spacebrains.core.rest;
 
+import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.dao.DbObject;
+import com.spacebrains.core.dao.UserRepository;
 import com.spacebrains.core.http.HttpProvider;
+import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.Person;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
@@ -25,25 +28,35 @@ public class RESTApiProvider {
          httpProvider = new HttpProvider();
     }
 
+    private String getPropertyFromJSON(String propertyName) {
+        String result = null;
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject;
+        try {
+            jsonObject = (JSONObject) parser.parse(httpProvider.getJSONString());
+            result = (String) jsonObject.get(propertyName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private void handleError(int status) {
         switch (status) {
-            case HttpStatus.SC_NOT_FOUND: {
-                JSONParser parser = new JSONParser();
-                JSONObject jsonObject;
-                try {
-                    jsonObject = (JSONObject) parser.parse(httpProvider.getJSONString());
-                    String message = (String) jsonObject.get("message");
-                    throw new RuntimeException(message);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                break;
+            case HttpStatus.SC_NOT_FOUND: {  // Error 404
+                throw new RuntimeException(AuthConstants.NOT_FOUND);
+            }
+            case HttpStatus.SC_UNAUTHORIZED: {  // Error 401
+                throw new RuntimeException(AuthConstants.ERR_WRONG_CREDENTIALS);
+            }
+            case HttpStatus.SC_FORBIDDEN: {   // Error 403
+                throw new RuntimeException(AuthConstants.ERR_IS_USER);
             }
             case HttpStatus.SC_OK: {
                 break;
             }
             default: {
-                throw new RuntimeException("Unexpected HTTP answer. Status: " + status);
+                throw new RuntimeException(AuthConstants.NOT_ANSWERED);
             }
         }
     }
@@ -139,12 +152,41 @@ public class RESTApiProvider {
         return true;
     }
 
-    public <T extends DbObject> String register(T reqObject) {
+    public <T extends DbObject> boolean register(T reqObject) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('/');
+        sb.append(reqObject.getEntityName());
         httpProvider.setJSONString(reqObject.toJSONString());
-        int status = httpProvider.doPostMethod ("/register");
-        if(status != HttpStatus.SC_OK) {
-            throw new RuntimeException(httpProvider.getStatusLine());
+        int status = httpProvider.doPostMethod (sb.toString());
+        handleError(status);
+        return (status == HttpStatus.SC_OK) ? true : false;
+    }
+
+    /**
+     * Регистрируется в веб-сервисе с заданной парой логин/пароль
+     * @param userCredentials
+     * @return возвращает JWT ключ, выданный веб-сервисом
+     */
+    public <T extends DbObject> String login(T userCredentials) {
+        String result = null;
+        StringBuilder sb = new StringBuilder();
+        sb.append('/');
+        sb.append(userCredentials.getEntityName());
+        httpProvider.setJSONString(userCredentials.toJSONString());
+        int status = httpProvider.doPostMethod(sb.toString());
+        handleError(status);
+        if(status == HttpStatus.SC_OK) {
+            result = getPropertyFromJSON("access_token");
+            httpProvider.authorize(result);
         }
-        return httpProvider.getStatusLine();
+        return result;
+    }
+
+    public <T extends DbObject> void getUsers() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('/');
+        sb.append("users");
+        int status = httpProvider.doGetMethod(sb.toString());
+        handleError(status);
     }
 }
