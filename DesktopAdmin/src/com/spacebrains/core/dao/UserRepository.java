@@ -58,8 +58,8 @@ public class UserRepository {
     @Deprecated
     public String getToken() { return access_token; }
 
-    public String changePswd(String oldPassword, String newPassword) {
-        return null;
+    public boolean changePswd(String newPassword) {
+        return rest.changePass(new UserCredentials("", newPassword));
     }
 
     public ArrayList<User> get (Role role) {
@@ -101,7 +101,7 @@ public class UserRepository {
     }
 
     public boolean delete(User user) {
-        return rest.deleteObject(new UserRegistration(user));
+        return rest.deleteObject(new UserDao(user));
     }
 
     public boolean register(User user) {
@@ -161,6 +161,15 @@ public class UserRepository {
             super();
             setUp();
             buildFromJSON(jsonObject);
+        }
+
+        UserDao(User user) {
+            super();
+            setUp();
+            setProperty("id", user.getID());
+            setProperty("name", user.getName());
+            setProperty("email", user.getEmail());
+            setProperty("role", user.getRole());
         }
 
         private void setUp() {

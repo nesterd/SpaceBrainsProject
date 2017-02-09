@@ -52,6 +52,12 @@ public class RESTApiProvider {
             case HttpStatus.SC_FORBIDDEN: {   // Error 403
                 throw new RuntimeException(AuthConstants.ACCESS_FORBIDDEN);
             }
+            case HttpStatus.SC_BAD_REQUEST: {  // Error 400
+                throw new RuntimeException(AuthConstants.ERR_WRONG_PWSD);
+            }
+            case HttpStatus.SC_CREATED: { // Status 201
+                break;
+            }
             case HttpStatus.SC_OK: {
                 break;
             }
@@ -153,7 +159,7 @@ public class RESTApiProvider {
         httpProvider.setJSONString(reqObject.toJSONString());
         int status = httpProvider.doPostMethod (sb.toString());
         handleError(status);
-        return status == HttpStatus.SC_OK;
+        return status == HttpStatus.SC_CREATED;
     }
 
     /**
@@ -192,5 +198,13 @@ public class RESTApiProvider {
             return httpProvider.getJSONString();
         }
         return null;
+    }
+
+    public <T extends DbObject> boolean changePass (T reqObject) {
+        String result = null;
+        httpProvider.setJSONString(reqObject.propertyToJSON("password"));
+        int status = httpProvider.doPutMethod("/user/changepass");
+        handleError(status);
+        return status == HttpStatus.SC_OK;
     }
 }
