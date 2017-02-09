@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,7 +14,7 @@ namespace DataAccess.Context
         : DbContext
     {
         public WebAIDbContext()
-            : base("connection")
+            : base("webConnection")
         {
 
         }
@@ -23,5 +24,7 @@ namespace DataAccess.Context
         public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
         public virtual DbSet<PersonPageRank> PersonPageRanks { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     }
 }

@@ -1,0 +1,24 @@
+﻿@model WebAI.Models.Account.LogInViewModel
+@{
+    ViewBag.Title = "LogIn";
+}
+
+<h2>Форма авторизации</h2>
+
+@using (Html.BeginForm("LogIn", "Account", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Login)
+        @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Login)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(x => x.Password)
+        @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    
+        <button type="submit" class="btn btn-primary">Войти</button>
+}
+

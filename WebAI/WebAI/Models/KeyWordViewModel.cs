@@ -13,6 +13,7 @@ namespace WebAI.Models
     {
         [DisplayName("Ключевое слово")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "поле обязательно для заполнения")]
+        [StringLength(1024, ErrorMessage = "Слово слишком длинное(макс 1024 символа)")]
         public string Name { get; set; }
 
         [HiddenInput(DisplayValue = false)]

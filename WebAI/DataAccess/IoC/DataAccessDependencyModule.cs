@@ -27,6 +27,10 @@ namespace DataAccess.IoC
             builder.RegisterType<SiteRepository>().As<ISiteRepository>()
                 .WithParameter((pi, c) => pi.Name == "context", (pi, c) => (WebAIDbContext)c.ResolveNamed<DbContext>("DataContext"))
                 .InstancePerRequest();
+
+            builder.RegisterType<AuthenticationRepository>().As<IAuthenticationRepository>()
+                .WithParameter((pi, c) => pi.Name == "context", (pi, c) => (WebAIDbContext)c.ResolveNamed<DbContext>("DataContext"))
+                .InstancePerRequest();
         }
     }
 }
