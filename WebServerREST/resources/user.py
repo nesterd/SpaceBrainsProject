@@ -3,6 +3,7 @@ from flask_jwt import jwt_required
 from models.user import UserModel
 from flask_jwt import current_identity
 from random import sample
+from mailer import send_mail
 
 
 class UserRegister(Resource):
@@ -214,10 +215,7 @@ class UserRestorePassword(Resource):
         symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV\
             WXYZ01234567890?!@#$%^&*()'
         password = ''.join(sample(symbols, 8))
-        return password
-
-    def send_mail(email):
-        pass
+        return password        
 
     def post(self):
         data = UserRestorePassword.parser.parse_args()
@@ -227,7 +225,12 @@ class UserRestorePassword(Resource):
             if user:
                 user.password = UserRestorePassword.password_gen()
                 user.save_to_db()
-                UserRestorePassword.send_mail(user.email)
+                send_mail(
+                    user.email,
+                    user.name,
+                    user.username,
+                    user.password
+                )
                 return {'message': 'We send an email to you.'}, 200
             else:
                 return {'message': 'There is no user with such email.'}, 404
