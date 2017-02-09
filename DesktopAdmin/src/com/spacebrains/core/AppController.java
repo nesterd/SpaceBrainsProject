@@ -40,17 +40,19 @@ public class AppController {
     /**
      * @author Tatyana Vorobeva
      * For GUI to request authorization by recieved login & pswd.
-     * Uses AuthConstants as answers;
+     * Uses AuthConstants as answers, if possible;
      */
     public String login(String login, String pswd) {
-        // authorization via userRepo.
-        // currentUser should be saved in case of successful authorizaion
+        try {
+            currentUser = userRepo.login(login, pswd);
+            if (currentUser.getRole().equals(Role.USER)) {
+                setLastRequestMsg(AuthConstants.ERR_IS_USER);
+            } else setLastRequestMsg(AuthConstants.SUCCESS);
+        } catch (RuntimeException e) {
+            setLastRequestMsg(e.getLocalizedMessage());
+        }
 
-        // simple mock start
-        UsersRestMock.getInstance().login(login, pswd);
-        lastLogin = login;
         return lastRequestMsg;
-        // simple mock end
     }
 
     /**
@@ -177,20 +179,13 @@ public class AppController {
         AppController.currentUser = currentUser;
     }
 
+    /** Return Users for ADMIN and Admins for SUPER_ADMIN */
     public ArrayList<User> getUsers() {
-//        return userRepo.get();
-
-        // simple mock
-        return UsersRestMock.getInstance().getUsers();
-        // end simple mock
+        return userRepo.get(currentUser.getRole());
     }
 
-    public boolean setUser(User user) {
-//        return userRepo.put(user);
-
-        // simple mock
-        return UsersRestMock.getInstance().save(user).equals(RepoConstants.SUCCESS);
-        // end simple mock
+    public String setUser(User user) {
+        return userRepo.put(user);
     }
 
     public boolean deleteUser(User user) {
