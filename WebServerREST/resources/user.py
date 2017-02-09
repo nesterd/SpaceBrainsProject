@@ -150,7 +150,7 @@ class UserListView(Resource):
             }, 200
         elif current_identity.role == 1:
             return {
-                'admins': list(map(
+                'users': list(map(
                     lambda x: x.json(),
                     UserModel.query.filter_by(
                         role=2,
