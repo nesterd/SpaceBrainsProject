@@ -29,7 +29,8 @@ namespace BusinessLogic.Services
         {
             var site = _mapper.Map<SiteDTO, Site>(siteDTO);
             site.AdminId = AdminIdRemember.Id;
-            siteReposytory.AddSite(site, siteDTO.Url);
+            string url = "http://" + siteDTO.Url;
+            siteReposytory.AddSite(site, url);
         }
 
         public void ChangeSite(SiteDTO siteDTO)
