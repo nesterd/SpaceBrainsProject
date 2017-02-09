@@ -7,17 +7,18 @@ from flask_jwt import JWT
 from datetime import timedelta
 
 from security import authenticate, identity
-from resources.user import UserRegister, UserListView, User, AdminView
+from resources.user import UserRegister, UserListView, User
 
 from resources.site import Site, SiteList
 from resources.person import Person, PersonList
-from resources.stats import Pages as Stats, StatList, Rank, RankList,\
-RankDay, RankDayList, RankTime, RankTimeList
+from resources.stats import Pages as Stats, StatList
 from models.pages import PageModel
 from resources.keyword import Keyword, KeywordList
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://oldfox:pEhMAZKbnzBy@localhost:3306/ratepersons'
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    'mysql://login:passwd@localhost:3306/database'
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=7200)
 app.secret_key = ''
@@ -36,21 +37,17 @@ api.add_resource(Person, '/person/<string:name>', '/person/<int:id>')
 api.add_resource(PersonList, '/persons')
 api.add_resource(Keyword, '/keyword/<string:name>', '/keyword/<int:id>')
 api.add_resource(KeywordList, '/keywords')
-api.add_resource(Stats, '/base_statistic/<int:id>', '/base_statistic/<string:name>')
-api.add_resource(StatList, '/base_statistic')
-api.add_resource(Rank, '/rank_statistic/<int:id>', '/rank_statistic/<string:name>')
-api.add_resource(RankList, '/rank_statistic')
-api.add_resource(RankDay, '/day_statistic/<int:id>/<string:date>',
-                 '/day_statistic/<string:name>/<string:date>')
-api.add_resource(RankDayList, '/day_statistic/base/<string:date>')
-api.add_resource(RankTime, '/time_statistic/<int:id>/<string:date1>/<string:date2>',
-                 '/time_statistic/<string:name>/<string:date1>/<string:date2>')
-api.add_resource(RankTimeList, '/time_statistic/base/<string:date1>/<string:date2>')
+api.add_resource(
+    Stats,
+    '/base_statistic/<int:id>',
+    '/base_statistic/<string:name>'
+    )  # Stats
+api.add_resource(StatList, '/base_statistic')  # Stats
+
 api.add_resource(UserRegister, '/register')
 
 api.add_resource(UserListView, '/users')
 api.add_resource(User, '/user/<int:id>')
-api.add_resource(AdminView, '/admins')
 
 if __name__ == '__main__':
     log = logging.getLogger(__name__)
@@ -74,4 +71,4 @@ if __name__ == '__main__':
     from db import db
     db.init_app(app)
     # app.run(port=5000, debug=True)
-    app.run(host='93.174.131.56', port=5002, debug=True)
+    app.run(host='93.174.131.56', debug=True)
