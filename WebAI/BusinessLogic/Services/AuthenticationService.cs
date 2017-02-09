@@ -41,7 +41,7 @@ namespace BusinessLogic.Services
 
         public bool IsAdmin(string login)
         {
-            string[] adminRolesList = { RolesEnum.Root.ToString(), RolesEnum.Admin.ToString() };
+            string[] adminRolesList = { RolesEnum.Root.ToString().ToLower(), RolesEnum.Admin.ToString().ToLower() };
             return adminRolesList.Contains(_authenticationRepository.GetUserByLogin(login).Role.Name);
         }
 
@@ -50,7 +50,7 @@ namespace BusinessLogic.Services
             
             if (string.IsNullOrEmpty(login))
                 return false;
-            return _authenticationRepository.GetUserByLogin(login).Role.Name == RolesEnum.Root.ToString();
+            return _authenticationRepository.GetUserByLogin(login).Role.Name == RolesEnum.Root.ToString().ToLower();
         }
 
         public void AdminRegistration(UserDTO userRegistrationData)

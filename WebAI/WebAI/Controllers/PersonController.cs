@@ -60,25 +60,25 @@ namespace WebAI.Controllers
         IEnumerable<PersonViewModel> GetPersons()
         {
             var person = _personService.GetPersons();
-            return _mapper.Map<IEnumerable<PersonDTO>, IEnumerable<PersonViewModel>>(per);
+            return _mapper.Map<IEnumerable<PersonDTO>, IEnumerable<PersonViewModel>>(person);
         }
 
         PersonViewModel GetPersonById(int id)
         {
             var person = _personService.GetPersonById(id);
-            return _mapper.Map<PersonDTO, PersonViewModel>(per);
+            return _mapper.Map<PersonDTO, PersonViewModel>(person);
         }
 
         IEnumerable<KeyWordViewModel> GetKeyWords()
         {
             var keyWord = _personService.GetKeyWords();
-            return _mapper.Map<IEnumerable<KeyWordDTO>, IEnumerable<KeyWordViewModel>>(kw);
+            return _mapper.Map<IEnumerable<KeyWordDTO>, IEnumerable<KeyWordViewModel>>(keyWord);
         }
 
         IEnumerable<KeyWordViewModel> GetKeyWords(int id)
         {
             var keyWord = _personService.GetKeyWordsForPerson(id);
-            return _mapper.Map<IEnumerable<KeyWordDTO>, IEnumerable<KeyWordViewModel>>(kw);
+            return _mapper.Map<IEnumerable<KeyWordDTO>, IEnumerable<KeyWordViewModel>>(keyWord);
         }
 
         [HttpGet]
