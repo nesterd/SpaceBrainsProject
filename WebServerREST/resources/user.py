@@ -5,7 +5,6 @@ from flask_jwt import current_identity
 
 
 class UserRegister(Resource):
-
     parser = reqparse.RequestParser()
     parser.add_argument(
         'username',
@@ -148,19 +147,8 @@ class UserListView(Resource):
                     UserModel.query.filter_by(admin=current_user)
                     )
                 ),  # what is this mystical 'x'? Who or what is it?
-            }
-        else:
-            return {
-                'message': 'You have no rights for this!',
-            }, 403
-
-
-class AdminView(Resource):
-    @jwt_required()
-    def get(self):
-        current_user = current_identity.id
-
-        if current_identity.role == 1:
+            }, 200
+        elif current_identity.role == 1:
             return {
                 'admins': list(map(
                     lambda x: x.json(),
@@ -170,7 +158,7 @@ class AdminView(Resource):
                         )
                     )
                 ),
-            }
+            }, 200
         else:
             return {
                 'message': 'You have no rights for this!',

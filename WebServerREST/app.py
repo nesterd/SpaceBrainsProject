@@ -48,7 +48,6 @@ api.add_resource(UserRegister, '/register')
 
 api.add_resource(UserListView, '/users')
 api.add_resource(User, '/user/<int:id>')
-api.add_resource(AdminView, '/admins')
 
 if __name__ == '__main__':
     log = logging.getLogger(__name__)
