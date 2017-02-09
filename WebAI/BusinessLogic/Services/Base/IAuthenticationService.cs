@@ -16,5 +16,6 @@ namespace BusinessLogic.Services.Base
         void AdminRegistration(UserDTO userRegistrationData);
         void UserRegistration(UserDTO userRegistrationData, int adminId);
         int GetAdminIdByLogin(string adminLogin);
+        void ChangePassword(string login, string newPassword);
     }
 }

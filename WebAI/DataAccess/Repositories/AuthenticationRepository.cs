@@ -47,5 +47,13 @@ namespace DataAccess.Repositories
             var user = GetUserByLogin(userLogin);
             return user.Id;
         }
+
+        public void ChangePassword(string login, string newPassword)
+        {
+            var user = GetUserByLogin(login);
+            user.Password = newPassword;
+            _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }

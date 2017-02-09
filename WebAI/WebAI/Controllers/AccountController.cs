@@ -13,7 +13,7 @@ using Utility.Helpers;
 
 namespace WebAI.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     public class AccountController : Controller
     {
         
@@ -26,7 +26,7 @@ namespace WebAI.Controllers
             _mapper = mapper;
         }
 
-        //[Authorize(Roles = "SuperAdmin")]
+        
         [HttpGet]
         public ActionResult AdminRegistration()
         {
@@ -35,7 +35,7 @@ namespace WebAI.Controllers
             return View("UserRegistration");
         }
 
-        //[Authorize(Roles = "SuperAdmin")]
+        
         [HttpPost]
         public ActionResult AdminRegistration(UserRegistrationViewModel userRegistrationViewModel)
         {
@@ -51,7 +51,7 @@ namespace WebAI.Controllers
             
         }
 
-        //[Authorize(Roles = "Admin")]
+        
         [HttpGet]
         public ActionResult UserRegistration()
         {
@@ -60,7 +60,7 @@ namespace WebAI.Controllers
             return View("UserRegistration");
         }
 
-        //[Authorize(Roles = "Admin")]
+        
         [HttpPost]
         public ActionResult UserRegistration(UserRegistrationViewModel userRegistrationViewModel)
         {
@@ -75,6 +75,7 @@ namespace WebAI.Controllers
                 return View("UserRegistration", userRegistrationViewModel);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult LogIn()
         {
@@ -82,6 +83,7 @@ namespace WebAI.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult LogIn(LogInViewModel logInModel)
         {
@@ -97,6 +99,25 @@ namespace WebAI.Controllers
                 return RedirectToAction("Index", "Home", authenticationService.IsSuperAdmin(login));
             }
             return RedirectToAction("LogIn",logInModel);
+        }
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel changePasswordModel)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                authenticationService.ChangePassword(GetCurrentUserName(), changePasswordModel.NewPassword);
+
+                return RedirectToAction("Index", "Home", authenticationService.IsSuperAdmin(GetCurrentUserName()));
+            }
+            else
+                return View(changePasswordModel);
         }
 
         public ActionResult LogOut()
@@ -120,10 +141,18 @@ namespace WebAI.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult CheckPassword(string oldPassword)
+        {
+            var result = authenticationService.CheckUser(GetCurrentUserName(), oldPassword);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        
+
         string GetCurrentUserName()
         {
             return Thread.CurrentPrincipal.Identity?.Name;
-            //return CurrentAdminData.Name;
+            
         }
 
         int GetCurrentAdminId()

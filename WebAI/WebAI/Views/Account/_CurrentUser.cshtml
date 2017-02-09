@@ -9,7 +9,7 @@
 else
 {
     <div>
-        <span style="color: chartreuse">@Model</span>
+        <span style="color: chartreuse">@Html.ActionLink(Model,"ChangePassword", "Account")</span>
         @Html.ActionLink("Выйти", "LogOut", "Account")
     </div>
 }

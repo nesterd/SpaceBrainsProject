@@ -13,5 +13,6 @@ namespace DataAccess.Repositories.Base
         bool CheckLogin(string loginToCheck);
         void AddUser(User userToAdd);
         int GetUserIdByLogin(string userLogin);
+        void ChangePassword(string login, string newPassword);
     }
 }

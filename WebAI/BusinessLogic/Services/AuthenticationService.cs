@@ -79,5 +79,10 @@ namespace BusinessLogic.Services
         {
             return authenticationRepository.GetUserIdByLogin(adminLogin);
         }
+
+        public void ChangePassword(string login, string newPassword)
+        {
+            authenticationRepository.ChangePassword(login, newPassword);
+        }
     }
 }

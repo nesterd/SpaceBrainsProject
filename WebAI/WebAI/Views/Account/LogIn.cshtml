@@ -12,14 +12,13 @@
         @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
         @Html.ValidationMessageFor(x => x.Login)
     </div>
-    @*@Html.ValidationMessageFor(x => x.Login)*@
+    
     <div class="form-group">
         @Html.LabelFor(x => x.Password)
         @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
         @Html.ValidationMessageFor(x => x.Password)
     </div>
-    @*@Html.ValidationMessageFor(x => x.Password)*@
+    
         <button type="submit" class="btn btn-primary">Войти</button>
 }
 
-@*@Html.ActionLink("Регистрация", "AdminRegistration")*@

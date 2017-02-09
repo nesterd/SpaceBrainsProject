@@ -24,7 +24,8 @@ namespace WebAI.Models.Account
         public string Password { get; set; }
 
         [DisplayName("Подтвердите пароль")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Пароль обязателен для заполнения")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Подтверждение пароля обязательно.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
         [DataType(DataType.Password)]
         public string PasswordComfirm { get; set; }
 

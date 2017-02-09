@@ -11,10 +11,7 @@ using Utility.enums;
 
 namespace DataAccess.Initializer
 {
-    //зайди воркбенчем вот сюда вот и посмотри:93.174.131.56: 3306
-    //user: oldfox
-    //pass: 1213
-    //pEhMAZKbnzBy
+    
     public class DbContextInitializer
         : DropCreateDatabaseAlways<WebAIDbContext>
     {

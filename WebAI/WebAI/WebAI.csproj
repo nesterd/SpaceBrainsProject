@@ -188,7 +188,8 @@
     <Compile Include="Infrastructure\Mapping\KeyWordViewProfile.cs" />
     <Compile Include="Infrastructure\Mapping\PersonViewProfile.cs" />
     <Compile Include="Infrastructure\Mapping\SiteViewProfile.cs" />
-    <Compile Include="Models\Account\AdminRegistrationViewModel.cs" />
+    <Compile Include="Models\Account\AccountManagerViewModel.cs" />
+    <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Account\LogInViewModel.cs" />
     <Compile Include="Models\Account\UserRegistrationViewModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Views\Shared\_AIMenu.cshtml" />
     <Content Include="Views\Account\UserRegistration.cshtml" />
     <Content Include="Views\Shared\_SuperAIMenu.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
