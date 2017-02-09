@@ -25,8 +25,8 @@ public abstract class BaseEditForm<T extends INamed> extends JDialog {
 
     private T object;
     private GridBagConstraints gbc = new GridBagConstraints();
-    private Button saveBtn = new Button("Сохранить");
-    private Button cancelBtn = new Button("Отменить");
+    private FormattedButton saveBtn = new FormattedButton("Сохранить");
+    private FormattedButton cancelBtn = new FormattedButton("Отменить");
 
     public BaseEditForm(T obj) {
         this(obj, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -137,11 +137,11 @@ public abstract class BaseEditForm<T extends INamed> extends JDialog {
         setResizable(false);
     }
 
-    public Button getSaveBtn() {
+    public FormattedButton getSaveBtn() {
         return saveBtn;
     }
 
-    public Button getCancelBtn() {
+    public FormattedButton getCancelBtn() {
         return cancelBtn;
     }
 

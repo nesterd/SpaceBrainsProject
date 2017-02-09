@@ -1,8 +1,8 @@
 package com.spacebrains.core.rest;
 
+import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.dao.DbObject;
 import com.spacebrains.core.http.HttpProvider;
-import com.spacebrains.model.Person;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,32 +25,48 @@ public class RESTApiProvider {
          httpProvider = new HttpProvider();
     }
 
+    private String getPropertyFromJSON(String propertyName) {
+        String result = null;
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject;
+        try {
+            jsonObject = (JSONObject) parser.parse(httpProvider.getJSONString());
+            result = (String) jsonObject.get(propertyName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private void handleError(int status) {
         switch (status) {
-            case HttpStatus.SC_NOT_FOUND: {
-                JSONParser parser = new JSONParser();
-                JSONObject jsonObject;
-                try {
-                    jsonObject = (JSONObject) parser.parse(httpProvider.getJSONString());
-                    String message = (String) jsonObject.get("message");
-                    throw new RuntimeException(message);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+            case HttpStatus.SC_NOT_FOUND: {  // Error 404
+                throw new RuntimeException(AuthConstants.NOT_FOUND);
+            }
+            case HttpStatus.SC_UNAUTHORIZED: {  // Error 401
+                throw new RuntimeException(AuthConstants.ERR_WRONG_CREDENTIALS);
+            }
+            case HttpStatus.SC_FORBIDDEN: {   // Error 403
+                throw new RuntimeException(AuthConstants.ACCESS_FORBIDDEN);
+            }
+            case HttpStatus.SC_BAD_REQUEST: {  // Error 400
+                throw new RuntimeException(AuthConstants.ERR_WRONG_PWSD);
+            }
+            case HttpStatus.SC_CREATED: { // Status 201
                 break;
             }
             case HttpStatus.SC_OK: {
                 break;
             }
             default: {
-                throw new RuntimeException("Unexpected HTTP answer. Status: " + status);
+                throw new RuntimeException(AuthConstants.NOT_ANSWERED);
             }
         }
     }
 
     /**
      * Запрашивает список объектов справочника
-     * @return
+     * @return коллекция объектов в виде пар ключ-значение HashMap
      */
     public <T extends DbObject> HashMap<Long, String> getObjects(String reqString) {
         HashMap<Long, String> result = new HashMap<>();
@@ -89,14 +105,12 @@ public class RESTApiProvider {
         StringBuilder sb = new StringBuilder();
         sb.append("/person/");
         sb.append(personId);
-//        sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doGetMethod(sb.toString());
         handleError(status);
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
         try {
             jsonObject = (JSONObject) parser.parse(httpProvider.getJSONString());
-//            JSONArray array = (JSONArray) jsonObject.get(reqObject.getEntityTypeString());
             JSONArray array = (JSONArray) jsonObject.get("keywords");
             Iterator<JSONObject> iterator = array.iterator();
             long key;
@@ -116,32 +130,78 @@ public class RESTApiProvider {
     public <T extends DbObject> boolean updateObject(T reqObject) {
         StringBuilder sb = new StringBuilder();
         sb.append('/');
-//        sb.append(reqObject.getEntityTypeString());
         sb.append(reqObject.getEntityName());
         sb.append('/');
-//        sb.append(reqObject.getID());
         sb.append(reqObject.getProperty("id"));
-//        httpProvider.setJSONString(reqObject.nameToJSONString());
-//        httpProvider.setJSONString(reqObject.propertyToJSON("name"));
         httpProvider.setJSONString(reqObject.toJSONString());
         int status = httpProvider.doPutMethod(sb.toString());
         handleError(status);
-        if(status == HttpStatus.SC_OK)
-            return true;
-        return false;
+        return status == HttpStatus.SC_OK;
     }
 
     public <T extends DbObject> boolean deleteObject(T reqObject) {
         StringBuilder sb = new StringBuilder();
         sb.append('/');
-//        sb.append(reqObject.getEntityTypeString());
         sb.append(reqObject.getEntityName());
         sb.append('/');
-//        sb.append(reqObject.getID());
         sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doDeleteMethod(sb.toString());
-        if(status == HttpStatus.SC_OK)
-            return true;
-        return false;
+        return status == HttpStatus.SC_OK;
+    }
+
+    public <T extends DbObject> boolean register(T reqObject) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('/');
+        sb.append(reqObject.getEntityName());
+        httpProvider.setJSONString(reqObject.toJSONString());
+        int status = httpProvider.doPostMethod (sb.toString());
+        handleError(status);
+        return status == HttpStatus.SC_CREATED;
+    }
+
+    /**
+     * Регистрируется в веб-сервисе с заданной парой логин/пароль
+     * @param userCredentials
+     * @return возвращает JWT ключ, выданный веб-сервисом
+     */
+    public <T extends DbObject> String login(T userCredentials) {
+        String result = null;
+        StringBuilder sb = new StringBuilder();
+        sb.append('/');
+        sb.append(userCredentials.getEntityName());
+        httpProvider.setJSONString(userCredentials.toJSONString());
+        int status = httpProvider.doPostMethod(sb.toString());
+        handleError(status);
+        if(status == HttpStatus.SC_OK) {
+            result = getPropertyFromJSON("access_token");
+            httpProvider.authorize(result);
+        }
+        return result;
+    }
+
+    public <T extends DbObject> String getUsers() {
+        int status = httpProvider.doGetMethod("/users");
+        handleError(status);
+        if(status == HttpStatus.SC_OK) {
+            return httpProvider.getJSONString();
+        }
+        return null;
+    }
+
+    public <T extends DbObject> String getAdmins() {
+        int status = httpProvider.doGetMethod("/admins");
+        handleError(status);
+        if(status == HttpStatus.SC_OK) {
+            return httpProvider.getJSONString();
+        }
+        return null;
+    }
+
+    public <T extends DbObject> boolean changePass (T reqObject) {
+        String result = null;
+        httpProvider.setJSONString(reqObject.propertyToJSON("password"));
+        int status = httpProvider.doPutMethod("/user/changepass");
+        handleError(status);
+        return status == HttpStatus.SC_OK;
     }
 }

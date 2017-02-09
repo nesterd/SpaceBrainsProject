@@ -1,9 +1,8 @@
-package com.spacebrains.widgets.base;
+package com.spacebrains.ui;
 
 import com.spacebrains.core.AppController;
-import com.spacebrains.interfaces.INamed;
-import com.spacebrains.ui.FormsManager;
 import com.spacebrains.core.util.BaseParams;
+import com.spacebrains.ui.panels.BasePane;
 import com.spacebrains.widgets.AppMenu;
 
 import javax.swing.*;
@@ -13,30 +12,27 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import static com.spacebrains.core.util.BaseParams.ALERT_MSG;
 import static com.spacebrains.core.util.BaseParams.setDefaultFont;
 
-public abstract class BaseWindow extends JFrame implements WindowListener {
+public class BaseAppWindow extends JFrame implements WindowListener {
 
-    public boolean wasAlreadyOpenedBefore = false;
     protected String windowTitle = BaseParams.APP_NAME;
 
-    public AppMenu menu;
+    private AppMenu menu;
 
     protected static final int DEFAULT_WIDTH = 550;
     protected static final int DEFAULT_HEIGHT = 485;
 
-    protected int width = DEFAULT_WIDTH;
-    protected int height = DEFAULT_HEIGHT;
+    protected static int currentWidth = DEFAULT_WIDTH;
+    protected static int currentHeight = DEFAULT_HEIGHT;
 
-    protected Box content;
-    protected BaseEditForm<? extends INamed> editDialog;
+    private Container contain;
 
-    public BaseWindow() {
+    public BaseAppWindow() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    public BaseWindow(int width, int height) {
+    public BaseAppWindow(int width, int height) {
         initMainSettings(width, height);
         setDefaultFont();
         initMainMenu();
@@ -45,68 +41,91 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
     }
 
     private void initMainSettings(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.currentWidth = width;
+        this.currentHeight = height;
         setTitle(windowTitle);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        content = Box.createVerticalBox();
-        content.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        // смотрим размер экрана и размещаем окно чата в центре
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
+        resizeWindow(width, height);
 
         // Приводим внешний вид элементов к виду как в системе пользователя (например соответствующий теме windows)
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignore) {}
 
-        add(content);
         setResizable(false);
+        setVisible(true);
+    }
+
+    private void resizeWindow(int width, int height) {
+        // смотрим размер экрана и размещаем окно чата в центре
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
+    }
+
+    public void switchContentPane(BasePane newContentPane, int width, int height) {
+        currentWidth = width;
+        currentHeight = height;
+        contain = getContentPane();
+        for (Component component : contain.getComponents()) {
+            component.setVisible(false);
+        }
+        contain.removeAll();
+
+        contain.add(newContentPane);
+        newContentPane.refreshData();
+        newContentPane.setVisible(true);
+        contain.validate();
+
+        setTitle(newContentPane.getWindowTitle());
+
+        resizeWindow(width, height);
+        setVisible(true);
+    }
+
+    public void hideMenu(boolean needToHide) {
+        if (!needToHide) {
+            menu.switchForUserRights();
+        }
+        menu.setVisible(!needToHide);
     }
 
     private void initMainMenu() {
         menu = new AppMenu();
         setJMenuBar(menu);
-        JFrame currentWindow = this;
 
         menu.getMiDictsPersons().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
-                FormsManager.showPersonsDictionaryForm();
+                PaneManager.switchToPersonsDictionaryPane();
             }
         });
 
         menu.getMiDictsKeywords().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
-                FormsManager.showKeywordsDictionaryForm();
+                PaneManager.switchToKeywordsDictionaryPane();
             }
         });
 
         menu.getMiDictsSites().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
-                FormsManager.showSitesDictionaryForm();
+                PaneManager.switchToSitesDictionaryPane();
             }
         });
 
         menu.getMiFileCrawlerStats().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
-                FormsManager.showCrawlerStatsForm();
+                PaneManager.switchToCrawlerStatsForm();
             }
         });
 
         menu.getMiFileChangePswd().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
-                FormsManager.showChangePswdForm();
+                PaneManager.switchToChangePswdPane();
             }
         });
 
@@ -114,30 +133,16 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AppController.getInstance().logout();
-                currentWindow.setVisible(false);
-                FormsManager.showAuthorizationForm();
+                PaneManager.switchToAuthPane();
             }
         });
 
         menu.getMiDictsUsers().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentWindow.setVisible(false);
-                FormsManager.showUsersForm();
+                PaneManager.switchToUsersDictionaryPane();
             }
         });
-    }
-
-    protected int getDeleteConfirmation(JFrame currentFrame, String objectName) {
-        Object[] options = {"Да", "Нет"};
-        return JOptionPane.showOptionDialog(currentFrame,
-                "Вы хотите удалить элемент '" + objectName + "'?",
-                ALERT_MSG,
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,     // без специальной иконки
-                options,  // заголовки кнопок
-                options[0]); // выбор по умолчанию
     }
 
     @Override
@@ -160,13 +165,10 @@ public abstract class BaseWindow extends JFrame implements WindowListener {
 
     @Override
     public void windowActivated(WindowEvent e) {
-        initMainSettings(width, height);
+        initMainSettings(currentWidth, currentHeight);
     }
 
-    protected Component setElementSize(Component component, Dimension dimension) {
-        component.setMinimumSize(dimension);
-        component.setMaximumSize(dimension);
-        component.setPreferredSize(dimension);
-        return component;
+    public static Dimension getCurrentDimension() {
+        return new Dimension(currentWidth - 20, currentHeight - 20);
     }
 }

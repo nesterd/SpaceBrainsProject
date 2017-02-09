@@ -1,10 +1,10 @@
-package com.spacebrains.ui;
+package com.spacebrains.ui.panels;
 
 import com.spacebrains.core.AppController;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.widgets.base.BaseWindow;
-import com.spacebrains.widgets.base.Button;
+import com.spacebrains.ui.PaneManager;
+import com.spacebrains.widgets.base.FormattedButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ import static com.spacebrains.core.util.BaseParams.getBaseFont;
 /**
  * @author Tatyana Vorobeva
  */
-public class AuthForm extends BaseWindow {
+public class AuthPane extends BasePane {
 
     public static final String LOGIN_LBL = "Логин: ";
     public static final String PSWD_LBL = "Пароль: ";
@@ -30,8 +30,8 @@ public class AuthForm extends BaseWindow {
     private JLabel errorMsgLabel;
     private JTextField loginField;
     private JPasswordField pswdField;
-    private Button loginBtn;
-    private Button forgotBtn;
+    private FormattedButton loginBtn;
+    private FormattedButton forgotBtn;
 
     private final int FIELD_WIDTH = 170;
     private final int FIELD_HEIGHT = 18;
@@ -55,11 +55,10 @@ public class AuthForm extends BaseWindow {
         }
     };
 
-    public AuthForm() {
+    public AuthPane() {
         super();
         windowTitle = BaseParams.APP_NAME + ": " + BaseParams.AUTHORIZATION;
         setLayout(new GridBagLayout());
-        currentFrame = this;
 
         // создание элементов
         JLabel mainLabel = new JLabel(BaseParams.AUTHORIZATION);
@@ -95,9 +94,9 @@ public class AuthForm extends BaseWindow {
         pswdField.grabFocus();
         // End temporary part >>>
 
-        loginBtn = new Button(LOGIN_BTN_LBL);
-//        loginBtn.grabFocus();
-        forgotBtn = new Button(FORGOT_LBL);
+        loginBtn = new FormattedButton(LOGIN_BTN_LBL);
+        loginBtn.grabFocus();
+        forgotBtn = new FormattedButton(FORGOT_LBL);
         forgotBtn.setFont(getBaseFont(FIELD_HEIGHT - 4));
         setElementSize(forgotBtn, new Dimension(FIELD_WIDTH - 15, FIELD_HEIGHT));
 
@@ -158,7 +157,6 @@ public class AuthForm extends BaseWindow {
 
         initListeners();
 
-        menu.setVisible(false);
         setVisible(true);
     }
 
@@ -174,8 +172,7 @@ public class AuthForm extends BaseWindow {
     private void tryToLogin() {
         String answer = AppController.getInstance().login(loginField.getText(), getPswdText());
         if (answer.equals(AuthConstants.SUCCESS)) {
-            this.setVisible(false);
-            FormsManager.showMainWindowForm();
+            PaneManager.switchToMainPane();
         } else {
             setErrorMsg(lastRequestMsg());
             pswdField.setText("");
@@ -228,34 +225,6 @@ public class AuthForm extends BaseWindow {
         pswdField.addKeyListener(ENTER_KEY_LISTENER);
         loginBtn.addActionListener(ACTION_LISTENER);
 
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                setErrorMsg(lastRequestMsg());
-                pswdField.setText("");
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {}
-
-            @Override
-            public void windowClosed(WindowEvent e) {}
-
-            @Override
-            public void windowIconified(WindowEvent e) {}
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-                pswdField.setText("");
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
-
         forgotBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -264,4 +233,10 @@ public class AuthForm extends BaseWindow {
         });
     }
 
+    @Override
+    public void refreshData() {
+        System.out.println("[AuthPane] Active");
+        loginField.setText(AppController.getLastLogin());
+        pswdField.setText("");
+    }
 }

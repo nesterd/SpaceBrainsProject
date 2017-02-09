@@ -68,7 +68,7 @@ public class PersonRepository {
             super();
             addProperty("id", 0);
             addProperty("name",null);
-            buildFromJSON(jsonString);
+            buildFromJSONString(jsonString);
         }
 
         PersonDao(Person person) {
