@@ -14,7 +14,7 @@ namespace DataAccess.Context
         : DbContext
     {
         public WebAIDbContext()
-            : base("connection")
+            : base("webConnection")
         {
 
         }

@@ -16,25 +16,25 @@ namespace BusinessLogic.Services
     public class PersonService
         : Base.IPersonService
     {
-        IPersonRepository personRepository;
+        IPersonRepository _personRepository;
         IMapper _mapper = null;
 
         public PersonService(IPersonRepository personRepository, IMapper mapper)
         {
-            this.personRepository = personRepository;
+            _personRepository = personRepository;
             _mapper = mapper;
         }
         
         public IEnumerable<PersonDTO> GetPersons()
         {
-            var persons = personRepository.GetPersons();
+            var persons = _personRepository.GetPersons();
             
             return _mapper.Map<IEnumerable<Person>, IEnumerable<PersonDTO>>(persons);
         }
 
         public IEnumerable<KeyWordDTO> GetKeyWordsForPerson(int personId)
         {
-            var keyWords = personRepository.GetKeyWords(personId);
+            var keyWords = _personRepository.GetKeyWords(personId);
 
             
             return _mapper.Map<IEnumerable<KeyWord>, IEnumerable<KeyWordDTO>>(keyWords);
@@ -43,54 +43,54 @@ namespace BusinessLogic.Services
         public IEnumerable<KeyWordDTO> GetKeyWords()
         {
             
-            return _mapper.Map<IEnumerable<KeyWord>, IEnumerable<KeyWordDTO>>(personRepository.GetKeyWords());
+            return _mapper.Map<IEnumerable<KeyWord>, IEnumerable<KeyWordDTO>>(_personRepository.GetKeyWords());
         }
 
         public PersonDTO GetPersonById(int id)
         {
             
-            return _mapper.Map<Person, PersonDTO>(personRepository.GetPerson(id));
+            return _mapper.Map<Person, PersonDTO>(_personRepository.GetPerson(id));
         }
 
         public KeyWordDTO GetKeyWordById(int id)
         {
             
-            return _mapper.Map<KeyWord, KeyWordDTO>(personRepository.GetKeyWord(id));
+            return _mapper.Map<KeyWord, KeyWordDTO>(_personRepository.GetKeyWord(id));
         }
 
         public void DeletePersonById(int id)
         {
-            personRepository.DeletePersonById(id);
+            _personRepository.DeletePersonById(id);
         }
 
         public void DeleteKeyWordById(int id)
         {
-            personRepository.DeleteKeyWordById(id);
+            _personRepository.DeleteKeyWordById(id);
         }
 
         public void AddPerson(PersonDTO personDTO)
         {
             var person = _mapper.Map<PersonDTO, Person>(personDTO);
             person.AdminId = AdminIdRemember.Id;
-            personRepository.AddPerson(person);
+            _personRepository.AddPerson(person);
         }
 
         public void ChangePerson(PersonDTO personDTO)
         {
-            
-            personRepository.ChangePerson(_mapper.Map<PersonDTO, Person>(personDTO));
+
+            _personRepository.ChangePerson(_mapper.Map<PersonDTO, Person>(personDTO));
         }
 
         public void AddKeyWord(KeyWordDTO keyWordDTO)
         {
-            
-            personRepository.AddKeyWord(_mapper.Map<KeyWordDTO, KeyWord>(keyWordDTO));
+
+            _personRepository.AddKeyWord(_mapper.Map<KeyWordDTO, KeyWord>(keyWordDTO));
         }
 
         public void ChangeKeyWord(KeyWordDTO keyWordDTO)
         {
-            
-            personRepository.ChangeKeyWord(_mapper.Map<KeyWordDTO, KeyWord>(keyWordDTO));
+
+            _personRepository.ChangeKeyWord(_mapper.Map<KeyWordDTO, KeyWord>(keyWordDTO));
         }
 
         

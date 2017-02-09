@@ -12,12 +12,12 @@ namespace DataAccess.Repositories
     public class AuthenticationRepository
         : BaseRepository, IAuthenticationRepository
     {
-        //WebAIDbContext context;
+        
 
         public AuthenticationRepository(WebAIDbContext context)
             : base (context)
         {
-            //this.context = context;
+            
         }
 
         public User GetUserByLogin(string login)
@@ -27,7 +27,6 @@ namespace DataAccess.Repositories
 
         public bool CheckLogin(string loginToCheck)
         {
-            
             return !_context.Users.Any(x => x.Login.Trim().ToLower() == loginToCheck.Trim().ToLower());
         }
 
@@ -35,7 +34,6 @@ namespace DataAccess.Repositories
         {
             if(userToAdd != null)
             {
-                //userToAdd.AdminId = GetCurrentUserId();
                 _context.Users.Add(userToAdd);
                 _context.SaveChanges();
             }

@@ -17,12 +17,12 @@ namespace WebAI.Controllers
     public class AccountController : Controller
     {
         
-        IAuthenticationService authenticationService;
+        IAuthenticationService _authenticationService;
         IMapper _mapper;
 
         public AccountController(IAuthenticationService authenticationService, IMapper mapper)
         {
-            this.authenticationService = authenticationService;
+            _authenticationService = authenticationService;
             _mapper = mapper;
         }
 
@@ -41,9 +41,9 @@ namespace WebAI.Controllers
         {
             if (ModelState.IsValid)
             {
-                authenticationService.AdminRegistration(_mapper.Map<UserRegistrationViewModel, UserDTO>(userRegistrationViewModel));
+                _authenticationService.AdminRegistration(_mapper.Map<UserRegistrationViewModel, UserDTO>(userRegistrationViewModel));
                 
-                return RedirectToAction("Index", "Home", authenticationService.IsSuperAdmin(GetCurrentUserName()));
+                return RedirectToAction("Index", "Home", _authenticationService.IsSuperAdmin(GetCurrentUserName()));
             }
             else
                 return View("UserRegistration", userRegistrationViewModel);
@@ -67,9 +67,9 @@ namespace WebAI.Controllers
             var adminId = GetCurrentAdminId();
             if (ModelState.IsValid)
             {
-                authenticationService.UserRegistration(_mapper.Map<UserRegistrationViewModel, UserDTO>(userRegistrationViewModel), adminId);
+                _authenticationService.UserRegistration(_mapper.Map<UserRegistrationViewModel, UserDTO>(userRegistrationViewModel), adminId);
                 
-                return RedirectToAction("Index", "Home", authenticationService.IsSuperAdmin(GetCurrentUserName()));
+                return RedirectToAction("Index", "Home", _authenticationService.IsSuperAdmin(GetCurrentUserName()));
             }
             else
                 return View("UserRegistration", userRegistrationViewModel);
@@ -89,14 +89,14 @@ namespace WebAI.Controllers
         {
             if (!ModelState.IsValid)
                 return View(logInModel);
-            if (authenticationService.CheckUser(logInModel.Login, logInModel.Password))
+            if (_authenticationService.CheckUser(logInModel.Login, logInModel.Password))
             {
                 
                 string login = logInModel.Login;
                 FormsAuthentication.SetAuthCookie(login, true);
                 AdminIdRemember.Id = GetCurrentAdminId(login);
                 BusinessLogic.DTO.PersonIdRemember.Id = 0;
-                return RedirectToAction("Index", "Home", authenticationService.IsSuperAdmin(login));
+                return RedirectToAction("Index", "Home", _authenticationService.IsSuperAdmin(login));
             }
             return RedirectToAction("LogIn",logInModel);
         }
@@ -112,9 +112,9 @@ namespace WebAI.Controllers
             
             if (ModelState.IsValid)
             {
-                authenticationService.ChangePassword(GetCurrentUserName(), changePasswordModel.NewPassword);
+                _authenticationService.ChangePassword(GetCurrentUserName(), changePasswordModel.NewPassword);
 
-                return RedirectToAction("Index", "Home", authenticationService.IsSuperAdmin(GetCurrentUserName()));
+                return RedirectToAction("Index", "Home", _authenticationService.IsSuperAdmin(GetCurrentUserName()));
             }
             else
                 return View(changePasswordModel);
@@ -137,14 +137,14 @@ namespace WebAI.Controllers
         [HttpGet]
         public JsonResult CheckLogin(string login)
         {
-            var result = authenticationService.CheckLogin(login);
+            var result = _authenticationService.CheckLogin(login);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult CheckPassword(string oldPassword)
         {
-            var result = authenticationService.CheckUser(GetCurrentUserName(), oldPassword);
+            var result = _authenticationService.CheckUser(GetCurrentUserName(), oldPassword);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         
@@ -157,12 +157,12 @@ namespace WebAI.Controllers
 
         int GetCurrentAdminId()
         {
-            return authenticationService.GetAdminIdByLogin(GetCurrentUserName());
+            return _authenticationService.GetAdminIdByLogin(GetCurrentUserName());
         }
 
         int GetCurrentAdminId(string login)
         {
-            return authenticationService.GetAdminIdByLogin(login);
+            return _authenticationService.GetAdminIdByLogin(login);
         }
 
     }

@@ -23,6 +23,7 @@ namespace DataAccess.Repositories.Base
             string name = GetCurrentUserName();
             return _context.Users.FirstOrDefault(x => x.Login.Trim().ToLower() == name.Trim().ToLower()).Id;
         }
+
         protected string GetCurrentUserName()
         {
             string name = Thread.CurrentPrincipal.Identity?.Name;

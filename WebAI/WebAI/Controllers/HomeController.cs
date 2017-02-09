@@ -15,11 +15,11 @@ using WebAI.Models;
 namespace WebAI.Controllers
 {
     [Authorize]
-    //[Authorize(Roles = "SuperAdmin")]
     public class HomeController : Controller
         
     {
-        IAuthenticationService _authenticationService;
+        IAuthenticationService _authenticationService = null;
+
         public HomeController(IAuthenticationService authenticationService)
         {
             
@@ -28,7 +28,7 @@ namespace WebAI.Controllers
 
         public ActionResult Index()
         {
-            //FormsAuthentication.SignOut();
+            
             return View(_authenticationService.IsSuperAdmin(CurrentAdminData.Name));
         }
 

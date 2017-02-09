@@ -15,19 +15,24 @@ namespace DataAccess.Repositories
     public class SiteRepository
         : BaseRepository, ISiteRepository
     {
-        //WebAIDbContext context;
-
         public SiteRepository(WebAIDbContext context)
             : base(context)
         {
             
         }
 
-        
+        public void AddSite(Site site)
+        {
+            if (site != null)
+            {
+                site.AdminId = GetCurrentUserId();
+                _context.Sites.Add(site);
+                _context.SaveChanges();
+            }
+        }
 
         public void AddSite(Site site, string url)
         {
-            
             if (site != null)
             {
                 site.AdminId = GetCurrentUserId();

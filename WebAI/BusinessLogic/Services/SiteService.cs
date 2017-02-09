@@ -14,49 +14,40 @@ namespace BusinessLogic.Services
     public class SiteService
         : Base.ISiteService
     {
-        ISiteRepository siteReposytory;
+        ISiteRepository _siteRepository;
         IMapper _mapper = null;
 
         public SiteService(ISiteRepository siteReposytory, IMapper mapper)
         {
-            this.siteReposytory = siteReposytory;
+            _siteRepository = siteReposytory;
             _mapper = mapper;
-            
-           
         }
 
         public void AddSite(SiteDTO siteDTO)
         {
             var site = _mapper.Map<SiteDTO, Site>(siteDTO);
             site.AdminId = AdminIdRemember.Id;
-            string url = "http://" + siteDTO.Url;
-            siteReposytory.AddSite(site, url);
+            _siteRepository.AddSite(site);
         }
 
         public void ChangeSite(SiteDTO siteDTO)
         {
-            
-
-            siteReposytory.ChangeSite(_mapper.Map<SiteDTO, Site>(siteDTO));
-
+            _siteRepository.ChangeSite(_mapper.Map<SiteDTO, Site>(siteDTO));
         }
 
         public void DeleteSiteById(int id)
         {
-            siteReposytory.DeleteSiteById(id);
+            _siteRepository.DeleteSiteById(id);
         }
 
         public SiteDTO GetSiteById(int id)
         {
-            
-            return _mapper.Map<Site, SiteDTO>(siteReposytory.GetSite(id));
+            return _mapper.Map<Site, SiteDTO>(_siteRepository.GetSite(id));
         }
 
         public IEnumerable<SiteDTO> GetSites()
         {
-            var sites = siteReposytory.GetSites();
-
-           
+            var sites = _siteRepository.GetSites();
             return _mapper.Map<IEnumerable<Site>, IEnumerable<SiteDTO>>(sites);
         }
     }

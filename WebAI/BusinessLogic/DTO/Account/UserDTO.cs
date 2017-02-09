@@ -14,6 +14,6 @@ namespace BusinessLogic.DTO.Account
         public string Password { get; set; }
         public string Email { get; set; }
         public int RoleId { get; set; }
-        public int? AdminId { get; set; }
+        public int AdminId { get; set; }
     }
 }

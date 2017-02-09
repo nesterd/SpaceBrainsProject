@@ -15,29 +15,20 @@ namespace DataAccess.Repositories
     public class PersonRepository
         : BaseRepository, IPersonRepository
     {
-        //WebAIDbContext context;
-
         public PersonRepository(WebAIDbContext context)
             : base(context)
         {
-            //this.context = context;
+
         }
-
-        //int GetCurrentUserId()
-        //{
-        //    return _context.Users.FirstOrDefault(x => x.Admin.Name == CurrentAdminData.Name).Id;
-        //}
-
+        
         public void AddPerson(Person person)
         {
-           
             if(person != null)
             {
                 person.AdminId = GetCurrentUserId();
                 _context.Persons.Add(person);
                 _context.SaveChanges();
             }
-            
         }
 
         public void AddKeyWord(KeyWord keyWord)
@@ -47,7 +38,6 @@ namespace DataAccess.Repositories
                 _context.KeyWords.Add(keyWord);
                 _context.SaveChanges();
             }
-
         }
         
         public  void ChangePerson(Person person)
@@ -129,10 +119,5 @@ namespace DataAccess.Repositories
             string name = GetCurrentUserName();
             return _context.Persons.Where(x => x.Admin.Login == name).ToArray();
         }
-
-        //IEnumerable<KeyWord> GetKeyWordsByAdminId()
-        //{
-        //    return context.KeyWords.Where(x => x.AdminId == AdminIdRemember.Id).ToArray();
-        //}
     }
 }
