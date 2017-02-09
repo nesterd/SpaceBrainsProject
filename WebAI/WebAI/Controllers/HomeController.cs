@@ -1,25 +1,35 @@
-﻿using BusinessLogic.Services.Base;
+﻿using BusinessLogic.Services;
+using BusinessLogic.Services.Base;
 using DataAccess.Repositories.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using Utility.enums;
+using Utility.Helpers;
 using WebAI.Models;
 
 namespace WebAI.Controllers
 {
     [Authorize]
+    //[Authorize(Roles = "SuperAdmin")]
     public class HomeController : Controller
+        
     {
-        public HomeController()
+        IAuthenticationService _authenticationService;
+        public HomeController(IAuthenticationService authenticationService)
         {
-
+            
+            _authenticationService = authenticationService;
         }
 
         public ActionResult Index()
         {
-            return View();
+            //FormsAuthentication.SignOut();
+            return View(_authenticationService.IsSuperAdmin(CurrentAdminData.Name));
         }
 
  

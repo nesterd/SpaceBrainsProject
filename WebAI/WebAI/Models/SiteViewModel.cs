@@ -15,6 +15,8 @@ namespace WebAI.Models
         public string Name { get; set; }
 
         [DisplayName("Url начальной страницы")]
+        [UIHint("Url")]
+        [DataType(DataType.Url)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "поле обязательно для заполнения")]
         public string Url { get; set; }
     }

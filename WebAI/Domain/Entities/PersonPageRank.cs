@@ -13,6 +13,7 @@ namespace Domain.Entities
     {
         [Key, Column(Order = 1)]
         public int PersonId { get; set; }
+
         [Key, Column(Order = 2)]
         public int PageId { get; set; }
 

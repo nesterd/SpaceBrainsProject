@@ -9,6 +9,9 @@ namespace DataAccess.Repositories.Base
 {
     public interface IAuthenticationRepository
     {
-        User GetUserByLogin(string login); 
+        User GetUserByLogin(string login);
+        bool CheckLogin(string loginToCheck);
+        void AddUser(User userToAdd);
+        int GetUserIdByLogin(string userLogin);
     }
 }

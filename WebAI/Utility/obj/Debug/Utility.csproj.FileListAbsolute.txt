@@ -1,0 +1,5 @@
+C:\GitHubRepositories\SpaceBrainsProject\WebAI\Utility\bin\Debug\Utility.dll
+C:\GitHubRepositories\SpaceBrainsProject\WebAI\Utility\bin\Debug\Utility.pdb
+C:\GitHubRepositories\SpaceBrainsProject\WebAI\Utility\obj\Debug\Utility.dll
+C:\GitHubRepositories\SpaceBrainsProject\WebAI\Utility\obj\Debug\Utility.pdb
+C:\GitHubRepositories\SpaceBrainsProject\WebAI\Utility\obj\Debug\Utility.csprojResolveAssemblyReference.cache

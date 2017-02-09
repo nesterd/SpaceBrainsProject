@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.DTO
+namespace Utility.enums
 {
-    public static class PersonIdRemember
+    public enum RolesEnum
     {
-        public static int Id { get; set; } = 1;
-    }
+        Root = 1,
+        Admin = 2, 
+        User = 3,
+
+        
+}
 }

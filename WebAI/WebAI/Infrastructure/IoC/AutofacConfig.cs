@@ -7,6 +7,8 @@ using Autofac.Integration.Mvc;
 using DataAccess.IoC;
 using System.Web.Mvc;
 using BusinessLogic.IoC;
+using WebAI.Infrastructure;
+using AutoMapper;
 
 namespace WebAI.IoC
 {
@@ -17,6 +19,9 @@ namespace WebAI.IoC
             var builder = new ContainerBuilder();
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            builder.Register(ctn => AutoMapperConfig.GetConfiguration()).SingleInstance();
+            builder.Register(ctn => ctn.Resolve<MapperConfiguration>().CreateMapper()).SingleInstance();
 
             builder.RegisterModule<DataAccessDependencyModule>();
             builder.RegisterModule<BusinessLogicDependencyModule>();
