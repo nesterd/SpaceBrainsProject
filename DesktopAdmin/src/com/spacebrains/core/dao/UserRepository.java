@@ -104,6 +104,10 @@ public class UserRepository {
         return rest.deleteObject(new UserRegistration(user));
     }
 
+    public boolean register(User user) {
+        return rest.register(new UserRegistration(user));
+    }
+
     private static class UserCredentials extends DbObject {
 
         UserCredentials(String username, String password) {
