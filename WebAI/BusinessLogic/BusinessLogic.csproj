@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -80,13 +81,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\Account\UserDTO.cs" />
     <Compile Include="DTO\Base\BaseDTO.cs" />
     <Compile Include="DTO\KeyWordDTO.cs" />
     <Compile Include="DTO\PersonDTO.cs" />
-    <Compile Include="DTO\PersonIdRemember.cs" />
     <Compile Include="DTO\SiteDTO.cs" />
     <Compile Include="IoC\BusinessLogicDependencyModule.cs" />
+    <Compile Include="Mapping\KeyWordProfile.cs" />
+    <Compile Include="Mapping\PersonProfile.cs" />
+    <Compile Include="Mapping\SiteProfile.cs" />
+    <Compile Include="Mapping\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
+    <Compile Include="Services\Base\IAuthenticationService.cs" />
     <Compile Include="Services\Base\IPersonService.cs" />
     <Compile Include="Services\Base\ISiteService.cs" />
     <Compile Include="Services\PersonService.cs" />
@@ -100,6 +107,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{eb7cc0cf-31e8-4ab2-bafc-0be11f020518}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{291ae463-932b-437d-a9e4-4f222c01bc96}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

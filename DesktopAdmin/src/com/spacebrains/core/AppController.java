@@ -81,9 +81,7 @@ public class AppController {
      */
     public String changePswd(String oldPswd, String newPswd) {
         if (currentUser != null) {
-            if (oldPswd.equals("123")) { // for real request - currentPswd check should be on web-service side.
-                return AuthConstants.PSWD_CHANGED;
-            } else return AuthConstants.ERR_WRONG_PWSD;
+            return userRepo.changePswd(newPswd) ? AuthConstants.PSWD_CHANGED : AuthConstants.NOT_ANSWERED;
         } else
             return AuthConstants.INVALID_SESSION;
     }

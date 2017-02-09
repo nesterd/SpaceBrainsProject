@@ -175,13 +175,23 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="IoC\AutofacConfig.cs" />
+    <Compile Include="Infrastructure\AutoMapperConfig.cs" />
+    <Compile Include="Infrastructure\IoC\AutofacConfig.cs" />
+    <Compile Include="Infrastructure\Mapping\Account\UserRegistrationProfile.cs" />
+    <Compile Include="Infrastructure\Mapping\KeyWordViewProfile.cs" />
+    <Compile Include="Infrastructure\Mapping\PersonViewProfile.cs" />
+    <Compile Include="Infrastructure\Mapping\SiteViewProfile.cs" />
+    <Compile Include="Models\Account\AccountManagerViewModel.cs" />
+    <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
+    <Compile Include="Models\Account\LogInViewModel.cs" />
+    <Compile Include="Models\Account\UserRegistrationViewModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\KeyWordViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
@@ -252,6 +262,12 @@
     <Content Include="Views\Person\ChangePerson.cshtml" />
     <Content Include="Views\Person\ChangeKeyWord.cshtml" />
     <Content Include="Views\Site\Add.cshtml" />
+    <Content Include="Views\Account\LogIn.cshtml" />
+    <Content Include="Views\Account\_CurrentUser.cshtml" />
+    <Content Include="Views\Shared\_AIMenu.cshtml" />
+    <Content Include="Views\Account\UserRegistration.cshtml" />
+    <Content Include="Views\Shared\_SuperAIMenu.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,6 +290,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{eb7cc0cf-31e8-4ab2-bafc-0be11f020518}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{291ae463-932b-437d-a9e4-4f222c01bc96}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

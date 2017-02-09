@@ -1,0 +1,15 @@
+﻿@model string
+
+@if (string.IsNullOrWhiteSpace(Model))
+{
+    <div>
+        @Html.ActionLink("Войти", "LogIn", "Account")
+    </div>
+}
+else
+{
+    <div>
+        <span style="color: chartreuse">@Html.ActionLink(Model,"ChangePassword", "Account")</span>
+        @Html.ActionLink("Выйти", "LogOut", "Account")
+    </div>
+}

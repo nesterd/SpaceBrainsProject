@@ -55,11 +55,19 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonPageRank.cs" />
     <Compile Include="Entities\Site.cs" />
+    <Compile Include="Entities\Users\Role.cs" />
+    <Compile Include="Entities\Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{291ae463-932b-437d-a9e4-4f222c01bc96}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

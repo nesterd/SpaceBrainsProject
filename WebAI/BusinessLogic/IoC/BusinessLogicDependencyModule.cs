@@ -18,6 +18,8 @@ namespace BusinessLogic.IoC
                 .InstancePerRequest();
             builder.RegisterType<SiteService>().As<ISiteService>()
                 .InstancePerRequest();
+            builder.RegisterType<AuthenticationService>().As<IAuthenticationService>()
+                .InstancePerRequest();
         }
     }
 }

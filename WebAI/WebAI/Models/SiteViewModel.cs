@@ -12,10 +12,16 @@ namespace WebAI.Models
     {
         [DisplayName("Название сайта")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "поле обязательно для заполнения")]
+        [StringLength(1024, ErrorMessage = "Название сайта слишком длинное(макс 1024 символа)")]
+        [RegularExpression(@"[A-Za-z0-9]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]
         public string Name { get; set; }
 
-        [DisplayName("Url начальной страницы")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "поле обязательно для заполнения")]
-        public string Url { get; set; }
+        //[DisplayName("Url начальной страницы")]
+        //[UIHint("Url")]
+        //[DataType(DataType.Url)]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "поле обязательно для заполнения")]
+        //[RegularExpression(@"[A-Za-z0-9._%+-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]
+        //[StringLength(2040, ErrorMessage = "Url слишком длинный")]
+        //public string Url { get; set; }
     }
 }

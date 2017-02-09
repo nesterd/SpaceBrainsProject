@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,10 @@ namespace Domain.Entities
     public class Page
         : Base.BaseDbEntity
     {
+        [Column(TypeName = "varchar")]
+        [StringLength(2048)]
         public string Url { get; set; }
+
         public int SiteId { get; set; }
         public DateTime FoundDateTime { get; set; }
         public DateTime? LastScanDate { get; set; }

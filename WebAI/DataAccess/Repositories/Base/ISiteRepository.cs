@@ -12,19 +12,11 @@ namespace DataAccess.Repositories.Base
 {
     public interface ISiteRepository
     {
-        
+        void AddSite(Site site);
         void AddSite(Site site, string url);
-
-        
         void ChangeSite(Site site);
-
-        
         void DeleteSiteById(int id);
-
-        
         IEnumerable<Site> GetSites();
-
-        
         Site GetSite(int id);
     }
 }
