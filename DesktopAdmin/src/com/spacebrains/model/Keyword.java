@@ -1,6 +1,11 @@
 package com.spacebrains.model;
 
-public class Keyword {
+import com.spacebrains.interfaces.INamed;
+
+/**
+ * @author Tatyana Vorobeva
+ */
+public class Keyword implements INamed<Keyword>, Comparable<Person> {
 
     private int keywordId;
     private String name;
@@ -11,15 +16,25 @@ public class Keyword {
         this.name = name;
     }
 
-    public Keyword(String name) {
-        this(0, name);
+    public Keyword(int keywordId, String name, Person person) {
+        this.keywordId = keywordId;
+        this.name = name;
+        this.person = person;
     }
 
-    public int getKeywordId() {
+    public Keyword(String name) {
+        this(0, name, new Person("Fake"));
+    }
+
+    public Keyword(String name, Person person) {
+        this(0, name, person);
+    }
+
+    public int getID() {
         return keywordId;
     }
 
-    public Keyword setKeywordId(int keywordId) {
+    public Keyword setID(int keywordId) {
         this.keywordId = keywordId;
         return this;
     }
@@ -41,5 +56,18 @@ public class Keyword {
     public Keyword setPerson(Person person) {
         this.person = person;
         return this;
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return getName().compareTo(o.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Keyword: {" +
+                "keywordId=" + keywordId +
+                ", name='" + name + '\'' +
+                "}\t" + person;
     }
 }
