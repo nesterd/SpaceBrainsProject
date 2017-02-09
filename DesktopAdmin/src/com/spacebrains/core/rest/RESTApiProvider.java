@@ -50,7 +50,7 @@ public class RESTApiProvider {
                 throw new RuntimeException(AuthConstants.ERR_WRONG_CREDENTIALS);
             }
             case HttpStatus.SC_FORBIDDEN: {   // Error 403
-                throw new RuntimeException(AuthConstants.ERR_IS_USER);
+                throw new RuntimeException(AuthConstants.ACCESS_FORBIDDEN);
             }
             case HttpStatus.SC_OK: {
                 break;
@@ -63,7 +63,7 @@ public class RESTApiProvider {
 
     /**
      * Запрашивает список объектов справочника
-     * @return
+     * @return коллекция объектов в виде пар ключ-значение HashMap
      */
     public <T extends DbObject> HashMap<Long, String> getObjects(String reqString) {
         HashMap<Long, String> result = new HashMap<>();
@@ -133,10 +133,7 @@ public class RESTApiProvider {
         httpProvider.setJSONString(reqObject.toJSONString());
         int status = httpProvider.doPutMethod(sb.toString());
         handleError(status);
-        if(status != HttpStatus.SC_OK) {
-            throw new RuntimeException(httpProvider.getStatusLine());
-        }
-        return true;
+        return status == HttpStatus.SC_OK;
     }
 
     public <T extends DbObject> boolean deleteObject(T reqObject) {
@@ -146,10 +143,7 @@ public class RESTApiProvider {
         sb.append('/');
         sb.append(reqObject.getProperty("id"));
         int status = httpProvider.doDeleteMethod(sb.toString());
-        if(status != HttpStatus.SC_OK) {
-            throw new RuntimeException(httpProvider.getStatusLine());
-        }
-        return true;
+        return status == HttpStatus.SC_OK;
     }
 
     public <T extends DbObject> boolean register(T reqObject) {
@@ -159,7 +153,7 @@ public class RESTApiProvider {
         httpProvider.setJSONString(reqObject.toJSONString());
         int status = httpProvider.doPostMethod (sb.toString());
         handleError(status);
-        return (status == HttpStatus.SC_OK) ? true : false;
+        return status == HttpStatus.SC_OK;
     }
 
     /**
@@ -182,11 +176,21 @@ public class RESTApiProvider {
         return result;
     }
 
-    public <T extends DbObject> void getUsers() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('/');
-        sb.append("users");
-        int status = httpProvider.doGetMethod(sb.toString());
+    public <T extends DbObject> String getUsers() {
+        int status = httpProvider.doGetMethod("/users");
         handleError(status);
+        if(status == HttpStatus.SC_OK) {
+            return httpProvider.getJSONString();
+        }
+        return null;
+    }
+
+    public <T extends DbObject> String getAdmins() {
+        int status = httpProvider.doGetMethod("/admins");
+        handleError(status);
+        if(status == HttpStatus.SC_OK) {
+            return httpProvider.getJSONString();
+        }
+        return null;
     }
 }

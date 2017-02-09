@@ -7,7 +7,6 @@ import com.spacebrains.model.Person;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 public class KeywordRepository {
     private ArrayList<Keyword> keywords;
@@ -84,7 +83,7 @@ public class KeywordRepository {
             addProperty("id", 0);
             addProperty("name",null);
             addProperty("person_id", 0);
-            buildFromJSON(jsonString);
+            buildFromJSONString(jsonString);
         }
 
         KeywordDao(Keyword keyword) {

@@ -34,10 +34,10 @@ public class HttpTest {
 		String login = sc.nextLine();
 		System.out.print("Введите пароль: ");
 		String password = sc.nextLine();
-		userRepo.login(login, password);
+		User currentUSer = userRepo.login(login, password);
 		System.out.println(userRepo.getToken());
 
-		userRepo.get();
+		userRepo.get(currentUSer.getRole());
 	}
 
 }

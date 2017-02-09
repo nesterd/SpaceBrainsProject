@@ -24,7 +24,7 @@ public abstract class DbObject implements JSONAware {
     super();
     addProperty("id", 0);
     addProperty("name",null);
-    buildFromJSON(jsonString);
+    buildFromJSONString(jsonString);
     }
      */
 
@@ -51,16 +51,20 @@ public abstract class DbObject implements JSONAware {
         return fields.keySet();
     }
 
-    public void buildFromJSON(String jsonString) {
+    public void buildFromJSONString(String jsonString) {
         JSONParser parser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
-            for (String key: fields.keySet()) {
-                Object value = jsonObject.get(key);
-                setProperty(key, value);
-            }
+            buildFromJSON(jsonObject);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void buildFromJSON(JSONObject jsonObject) {
+        for (String key: fields.keySet()) {
+            Object value = jsonObject.get(key);
+            setProperty(key, value);
         }
     }
 

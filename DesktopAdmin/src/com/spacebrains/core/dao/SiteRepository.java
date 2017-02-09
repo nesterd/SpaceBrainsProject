@@ -2,7 +2,6 @@ package com.spacebrains.core.dao;
 
 import com.spacebrains.core.rest.RESTApiProvider;
 import com.spacebrains.model.Site;
-import org.json.simple.JSONObject;
 
 import java.util.*;
 
@@ -67,7 +66,7 @@ public class SiteRepository {
             super();
             addProperty("id", 0);
             addProperty("name",null);
-            buildFromJSON(jsonString);
+            buildFromJSONString(jsonString);
         }
 
         SiteDao(Site site) {

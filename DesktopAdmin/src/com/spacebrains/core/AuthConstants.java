@@ -15,6 +15,7 @@ public abstract class AuthConstants {
     public static final String ERR_WRONG_LOGIN = "Логин не найден";
     public static final String ERR_WRONG_PWSD = "Неверный пароль";
     public static final String INVALID_SESSION = "Сессия истекла";
+    public static final String ACCESS_FORBIDDEN = "Доступ запрещен";
     public static final String ERR_IS_USER = "<html>Воспользуйтесь <a href='" + USER_WEB_INTERFACE_LINK
             + "'>Web-версией</a>,<br>&#09;пожалуйста</html>"; //<br>&#09;
 
