@@ -31,7 +31,7 @@ namespace Domain.Entities.Users
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        //public bool IsAdmin { get; set; }
+       
 
         public int AdminId { get; set; }
         public int RoleId { get; set; }
