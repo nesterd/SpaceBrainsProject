@@ -126,6 +126,14 @@ public class UsersTable extends JPanel {
         sorter = new TableRowSorter<> (tableModel);
         table.setRowSorter(sorter);
 
+        prepareCellRenderer();
+
+        jScroll.updateUI();
+        table.updateUI();
+        table.getSelectionModel().setSelectionInterval(0, 0);
+    }
+
+    private void prepareCellRenderer() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
@@ -137,10 +145,6 @@ public class UsersTable extends JPanel {
                 table.getColumnModel().getColumn(i).setMaxWidth(200);
             } else table.getColumnModel().getColumn(i).setMinWidth(190);
         }
-
-        jScroll.updateUI();
-        table.updateUI();
-        table.getSelectionModel().setSelectionInterval(0, 0);
     }
 
     protected void drawTable() {
@@ -150,6 +154,8 @@ public class UsersTable extends JPanel {
         table.getTableHeader().setFont(BASE_TABLE_HEADER_FONT);
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        prepareCellRenderer();
 
         table.setRowSelectionAllowed(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

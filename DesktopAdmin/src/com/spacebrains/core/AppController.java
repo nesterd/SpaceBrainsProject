@@ -3,13 +3,13 @@ package com.spacebrains.core;
 import com.spacebrains.core.dao.KeywordRepository;
 import com.spacebrains.core.dao.PersonRepository;
 import com.spacebrains.core.dao.SiteRepository;
-import com.spacebrains.core.rest.StatsRestMock;
 import com.spacebrains.core.dao.UserRepository;
-import com.spacebrains.core.rest.UsersRestMock;
+import com.spacebrains.core.rest.StatsRestMock;
 import com.spacebrains.model.*;
+
 import java.util.ArrayList;
 
-import static com.spacebrains.core.AuthConstants.*;
+import static com.spacebrains.core.AuthConstants.SUCCESS;
 
 public class AppController {
 
@@ -185,15 +185,13 @@ public class AppController {
     }
 
     public String setUser(User user) {
-        return userRepo.put(user);
+        if (user.getID() == 0)
+            return userRepo.register(user) ? AuthConstants.SUCCESS : AuthConstants.NOT_ANSWERED;
+        else return userRepo.put(user);
     }
 
     public boolean deleteUser(User user) {
-        //        return userRepo.delete(user);
-
-        // simple mock
-        return UsersRestMock.getInstance().delete(user);
-        // end simple mock
+        return userRepo.delete(user);
     }
 
     /**

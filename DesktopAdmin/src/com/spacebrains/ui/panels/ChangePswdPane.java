@@ -22,7 +22,6 @@ public class ChangePswdPane extends BasePane {
 
     private GridBagConstraints gbc = new GridBagConstraints();
 
-    private JFrame currentFrame;
     private JLabel mainLabel;
     private JLabel errorMsgLabel;
     private JPasswordField oldPswdField;
@@ -161,7 +160,6 @@ public class ChangePswdPane extends BasePane {
 
         if (answer.equals(AuthConstants.PSWD_CHANGED)) {
             setErrorMsg(DARK_GREEN, answer);
-//            JOptionPane.showMessageDialog(currentFrame, answer, BaseParams.APP_NAME, JOptionPane.PLAIN_MESSAGE);
         } else {
             if (answer.equals(AuthConstants.INVALID_SESSION)) {
                 PaneManager.switchToAuthPane();

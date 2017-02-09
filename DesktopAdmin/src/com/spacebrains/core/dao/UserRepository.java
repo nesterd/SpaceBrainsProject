@@ -46,7 +46,7 @@ public class UserRepository {
                     }
                 }
             }
-            currentUser = new User(0,null, login, null, access_token, role);
+            currentUser = new User(0, login, login, null, access_token, role);
         }
         return currentUser;
     }

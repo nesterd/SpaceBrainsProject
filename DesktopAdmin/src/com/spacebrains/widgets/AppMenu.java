@@ -110,19 +110,21 @@ public class AppMenu extends JMenuBar {
     public void switchForUserRights() {
         Role userRole = AppController.getInstance().getCurrentUserRole();
 
+        miFileCrawlerStats.setVisible(false); // for further versions
+
         if (userRole.equals(Role.SUPER_ADMIN)) {
             miDictsUsers.setText(MI_ADMINS);
             miDictsKeywords.setEnabled(false);
             miDictsPersons.setEnabled(false);
             miDictsSites.setEnabled(false);
-            miFileCrawlerStats.setEnabled(false);
+//            miFileCrawlerStats.setEnabled(false);
         }
         if (userRole.equals(Role.ADMIN)) {
             miDictsUsers.setText(MI_USERS);
             miDictsKeywords.setEnabled(true);
             miDictsPersons.setEnabled(true);
             miDictsSites.setEnabled(true);
-            miFileCrawlerStats.setEnabled(true);
+//            miFileCrawlerStats.setEnabled(true);
         }
 
         miDictsKeywords.updateUI();
@@ -131,7 +133,7 @@ public class AppMenu extends JMenuBar {
         miDictsUsers.updateUI();
         mDicts.updateUI();
 
-        miFileCrawlerStats.updateUI();
+//        miFileCrawlerStats.updateUI();
         mFile.updateUI();
 
         this.updateUI();

@@ -2,10 +2,7 @@ package com.spacebrains.core.rest;
 
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.dao.DbObject;
-import com.spacebrains.core.dao.UserRepository;
 import com.spacebrains.core.http.HttpProvider;
-import com.spacebrains.core.util.BaseParams;
-import com.spacebrains.model.Person;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

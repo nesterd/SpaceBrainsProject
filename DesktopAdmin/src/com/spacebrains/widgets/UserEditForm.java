@@ -37,6 +37,12 @@ public class UserEditForm extends JDialog {
     private FormattedButton saveBtn = new FormattedButton("Сохранить");
     private FormattedButton cancelBtn = new FormattedButton("Отменить");
 
+    private JTextField nameField;
+    private JTextField loginField;
+    private JTextField emailField;
+    private JTextField pswdField;
+    private String answer;
+
     public UserEditForm(User user) {
         this(user, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
@@ -49,7 +55,8 @@ public class UserEditForm extends JDialog {
         setLayout(new GridBagLayout());
 
         initMainSettings();
-        JLabel label = new JLabel((user == null || user.getID() == 0) ? "Добавление" : "Редактирование \"" + user.getLogin() + "\"");
+        String nameToShow = user.getLogin().length() > 1 ? user.getLogin() : user.getName();
+        JLabel label = new JLabel((user == null || user.getID() == 0) ? "Добавление" : "Редактирование \"" + nameToShow + "\"");
         label.setFont(BaseParams.BASE_LABEL_FONT);
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -60,19 +67,19 @@ public class UserEditForm extends JDialog {
         errorMsgLabel.setFont(getBaseFont(Font.BOLD, 16));
         errorMsgLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JTextField nameField = new JTextField();
+        nameField = new JTextField();
         nameField.setMaximumSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
         nameField.setText((user == null || user.getID() == 0) ? "" : user.getName());
 
-        JTextField loginField = new JTextField();
+        loginField = new JTextField();
         loginField.setMaximumSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
         loginField.setText((user == null || user.getID() == 0) ? "" : user.getLogin());
 
-        JTextField emailField = new JTextField();
+        emailField = new JTextField();
         emailField.setMaximumSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
         emailField.setText((user == null || user.getID() == 0) ? "" : user.getEmail());
 
-        JTextField pswdField = new JTextField();
+        pswdField = new JTextField();
         pswdField.setMaximumSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
         pswdField.setText("");
 
@@ -80,19 +87,14 @@ public class UserEditForm extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String answer = AuthConstants.SUCCESS;
+                answer = AuthConstants.SUCCESS;
 
-                if (nameField.getText().length() < 1) {
-                    answer = AuthConstants.USER_NAME_EMPTY;
-                } else if (loginField.getText().length() < 1) {
-                    answer = AuthConstants.USER_LOGIN_EMPTY;
-                } else if (emailField.getText().length() < 1) {
-                    answer = AuthConstants.USER_EMAIL_EMPTY;
-                } else if (!validate(emailField.getText())) {
-                    answer = AuthConstants.USER_EMAIL_FORMAT;
-                } else if ((user == null || user.getID() == 0) && pswdField.getText().length() < 1) {
-                    answer = AuthConstants.USER_PSWD_EMPTY;
-                } else {
+                checkNameField();
+                checkLoginField();
+                checkEmailField();
+                checkPswdField();
+
+                if (checkNameField() && checkLoginField() && checkEmailField() && checkPswdField()) {
                     setErrorMsg(DARK_BLUE, "Сохраняем...");
                     user.setName(nameField.getText());
                     user.setLogin(loginField.getText());
@@ -200,6 +202,37 @@ public class UserEditForm extends JDialog {
         initKeysListeners();
     }
 
+    private boolean checkField(JTextField field, int minLength, int maxLength, String minAnswer, String maxAnswer) {
+        if (field.getText().length() < minLength) answer = minAnswer;
+        else if (field.getText().length() > maxLength) answer = maxAnswer;
+        else answer = AuthConstants.SUCCESS;
+
+        return answer.equals(AuthConstants.SUCCESS);
+    }
+
+    private boolean checkNameField() {
+        return checkField(nameField, 1, 75, AuthConstants.USER_NAME_EMPTY, AuthConstants.USER_NAME_TOO_LONG);
+    }
+
+    private boolean checkLoginField() {
+        return checkField(loginField, 1, 15, AuthConstants.USER_LOGIN_EMPTY, AuthConstants.USER_LOGIN_TOO_LONG);
+    }
+
+    private boolean checkEmailField() {
+        boolean checkResult = checkField(emailField, 1, 150, AuthConstants.USER_EMAIL_EMPTY, AuthConstants.USER_EMAIL_TOO_LONG);
+        if (checkResult && !validate(emailField.getText())) {
+            answer = AuthConstants.USER_EMAIL_FORMAT;
+            checkResult = false;
+        }
+        return checkResult;
+    }
+
+    private boolean checkPswdField() {
+        int minLenght = (user == null || user.getID() == 0) ? 1 : 0;
+        System.out.println("minLenght: " + minLenght);
+        return checkField(pswdField, minLenght, 1024, AuthConstants.USER_PSWD_EMPTY, AuthConstants.USER_PSWD_TOO_LONG);
+    }
+
     private void initMainSettings() {
         setTitle((user == null || user.getID() == 0)? "Новый элемент" : "Редактировать");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -240,9 +273,7 @@ public class UserEditForm extends JDialog {
 
     protected String save(User user) {
         try {
-            return AppController.getInstance().setUser(user)
-                    ? AuthConstants.SUCCESS
-                    : AuthConstants.NOT_ANSWERED;
+            return AppController.getInstance().setUser(user);
         } catch (RuntimeException e) {
             return AuthConstants.NOT_ANSWERED;
         }
