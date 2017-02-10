@@ -11,7 +11,7 @@ class Site(Resource):
         type=str,
         required=True,
         help="This field cannot be left blank!"
-    )
+        )
 
     @jwt_required()
     def get(self, id=None, name=None):
@@ -28,7 +28,7 @@ class Site(Resource):
         if SiteModel.find_by_name(name):
             return {
                 'message': "A site with name '{}' already exists.".format(name)
-            }, 400
+                }, 400
 
         current_user = current_identity.id
         site = SiteModel(name, admin=current_user)
@@ -71,7 +71,7 @@ class SiteList(Resource):
     def get(self):
         return {
             'sites': list(map(lambda x: x.json(), SiteModel.query.all())),
-        }
+            }
 
 
 class PagesList(Resource):
@@ -90,7 +90,7 @@ class CreateSite(Resource):
         type=str,
         required=True,
         help="This field cannot be left blank!"
-    )
+        )
 
     @jwt_required()
     def post(self):
@@ -101,9 +101,8 @@ class CreateSite(Resource):
         if SiteModel.find_by_name(data['name']):
             return {
                 'message': "A site with name '{}' already exists.".format(
-                    data['name']
-                )
-            }, 400
+                    data['name'])
+                }, 400
 
         site.save_to_db()
         return site.json(), 201

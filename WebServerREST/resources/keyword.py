@@ -9,20 +9,21 @@ class Keyword(Resource):
         'person_id',
         type=int,
         required=True,
-        help="Every keyword needs a person id.")
+        help="Every keyword needs a person id."
+        )
     parser1 = reqparse.RequestParser()
     parser1.add_argument(
         'name',
         type=str,
         required=True,
         help="This field cannot be left blank!"
-    )
+        )
     parser1.add_argument(
         'person_id',
         type=int,
         required=True,
         help="Every keyword needs a person id."
-    )
+        )
 
     @jwt_required()
     def get(self, id=None, name=None):
@@ -40,9 +41,8 @@ class Keyword(Resource):
         if KeywordModel.find_by_name(name):
             return {
                 'message': "An keyword with name '{}' already exists.".format(
-                    name
-                )
-            }, 400
+                    name)
+                }, 400
 
         data = Keyword.parser.parse_args()
         keyword = KeywordModel(name=name, **data)
@@ -77,7 +77,7 @@ class Keyword(Resource):
             keyword = KeywordModel(
                 name=data['name'],
                 person_id=data['person_id']
-            )
+                )
 
         keyword.save_to_db()
         return keyword.json()
@@ -89,8 +89,8 @@ class KeywordList(Resource):
         return {
             'keywords': list(map(
                 lambda x: x.json(), KeywordModel.query.all())
-            )
-        }
+                )
+            }
 
 
 class CreateKeyword(Resource):
@@ -100,13 +100,13 @@ class CreateKeyword(Resource):
         type=int,
         required=True,
         help="Every keyword needs a person id."
-    )
+        )
     parser.add_argument(
         'name',
         type=str,
         required=True,
         help="This field cannot be left blank!"
-    )
+        )
 
     @jwt_required()
     def post(self):
@@ -118,9 +118,8 @@ class CreateKeyword(Resource):
         if KeywordModel.find_by_name(data['name']):
             return {
                 'message': "A keyword with name '{}' already exists.".format(
-                    data['name']
-                )
-            }, 400
+                    data['name'])
+                }, 400
 
         keyword.save_to_db()
         return keyword.json(), 201

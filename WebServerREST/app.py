@@ -24,7 +24,6 @@ app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=7200)
 app.secret_key = ''
 api = Api(app)
 
-
 @app.before_first_request
 def create_tables():
     db.create_all()
@@ -37,6 +36,7 @@ api.add_resource(Person, '/person/<string:name>', '/person/<int:id>')
 api.add_resource(PersonList, '/persons')
 api.add_resource(Keyword, '/keyword/<string:name>', '/keyword/<int:id>')
 api.add_resource(KeywordList, '/keywords')
+api.add_resource(Stats, '/base_statistic/<int:ID>', '/base_statistic/<string:Name>')
 api.add_resource(StatList, '/base_statistic')
 api.add_resource(
     Stats, '/base_statistic/<int:id>', '/base_statistic/<string:name>')
@@ -83,4 +83,5 @@ if __name__ == '__main__':
 
     from db import db
     db.init_app(app)
-    app.run(port=5000, debug=True)
+    #app.run(port=5000, debug=True)
+    app.run(host='93.174.131.56', debug=True)

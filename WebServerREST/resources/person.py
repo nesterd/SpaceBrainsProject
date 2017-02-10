@@ -27,9 +27,8 @@ class Person(Resource):
         if PersonModel.find_by_name(name):
             return {
                 'message': "A person with name '{}' already exists.".format(
-                    name
-                )
-            }, 400
+                    name)
+                }, 400
 
         current_user = current_identity.id
         person = PersonModel(name=name, admin=current_user)
@@ -48,8 +47,9 @@ class Person(Resource):
             person = PersonModel.find_by_name(name)
         if person:
             person.delete_from_db()
-
-        return {'message': 'Person deleted'}
+            return {'message': 'Person deleted'}, 200
+        else:
+            return {'message': 'Person not found'}, 400
 
     @jwt_required()
     def put(self, id):
@@ -64,17 +64,18 @@ class Person(Resource):
             person = PersonModel(name=data['name'], admin=current_user)
 
         person.save_to_db()
-        return person.json()
+        return person.json(), 200
 
 
 class PersonList(Resource):
     @jwt_required()
     def get(self):
+
         return {
             'persons': list(map(
                 lambda x: x.json(), PersonModel.query.all()
             ))
-        }
+        }, 200
 
 
 class CreatePerson(Resource):
