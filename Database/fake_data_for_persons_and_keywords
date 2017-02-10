@@ -1,0 +1,9 @@
+INSERT INTO `persons` (`Name``) VALUES ("Путин");
+INSERT INTO `keywords` (`Name`, `PersonID`) VALUES ('Путину','1');
+INSERT INTO `keywords` (`Name`, `PersonID`) VALUES ('Путиным', '1');
+INSERT INTO `keywords` (`Name`, `PersonID`) VALUES ('Путине', '1');
+
+INSERT INTO `persons` (`Name`) VALUES ("Медведев");
+INSERT INTO `keywords` (`Name`, `PersonID`) VALUES ('Медведеву', 2);
+INSERT INTO `keywords` (`Name`, `PersonID`) VALUES ('Медведеным', 2);
+INSERT INTO `keywords` (`Name`, `PersonID`) VALUES ('Медведева', 2);
