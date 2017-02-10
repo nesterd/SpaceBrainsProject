@@ -1,24 +1,26 @@
+import logging
+from logging.handlers import RotatingFileHandler
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
+from datetime import timedelta
 
 from security import authenticate, identity
-from resources.user import UserRegister
+from resources.user import UserRegister, UserListView, User
 
 from resources.site import Site, SiteList
 from resources.person import Person, PersonList
 from resources.stats import Pages as Stats, StatList, Rank, RankList,\
-RankDay, RankDayList, RankTime, RankTimeList
+    RankDay, RankDayList, RankTime, RankTimeList
 from models.pages import PageModel
 from resources.keyword import Keyword, KeywordList
 
-import logging
-from logging.handlers import RotatingFileHandler
-
-
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://login:password@host:3306/table'
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    'mysql+pymysql://user:pass@host:3306/database')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=7200)
 app.secret_key = ''
 api = Api(app)
 
@@ -28,30 +30,48 @@ def create_tables():
 
 jwt = JWT(app, authenticate, identity)  # /auth
 
-api.add_resource(Site, '/site/<int:ID>', '/site/<string:Name>')
+api.add_resource(Site, '/site/<int:id>', '/site/<string:name>')
 api.add_resource(SiteList, '/sites')
-api.add_resource(Person, '/person/<string:Name>', '/person/<int:ID>')
+api.add_resource(Person, '/person/<string:name>', '/person/<int:id>')
 api.add_resource(PersonList, '/persons')
-api.add_resource(Keyword, '/keyword/<string:Name>', '/keyword/<int:ID>')
+api.add_resource(Keyword, '/keyword/<string:name>', '/keyword/<int:id>')
 api.add_resource(KeywordList, '/keywords')
 api.add_resource(Stats, '/base_statistic/<int:ID>', '/base_statistic/<string:Name>')
 api.add_resource(StatList, '/base_statistic')
-api.add_resource(Rank, '/rank_statistic/<int:ID>', '/rank_statistic/<string:Name>')
+api.add_resource(
+    Stats, '/base_statistic/<int:id>', '/base_statistic/<string:name>')
+api.add_resource(
+    Rank, '/rank_statistic/<int:id>', '/rank_statistic/<string:name>')
 api.add_resource(RankList, '/rank_statistic')
-api.add_resource(RankDay, '/day_statistic/<int:ID>/<string:Date>',
-                 '/day_statistic/<string:Name>/<string:Date>')
-api.add_resource(RankDayList, '/day_statistic/base/<string:Date>')
-api.add_resource(RankTime, '/time_statistic/<int:ID>/<string:Date1>/<string:Date2>',
-                 '/time_statistic/<string:Name>/<string:Date1>/<string:Date2>')
-api.add_resource(RankTimeList, '/time_statistic/base/<string:Date1>/<string:Date2>')
+api.add_resource(
+    RankDay,
+    '/day_statistic/<int:id>/<string:date>',
+    '/day_statistic/<string:name>/<string:date>'
+)
+api.add_resource(RankDayList, '/day_statistic/base/<string:date>')
+api.add_resource(
+    RankTime,
+    '/time_statistic/<int:id>/<string:date1>/<string:date2>',
+    '/time_statistic/<string:name>/<string:date1>/<string:date2>'
+)
+api.add_resource(
+    RankTimeList, '/time_statistic/base/<string:date1>/<string:date2>')
 api.add_resource(UserRegister, '/register')
 
-if __name__ == '__main__':
+api.add_resource(UserListView, '/users')
+api.add_resource(User, '/user/<int:id>')
+api.add_resource(AdminView, '/admins')
 
+if __name__ == '__main__':
     log = logging.getLogger(__name__)
     log.setLevel(logging.DEBUG)
     # add a file handler
-    fh = logging.handlers.TimedRotatingFileHandler("log/app_log.log",when='M',interval=86400,backupCount=0)
+    fh = logging.handlers.TimedRotatingFileHandler(
+        "log/app_log.log",
+        when='M',
+        interval=86400,
+        backupCount=0
+        )
     fh.setLevel(logging.DEBUG)
     # create a formatter and set the formatter for the handler.
     frmt = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -60,7 +80,7 @@ if __name__ == '__main__':
     log.addHandler(fh)
 
     logging.getLogger('werkzeug').addHandler(fh)
-    
+
     from db import db
     db.init_app(app)
     #app.run(port=5000, debug=True)
