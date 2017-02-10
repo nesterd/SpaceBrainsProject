@@ -1,7 +1,6 @@
 from db import db
 from sqlalchemy.orm import synonym
 from models.site import SiteModel
-from models.rank import RankModel
 
 
 class PageModel(db.Model):
@@ -51,8 +50,8 @@ class PageModel(db.Model):
             }
 
     @classmethod
-    def find_by_id(cls, ID):
-        return cls.query.filter_by(SiteID=ID).first()
+    def find_by_id(cls, id):
+        return cls.query.filter_by(site_id=id).first()
 
     @classmethod
     def find_by_name(cls, name):
