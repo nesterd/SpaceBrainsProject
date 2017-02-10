@@ -38,11 +38,15 @@ class UserModel(db.Model):
             'name': self.name,
             'role': self.role,
             'email': self.email,
-            'admin_id': self.admin
+            'username': self.username
         }
 
     def save_to_db(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete_user(self):
+        db.session.delete(self)
         db.session.commit()
 
     @classmethod

@@ -89,16 +89,16 @@ class User(Resource):
         return {'message': 'User not found'}, 404
 
     @jwt_required()
-    def delete(self, id=None, name=None):
+    def delete(self, id):
+        current_user = current_identity.id
         if id:
             user = UserModel.find_by_id(id)
-        else:
-            user = UserModel.find_by_name(name)
-        if user:
-            user.delete_from_db()
-        return {
-            'message': 'User deleted'
-        }, 200
+            if user and user.admin == current_user:
+                user.admin = user.admin
+                user.role = user.role
+                user.delete_user()
+            return {'message': 'User deleted'}, 200
+        return {'message': 'No such user'}, 404
 
     @jwt_required()
     def put(self, id):
