@@ -20,6 +20,8 @@ namespace BusinessLogic.IoC
                 .InstancePerRequest();
             builder.RegisterType<AuthenticationService>().As<IAuthenticationService>()
                 .InstancePerRequest();
+            builder.RegisterType<CrawlerStatsService>().As<ICrawlerStatsService>()
+            .InstancePerRequest();
         }
     }
 }

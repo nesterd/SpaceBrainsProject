@@ -4,12 +4,14 @@
         <li>
             @Html.ActionLink("Управление справочниками", "Index", "Home")
             <ul>
-               <li>@Html.ActionLink("Личности", "PersonList", "Person")</li>
-               <li>@Html.ActionLink("Ключевые слова", "KeyWordList", "Person")</li>
-               <li>@Html.ActionLink("Сайты", "Index", "Site")</li>
+                <li>@Html.ActionLink("Личности", "PersonList", "Person")</li>
+                <li>@Html.ActionLink("Ключевые слова", "KeyWordList", "Person")</li>
+                <li>@Html.ActionLink("Сайты", "Index", "Site")</li>
             </ul>
         </li>
+        <li>@Html.ActionLink("Статистика краулера", "Index", "CrawlerStats")</li>
         <li>@Html.ActionLink("Добавить пользователя", "UserRegistration", "Account")</li>
+        
     </ul>
 </div>
 

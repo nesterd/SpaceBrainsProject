@@ -176,6 +176,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CrawlerStatsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Models\Account\LogInViewModel.cs" />
     <Compile Include="Models\Account\UserRegistrationViewModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
+    <Compile Include="Models\CrawlerStatsViewModel.cs" />
     <Compile Include="Models\KeyWordViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\StatisticsViewModel.cs" />
@@ -268,6 +270,8 @@
     <Content Include="Views\Account\UserRegistration.cshtml" />
     <Content Include="Views\Shared\_SuperAIMenu.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\CrawlerStats\Index.cshtml" />
+    <Content Include="Views\CrawlerStats\_crawlerStats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
