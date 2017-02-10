@@ -8,7 +8,7 @@ from datetime import timedelta
 
 from security import authenticate, identity
 from resources.user import UserRegister, UserListView, User,\
-    UserRestorePassword, UserChangePassword
+    UserRestorePassword, UserChangePassword, UserStatus
 from resources.site import Site, SiteList
 from resources.person import Person, PersonList
 from resources.stats import Pages as Stats, StatList, Rank, RankList,\
@@ -31,17 +31,23 @@ def create_tables():
 
 jwt = JWT(app, authenticate, identity)  # /auth
 
+# Users urls
+api.add_resource(UserStatus, '/status')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserListView, '/users')
 api.add_resource(User, '/user/<int:id>', '/user/<string:name>')
 api.add_resource(UserRestorePassword, '/user/restore')
 api.add_resource(UserChangePassword, '/user/changepass')
+
+# Reference book urls
 api.add_resource(Site, '/site/<int:id>', '/site/<string:name>')
 api.add_resource(SiteList, '/sites')
 api.add_resource(Person, '/person/<string:name>', '/person/<int:id>')
 api.add_resource(PersonList, '/persons')
 api.add_resource(Keyword, '/keyword/<string:name>', '/keyword/<int:id>')
 api.add_resource(KeywordList, '/keywords')
+
+# Statistic urls
 api.add_resource(StatList, '/base_statistic')
 api.add_resource(
     Stats, '/base_statistic/<int:id>', '/base_statistic/<string:name>')
