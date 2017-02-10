@@ -1,22 +1,37 @@
 from flask_restful import Resource, reqparse
+from flask_jwt import jwt_required, current_identity
 from models.person import PersonModel
 
 
 class Person(Resource):
-    def get(self, Name=None, ID=None):
-        if ID:
-            person = PersonModel.find_by_id(ID)
+    parser = reqparse.RequestParser()
+    parser.add_argument(
+        'name',
+        type=str,
+        required=True,
+        help="This field cannot be left blank!"
+    )
+
+    @jwt_required()
+    def get(self, name=None, id=None):
+        if id:
+            person = PersonModel.find_by_id(id)
         else:
-            person = PersonModel.find_by_name(Name)
+            person = PersonModel.find_by_name(name)
         if person:
             return person.json()
         return {'message': 'Person not found'}, 404
 
-    def post(self, Name):
-        if PersonModel.find_by_name(Name):
-            return {'message': "A person with name '{}' already exists.".format(Name)}, 400
+    @jwt_required()
+    def post(self, name):
+        if PersonModel.find_by_name(name):
+            return {
+                'message': "A person with name '{}' already exists.".format(
+                    name)
+                }, 400
 
-        person = PersonModel(Name)
+        current_user = current_identity.id
+        person = PersonModel(name=name, admin=current_user)
         try:
             person.save_to_db()
         except:
@@ -24,28 +39,66 @@ class Person(Resource):
 
         return person.json(), 201
 
-    def delete(self, Name):
-        person = PersonModel.find_by_name(Name)
+    @jwt_required()
+    def delete(self, name=None, id=None):
+        if id:
+            person = PersonModel.find_by_id(id)
+        else:
+            person = PersonModel.find_by_name(name)
         if person:
             person.delete_from_db()
+            return {'message': 'Person deleted'}, 200
+        else:
+            return {'message': 'Person not found'}, 400
 
-        return {'message': 'Site deleted'}
-
-    def put(self, ID):
+    @jwt_required()
+    def put(self, id):
         data = Person.parser.parse_args()
-
-        person = PersonModel.find_by_id(ID)
+        person = PersonModel.find_by_id(id)
+        current_user = current_identity.id
 
         if person:
-            person.Name = data['name']
+            person.name = data['name']
+            person.admin = current_user
         else:
-            person = PersonModel(id, data['name'])
+            person = PersonModel(name=data['name'], admin=current_user)
 
         person.save_to_db()
-
-        return person.json()
+        return person.json(), 200
 
 
 class PersonList(Resource):
+    @jwt_required()
     def get(self):
-        return {'persons': list(map(lambda x: x.json(), PersonModel.query.all()))}
+
+        return {
+            'persons': list(map(
+                lambda x: x.json(), PersonModel.query.all()
+            ))
+        }, 200
+
+
+class CreatePerson(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument(
+        'name',
+        type=str,
+        required=True,
+        help="This field cannot be left blank!"
+    )
+
+    @jwt_required()
+    def post(self):
+        current_user = current_identity.id
+        data = CreatePerson.parser.parse_args()
+        person = PersonModel(name=data['name'], admin=current_user)
+
+        if PersonModel.find_by_name(data['name']):
+            return {
+                'message': "A person with name '{}' already exists.".format(
+                    data['name']
+                )
+            }, 400
+
+        person.save_to_db()
+        return person.json(), 201
