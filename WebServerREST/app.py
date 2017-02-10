@@ -7,8 +7,8 @@ from flask_jwt import JWT
 from datetime import timedelta
 
 from security import authenticate, identity
-from resources.user import UserRegister, UserListView, User
-
+from resources.user import UserRegister, UserListView, User,\
+    UserRestorePassword, UserChangePassword
 from resources.site import Site, SiteList
 from resources.person import Person, PersonList
 from resources.stats import Pages as Stats, StatList, Rank, RankList,\
