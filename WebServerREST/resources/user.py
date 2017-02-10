@@ -236,3 +236,14 @@ class UserRestorePassword(Resource):
                 return {'message': 'There is no user with such email.'}, 404
         else:
             return {'message': 'We need email.'}, 400
+
+
+class UserStatus(Resource):
+    @jwt_required()
+    def get(self):
+        return {'id': current_identity.id,
+                'name': current_identity.name,
+                'email': current_identity.email,
+                'role': current_identity.role
+                }
+
