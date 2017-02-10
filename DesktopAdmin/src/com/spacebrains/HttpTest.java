@@ -37,7 +37,8 @@ public class HttpTest {
 		User currentUSer = userRepo.login(login, password);
 		System.out.println(userRepo.getToken());
 
-		userRepo.get(currentUSer.getRole());
+//		userRepo.get(currentUSer.getRole());
+		userRepo.get(Role.SUPER_ADMIN);
 	}
 
 }

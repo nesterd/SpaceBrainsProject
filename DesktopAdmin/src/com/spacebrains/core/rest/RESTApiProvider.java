@@ -176,29 +176,28 @@ public class RESTApiProvider {
         return result;
     }
 
+    public <T extends DbObject> boolean changePass (T reqObject) {
+        httpProvider.setJSONString(reqObject.propertyToJSON("password"));
+        int status = httpProvider.doPutMethod("/user/changepass");
+        handleError(status);
+        return status == HttpStatus.SC_OK;
+    }
+
     public <T extends DbObject> String getUsers() {
         int status = httpProvider.doGetMethod("/users");
         handleError(status);
-        if(status == HttpStatus.SC_OK) {
-            return httpProvider.getJSONString();
-        }
-        return null;
+        return (status == HttpStatus.SC_OK) ? httpProvider.getJSONString() : null;
     }
 
     public <T extends DbObject> String getAdmins() {
         int status = httpProvider.doGetMethod("/admins");
         handleError(status);
-        if(status == HttpStatus.SC_OK) {
-            return httpProvider.getJSONString();
-        }
-        return null;
+        return (status == HttpStatus.SC_OK) ? httpProvider.getJSONString() : null;
     }
 
-    public <T extends DbObject> boolean changePass (T reqObject) {
-        String result = null;
-        httpProvider.setJSONString(reqObject.propertyToJSON("password"));
-        int status = httpProvider.doPutMethod("/user/changepass");
+    public <T extends DbObject> String getStatus() {
+        int status = httpProvider.doGetMethod("/status");
         handleError(status);
-        return status == HttpStatus.SC_OK;
+        return (status == HttpStatus.SC_OK) ? httpProvider.getJSONString() : null;
     }
 }
