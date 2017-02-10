@@ -97,7 +97,9 @@ public class UserRepository {
     }
 
     public String put(User user) {
-        return (rest.updateObject(new UserRegistration(user))) ? RepoConstants.SUCCESS : RepoConstants.NOT_ANSWERED;
+        UserRegistration regObj = new UserRegistration(user);
+        regObj.addProperty("id", user.getID());
+        return (rest.updateObject(regObj)) ? RepoConstants.SUCCESS : RepoConstants.NOT_ANSWERED;
     }
 
     public boolean delete(User user) {
@@ -137,12 +139,12 @@ public class UserRepository {
             addProperty("name", user.getName());
             addProperty("email", user.getEmail());
             addProperty("username", user.getLogin());
-            addProperty("password", "");
+            addProperty("password", user.getPswd());
         }
 
         @Override
         public String getEntityName() {
-            return "register";
+            return "user";
         }
     }
 

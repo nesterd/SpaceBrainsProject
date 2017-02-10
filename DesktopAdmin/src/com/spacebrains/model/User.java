@@ -53,6 +53,10 @@ public class User implements INamed {
         return this;
     }
 
+    public String getPswd() {
+        return pswd;
+    }
+
     public User setPswd(String pswd) {
         this.pswd = pswd;
         return this;

@@ -150,11 +150,8 @@ public class RESTApiProvider {
     }
 
     public <T extends DbObject> boolean register(T reqObject) {
-        StringBuilder sb = new StringBuilder();
-        sb.append('/');
-        sb.append(reqObject.getEntityName());
         httpProvider.setJSONString(reqObject.toJSONString());
-        int status = httpProvider.doPostMethod (sb.toString());
+        int status = httpProvider.doPostMethod ("/register");
         handleError(status);
         return status == HttpStatus.SC_CREATED;
     }
