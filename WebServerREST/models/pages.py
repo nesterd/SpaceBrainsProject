@@ -2,15 +2,6 @@ from db import db
 from sqlalchemy.orm import synonym
 from models.site import SiteModel
 
-class SiteModel_for_json(SiteModel):
-    def json(self):
-        return {
-                'id':                       self.id,
-                'site':                     SiteModel.query.filter_by(id=self.id).first().name, 
-                'total_count':              0,
-                'total_count_not_round':    0,
-                'total_count_round':        0
-                } 
 
 class PageModel(db.Model):
     __tablename__ = 'Pages'
@@ -21,7 +12,6 @@ class PageModel(db.Model):
     LastScanDate = db.Column(db.DateTime)
     SiteID = db.Column(db.Integer, db.ForeignKey('Sites.ID'))
 
-    # Site = db.relationship('SiteModel')
     id = synonym('ID')
     url = synonym('Url')
     found = synonym('FoundDateTime')
@@ -39,15 +29,25 @@ class PageModel(db.Model):
         def _query(self):
             query = db.session.query(PageModel, SiteModel)
             query = query.join(SiteModel, PageModel.site_id == SiteModel.id)
-            return query.filter(SiteModel.id == PageModel.site_id, SiteModel.admin == permission)
-            
+            return query.filter(
+                SiteModel.id == PageModel.site_id,
+                SiteModel.admin == permission
+                )
         return {
-                'id':                       self.site_id,
-                'site':                     SiteModel.query.filter_by(id=self.site_id).first().name,
-                'total_count':              _query(self).filter(PageModel.site_id==self.site_id).count(),
-                'total_count_not_round':    _query(self).filter(PageModel.site_id==self.site_id, PageModel.scan == None).count(),
-                'total_count_round':        _query(self).filter(PageModel.site_id==self.site_id, PageModel.scan != None).count()
-                } 
+            'id': self.site_id,
+            'site': SiteModel.query.filter_by(id=self.site_id).first().name,
+            'total_count': _query(self).filter(
+                PageModel.site_id == self.site_id
+                ).count(),
+            'total_count_not_round': _query(self).filter(
+                PageModel.site_id == self.site_id,
+                PageModel.scan is None
+                ).count(),
+            'total_count_round': _query(self).filter(
+                PageModel.site_id == self.site_id,
+                PageModel.scan is not None
+                ).count()
+            }
 
     @classmethod
     def find_by_id(cls, id):
@@ -58,3 +58,14 @@ class PageModel(db.Model):
         siteid = SiteModel.query.filter_by(name=name).first()
         if siteid:
             return cls.query.filter_by(site_id=siteid.id).first()
+
+
+class SiteModel_for_json(SiteModel):
+    def json(self):
+        return {
+            'id': self.id,
+            'site': SiteModel.query.filter_by(id=self.id).first().name,
+            'total_count': 0,
+            'total_count_not_round': 0,
+            'total_count_round': 0
+            }

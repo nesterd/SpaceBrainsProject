@@ -1,3 +1,4 @@
 __pycache__
 *.db
 /run.py
+/crawler.google
