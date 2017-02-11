@@ -73,8 +73,25 @@ public class UserRepository {
     @Deprecated
     public String getToken() { return access_token; }
 
-    public boolean changePswd(String newPassword) {
-        return rest.changePass(new UserCredentials("", newPassword));
+    public boolean changePswd(String oldPassword, String newPassword) {
+        return rest.changePass(new UserCredentials("", oldPassword) {
+            @Override
+            public String getEntityName() {
+                addProperty("password", oldPassword);
+                addProperty("new_password", newPassword);
+                return "auth";
+            }
+        });
+    }
+
+    public boolean restorePswd(String email) {
+        return rest.restorePswd(new UserCredentials("", "") {
+            @Override
+            public String getEntityName() {
+                addProperty("email", email);
+                return "user/restore";
+            }
+        });
     }
 
     public ArrayList<User> get (Role role) {

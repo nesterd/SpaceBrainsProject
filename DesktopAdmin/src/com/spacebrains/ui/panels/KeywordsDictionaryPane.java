@@ -1,6 +1,7 @@
 package com.spacebrains.ui.panels;
 
 import com.spacebrains.core.AppController;
+import com.spacebrains.core.RepoConstants;
 import com.spacebrains.core.util.BaseParams;
 import com.spacebrains.model.Keyword;
 import com.spacebrains.model.Person;
@@ -139,17 +140,20 @@ public class KeywordsDictionaryPane extends BasePane {
     public void refreshData() {
         System.out.println("[KeywordsDictionaryPane] Active");
 
-        if (AppController.getInstance().getLastChosenPerson() != null && wasAlreadyOpenedBefore) {
-            for (int i = 0; i <= personChooser.getItemCount(); i++) {
-                if (personChooser.getItemAt(i).getName().equals(AppController.getInstance().getLastChosenPerson().getName())) {
-                    personChooser.setSelectedItem(personChooser.getItemAt(i));
-                    return;
+        initPersonChooser();
+        if (AppController.lastRequestMsg().equals(RepoConstants.SUCCESS)) {
+            if (AppController.getInstance().getLastChosenPerson() != null && wasAlreadyOpenedBefore) {
+                for (int i = 0; i <= personChooser.getItemCount(); i++) {
+                    if (personChooser.getItemAt(i).getName().equals(AppController.getInstance().getLastChosenPerson().getName())) {
+                        personChooser.setSelectedItem(personChooser.getItemAt(i));
+                        return;
+                    }
                 }
             }
-        }
 
-        currentPerson = (Person) personChooser.getSelectedItem();
-        if (table != null && wasAlreadyOpenedBefore) table.updateValues(AppController.getInstance().getKeywordsByPerson(currentPerson));
-        wasAlreadyOpenedBefore = true;
+            currentPerson = (Person) personChooser.getSelectedItem();
+            if (table != null && wasAlreadyOpenedBefore) table.updateValues(AppController.getInstance().getKeywordsByPerson(currentPerson));
+            wasAlreadyOpenedBefore = true;
+        }
     }
 }

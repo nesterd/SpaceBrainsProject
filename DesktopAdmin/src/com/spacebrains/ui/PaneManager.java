@@ -1,6 +1,7 @@
 package com.spacebrains.ui;
 
 import com.spacebrains.core.AppController;
+import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.RepoConstants;
 import com.spacebrains.ui.panels.*;
 
@@ -10,6 +11,7 @@ public class PaneManager {
     private static AuthPane authPane;
     private static MainWindowPane mainWindowPane;
     private static ChangePswdPane changePswdPane;
+    private static RestorePswdPane restorePswdPane;
 
     private static CrawlerStatsPane crawlerStatsPane;
     private static UsersDictionaryPane usersDictionaryPane;
@@ -41,19 +43,27 @@ public class PaneManager {
 
     private static void switchToPane(BasePane newPane, int width, int height) {
         String msg = "";
-        if (!newPane.equals(loadingPane)) {
+        if (!newPane.equals(loadingPane) && !newPane.equals(authPane) && !newPane.equals(restorePswdPane)) {
             try {
                 appWindow().switchContentPane(newPane, width, height);
                 msg = AppController.lastRequestMsg();
             } catch (Exception e) {
                 msg = e.getLocalizedMessage();
+                System.out.println(e.fillInStackTrace());
             }
             if (!msg.equals(RepoConstants.SUCCESS)) {
                 msg = msg.contains("HttpHostConnectException")
                         ? RepoConstants.NOT_ANSWERED
                         : msg; // temporary mock
-                switchToLoadingPane();
-                loadingPane.refreshMessage(msg);
+                if (msg.equals(AuthConstants.ERR_WRONG_CREDENTIALS) || msg.equals(AuthConstants.ERR_WRONG_PWSD)) {
+                    AppController.getInstance().logout();
+                    newPane = authPane;
+                    switchToAuthPane();
+                    authPane.setErrorMsg(AppController.lastRequestMsg());
+                } else {
+                    switchToLoadingPane();
+                    loadingPane.refreshMessage(msg);
+                }
             }
         } else {
             appWindow().switchContentPane(newPane, width, height);
@@ -64,6 +74,7 @@ public class PaneManager {
     public static void startMainForm() {
         appWindow();
         currentPane = new AuthPane();
+        authPane = (AuthPane) currentPane;
         switchToPane(currentPane);
     }
 
@@ -75,11 +86,17 @@ public class PaneManager {
     public static void switchToAuthPane() {
         if (authPane == null) authPane = new AuthPane();
         switchToPane(authPane);
+        authPane.setErrorMsg(AppController.lastRequestMsg());
     }
 
     public static void switchToChangePswdPane() {
         if (changePswdPane == null) changePswdPane = new ChangePswdPane();
         switchToPane(changePswdPane);
+    }
+
+    public static void switchToRestorePswdPane() {
+        if (restorePswdPane == null) restorePswdPane = new RestorePswdPane();
+        switchToPane(restorePswdPane);
     }
 
     public static void switchToCrawlerStatsForm() {

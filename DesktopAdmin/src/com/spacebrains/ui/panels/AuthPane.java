@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.net.URI;
 
 import static com.spacebrains.core.AppController.lastRequestMsg;
+import static com.spacebrains.core.AppController.setLastRequestMsg;
 import static com.spacebrains.core.util.BaseParams.DARK_RED;
 import static com.spacebrains.core.util.BaseParams.getBaseFont;
 
@@ -170,7 +171,17 @@ public class AuthPane extends BasePane {
     }
 
     private void tryToLogin() {
-        String answer = AppController.getInstance().login(loginField.getText(), getPswdText());
+        String answer = "";
+        if (loginField.getText().length() < 1) {
+            answer = AuthConstants.USER_LOGIN_EMPTY;
+        } else if (getPswdText().length() < 1) {
+            answer = AuthConstants.USER_PSWD_EMPTY;
+        } else {
+            answer = AppController.getInstance().login(loginField.getText(), getPswdText());
+        }
+        setLastRequestMsg(answer);
+
+        System.out.println(answer);
         if (answer.equals(AuthConstants.SUCCESS)) {
             PaneManager.switchToMainPane();
         } else {
@@ -185,7 +196,7 @@ public class AuthPane extends BasePane {
         JOptionPane.showMessageDialog(currentFrame, msg, BaseParams.APP_NAME, JOptionPane.PLAIN_MESSAGE);
     }
 
-    private void setErrorMsg(String errorMsg) {
+    public void setErrorMsg(String errorMsg) {
         errorMsgLabel.setText(errorMsg);
 
         if (errorMsg.contains(AuthConstants.ERR_IS_USER)) {
@@ -228,7 +239,8 @@ public class AuthPane extends BasePane {
         forgotBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showLinkInPopUp("Обратитесь к администратору, пожалуйста: " + AuthConstants.USER_WEB_INTERFACE_LINK);
+//                showLinkInPopUp("Обратитесь к администратору, пожалуйста: " + AuthConstants.USER_WEB_INTERFACE_LINK);
+                PaneManager.switchToRestorePswdPane();
             }
         });
     }

@@ -16,6 +16,7 @@ public abstract class BaseParams {
     public static final String USERS_DICT = "Пользователи";
     public static final String ADMINS_DICT = "Администраторы";
     public static final String CHANGE_PSWD = "Смена пароля";
+    public static final String FORGOT_PSWD = "Восстановление пароля";
     public static final String CRAWLER_STATS_WINDOW = "Статистика Краулера";
 
     public static final String ALERT_MSG = "Предупреждение";

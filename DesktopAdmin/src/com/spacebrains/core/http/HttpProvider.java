@@ -3,7 +3,6 @@ package com.spacebrains.core.http;
 import com.spacebrains.core.AuthConstants;
 import com.spacebrains.core.util.RestURIBuilder;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.HttpHostConnectException;
@@ -42,6 +41,7 @@ public class HttpProvider {
 	 */
 	public void setJSONString(String inputJSONString) {
 		innerJSONstring = inputJSONString;
+		System.out.println(inputJSONString);
 	}
 	
 	/*

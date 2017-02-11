@@ -45,13 +45,14 @@ public class AppController {
     public String login(String login, String pswd) {
         try {
             currentUser = userRepo.login(login, pswd);
+            lastLogin = currentUser.getLogin();
             if (currentUser.getRole().equals(Role.USER)) {
                 setLastRequestMsg(AuthConstants.ERR_IS_USER);
             } else setLastRequestMsg(AuthConstants.SUCCESS);
         } catch (RuntimeException e) {
+            lastLogin = login;
             setLastRequestMsg(e.getLocalizedMessage());
         }
-
         return lastRequestMsg;
     }
 
@@ -63,6 +64,7 @@ public class AppController {
      */
     public void logout() {
         currentUser = null;
+        lastRequestMsg = "";
     }
 
     /**
@@ -80,10 +82,29 @@ public class AppController {
      * For GUI to request password changing
      */
     public String changePswd(String oldPswd, String newPswd) {
+        boolean pswdChanged = false;
         if (currentUser != null) {
-            return userRepo.changePswd(newPswd) ? AuthConstants.PSWD_CHANGED : AuthConstants.NOT_ANSWERED;
+            try {
+                if (userRepo.changePswd(oldPswd, newPswd)) setLastRequestMsg(AuthConstants.PSWD_CHANGED);
+            } catch (RuntimeException e) {
+                setLastRequestMsg(e.getLocalizedMessage());
+            }
         } else
-            return AuthConstants.INVALID_SESSION;
+            setLastRequestMsg(AuthConstants.INVALID_SESSION);
+        return lastRequestMsg();
+    }
+
+    /**
+     * @author Tatyana Vorobeva
+     * For GUI to request password restore
+     */
+    public String restorePswd(String email) {
+        try {
+            if (userRepo.restorePswd(email)) setLastRequestMsg(AuthConstants.PSWD_RESTORED);
+        } catch (RuntimeException e) {
+            setLastRequestMsg(e.getLocalizedMessage());
+        }
+        return lastRequestMsg();
     }
 
     public static String lastRequestMsg() {

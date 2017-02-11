@@ -169,7 +169,7 @@ public class RESTApiProvider {
         httpProvider.setJSONString(userCredentials.toJSONString());
         int status = httpProvider.doPostMethod(sb.toString());
         handleError(status);
-        if(status == HttpStatus.SC_OK) {
+        if (status == HttpStatus.SC_OK) {
             result = getPropertyFromJSON("access_token");
             httpProvider.authorize(result);
         }
@@ -177,8 +177,18 @@ public class RESTApiProvider {
     }
 
     public <T extends DbObject> boolean changePass (T reqObject) {
-        httpProvider.setJSONString(reqObject.propertyToJSON("password"));
+//        httpProvider.setJSONString(reqObject.toJSONString()); "password":"123" => BAD_REQUEST
+        reqObject.getEntityName(); // temp to catch new_password
+        httpProvider.setJSONString("{" + reqObject.propertyToJSON("password") + ", " + reqObject.propertyToJSON("new_password") + "}");
         int status = httpProvider.doPutMethod("/user/changepass");
+        handleError(status);
+        return status == HttpStatus.SC_OK;
+    }
+
+    public <T extends DbObject> boolean restorePswd (T reqObject) {
+        reqObject.getEntityName(); // temp to catch new_password
+        httpProvider.setJSONString("{" + reqObject.propertyToJSON("email") + "}");
+        int status = httpProvider.doPostMethod("/user/restore");
         handleError(status);
         return status == HttpStatus.SC_OK;
     }
