@@ -14,12 +14,12 @@ class RankModel(db.Model):
         db.Integer,
         db.ForeignKey('Persons.ID'),
         primary_key=True
-        )
+    )
     PageID = db.Column(
         db.Integer,
         db.ForeignKey('Pages.ID'),
         primary_key=True
-        )
+    )
     Person = db.relationship('PersonModel')
     Page = db.relationship('PageModel')
     Rank = db.Column(db.Integer)
@@ -68,7 +68,7 @@ class RankModel(db.Model):
         date = PageModel.query.filter(
             PageModel.scan >= date1,
             PageModel.scan <= date2
-            ).first()
+        ).first()
         if site and date:
             return site
 
@@ -78,7 +78,7 @@ class RankModel(db.Model):
         date = PageModel.query.filter(
             PageModel.scan >= date1,
             PageModel.scan <= date2
-            ).first()
+        ).first()
         if site and date:
             return site
 
@@ -99,17 +99,17 @@ class SiteModel_for_json(SiteModel):
                 SiteModel.id == site_id,
                 func.DATE(PageModel.scan) >= date1,
                 func.DATE(PageModel.scan) <= date2
-                )
+            )
         if date:
             return query.filter(
                 RankModel.person == id,
                 SiteModel.id == site_id,
                 func.DATE(PageModel.scan) == date
-                )
+            )
         return query.filter(
             RankModel.person == id,
             SiteModel.id == site_id
-            )
+        )
 
     def _get_rank_for_person(
             self, id, site_id, date=None, date1=None, date2=None):

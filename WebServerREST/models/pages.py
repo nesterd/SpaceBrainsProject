@@ -32,22 +32,22 @@ class PageModel(db.Model):
             return query.filter(
                 SiteModel.id == PageModel.site_id,
                 SiteModel.admin == permission
-                )
+            )
         return {
             'id': self.site_id,
             'site': SiteModel.query.filter_by(id=self.site_id).first().name,
             'total_count': _query(self).filter(
                 PageModel.site_id == self.site_id
-                ).count(),
+            ).count(),
             'total_count_not_round': _query(self).filter(
                 PageModel.site_id == self.site_id,
                 PageModel.scan is None
-                ).count(),
+            ).count(),
             'total_count_round': _query(self).filter(
                 PageModel.site_id == self.site_id,
                 PageModel.scan is not None
-                ).count()
-            }
+            ).count()
+        }
 
     @classmethod
     def find_by_id(cls, id):
@@ -68,4 +68,4 @@ class SiteModel_for_json(SiteModel):
             'total_count': 0,
             'total_count_not_round': 0,
             'total_count_round': 0
-            }
+        }

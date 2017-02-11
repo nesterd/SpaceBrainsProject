@@ -11,7 +11,7 @@ class Site(Resource):
         type=str,
         required=True,
         help="This field cannot be left blank!"
-        )
+    )
 
     @jwt_required()
     def get(self, id=None, name=None):
@@ -28,10 +28,10 @@ class Site(Resource):
         if SiteModel.find_by_name(name):
             return {
                 'message': "A site with name '{}' already exists.".format(name)
-                }, 400
+            }, 400
 
         current_user = current_identity.id
-        site = SiteModel(name, admin=current_user)
+        site = SiteModel(name=name, admin=current_user)
         try:
             site.save_to_db()
         except:
@@ -47,8 +47,8 @@ class Site(Resource):
             site = SiteModel.find_by_name(name)
         if site:
             site.delete_from_db()
-
-        return {'message': 'Site deleted'}
+            return {'message': 'Site deleted.'}, 200
+        return {'message': 'Site not found.'}, 404
 
     @jwt_required()
     def put(self, id):
@@ -59,11 +59,12 @@ class Site(Resource):
         if site:
             site.name = data['name']
             site.admin = current_user
+            site.save_to_db()
+            return site.json(), 200
         else:
             site = SiteModel(name=data['name'], admin=current_user)
-
-        site.save_to_db()
-        return site.json()
+            site.save_to_db()
+            return site.json(), 201
 
 
 class SiteList(Resource):
@@ -71,7 +72,7 @@ class SiteList(Resource):
     def get(self):
         return {
             'sites': list(map(lambda x: x.json(), SiteModel.query.all())),
-            }
+        }, 200
 
 
 class PagesList(Resource):
@@ -80,7 +81,7 @@ class PagesList(Resource):
         # пройти каждую страничку и вывести их Rank из RankModel
         # pages = PageModel.query.filter_by(Siteid=id)
         # for rank in RankModel.query.filter_by(Siteid=id):
-        return {'pages': PageModel.query.filter_by(site_id=id).count()}
+        return {'pages': PageModel.query.filter_by(site_id=id).count()}, 200
 
 
 class CreateSite(Resource):
@@ -90,7 +91,7 @@ class CreateSite(Resource):
         type=str,
         required=True,
         help="This field cannot be left blank!"
-        )
+    )
 
     @jwt_required()
     def post(self):
@@ -102,7 +103,7 @@ class CreateSite(Resource):
             return {
                 'message': "A site with name '{}' already exists.".format(
                     data['name'])
-                }, 400
+            }, 400
 
         site.save_to_db()
         return site.json(), 201

@@ -1,6 +1,6 @@
 from db import db
 from sqlalchemy.orm import synonym
-#from models.rank import RankModel
+# from models.rank import RankModel
 
 
 class PersonModel(db.Model):

@@ -6,7 +6,7 @@ from flask_restful import Api
 from flask_jwt import JWT
 from datetime import timedelta
 
-from security import authenticate, identity
+from security import authenticate, identity, Login
 from resources.user import UserRegister, UserListView, User,\
     UserRestorePassword, UserChangePassword, UserStatus
 from resources.site import Site, SiteList
@@ -20,6 +20,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mysql+pymysql://user:pass@host:3306/database')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_SECRET_KEY'] = 'password'
+app.config['JWT_AUTH_URL_RULE'] = '/auth_old'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=7200)
 app.secret_key = ''
 api = Api(app)
@@ -29,13 +31,14 @@ api = Api(app)
 def create_tables():
     db.create_all()
 
-jwt = JWT(app, authenticate, identity)  # /auth
+jwt = JWT(app, authenticate, identity)  # /auth_old
 
 # Users urls
+api.add_resource(Login, '/auth')
 api.add_resource(UserStatus, '/status')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserListView, '/users')
-api.add_resource(User, '/user/<int:id>', '/user/<string:name>')
+api.add_resource(User, '/user/<int:id>')
 api.add_resource(UserRestorePassword, '/user/restore')
 api.add_resource(UserChangePassword, '/user/changepass')
 

@@ -19,7 +19,7 @@ class Person(Resource):
         else:
             person = PersonModel.find_by_name(name)
         if person:
-            return person.json()
+            return person.json(), 200
         return {'message': 'Person not found'}, 404
 
     @jwt_required()
@@ -28,7 +28,7 @@ class Person(Resource):
             return {
                 'message': "A person with name '{}' already exists.".format(
                     name)
-                }, 400
+            }, 400
 
         current_user = current_identity.id
         person = PersonModel(name=name, admin=current_user)
@@ -70,7 +70,6 @@ class Person(Resource):
 class PersonList(Resource):
     @jwt_required()
     def get(self):
-
         return {
             'persons': list(map(
                 lambda x: x.json(), PersonModel.query.all()

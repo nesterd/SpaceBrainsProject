@@ -46,6 +46,8 @@ class UserRegister(Resource):
 
         if UserModel.find_by_username(data['username']):
             return {'message': 'A user with that username already exists'}, 400
+        if UserModel.find_by_email(data['email']):
+            return {'message': 'A user with that email already exists'}, 400
 
         user = UserModel(admin=current_user, role=newuser_role, **data)
         user.save_to_db()
@@ -211,19 +213,13 @@ class UserRestorePassword(Resource):
         help='Any box for letters?'
     )
 
-    def password_gen():
-        symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV\
-            WXYZ01234567890?!@#$%^&*()'
-        password = ''.join(sample(symbols, 8))
-        return password        
-
     def post(self):
         data = UserRestorePassword.parser.parse_args()
 
         if data['email']:
             user = UserModel.find_by_email(email=data['email'])
             if user:
-                user.password = UserRestorePassword.password_gen()
+                user.password = password_gen()
                 user.save_to_db()
                 send_mail(
                     user.email,
@@ -241,9 +237,16 @@ class UserRestorePassword(Resource):
 class UserStatus(Resource):
     @jwt_required()
     def get(self):
-        return {'id': current_identity.id,
-                'name': current_identity.name,
-                'email': current_identity.email,
-                'role': current_identity.role
-                }
+        return {
+            'id': current_identity.id,
+            'name': current_identity.name,
+            'email': current_identity.email,
+            'role': current_identity.role
+        }
 
+
+def password_gen():
+    symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV\
+        WXYZ01234567890?!@#$%^&*()'
+    password = ''.join(sample(symbols, 8))
+    return password

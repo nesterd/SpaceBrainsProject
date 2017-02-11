@@ -27,8 +27,8 @@ class StatList(Resource):
                 'base statistic': [
                     PageModel.find_by_id(el.id).json(
                         current_identity.admin
-                        ) for el in result if PageModel.find_by_id(el.id)]
-                }, 200
+                    ) for el in result if PageModel.find_by_id(el.id)]
+            }, 200
         return {'message': 'not found base statistic'}, 404
 
 
@@ -52,26 +52,28 @@ class RankList(Resource):
             return {
                 'base_rank statistic': [
                     RankModel.find_by_id(
-                        el.id).json() for el in result if RankModel.find_by_id(
-                            el.id)]
-                }, 200
+                        el.id
+                    ).json() for el in result if RankModel.find_by_id(el.id)
+                ]
+            }, 200
         return {'message': 'not found base_rank statistic'}, 404
 
 
 class RankDay(Resource):
-    #@jwt_required()
+    # @jwt_required()
     def _pars_date(self, date):
-        #pattern = r'\d{2}-\d{2}-\d{4}'
-        #if re.match(pattern, date) is not None:
-         #   return True
-        #return False
+        # pattern = r'\d{2}-\d{2}-\d{4}'
+        # if re.match(pattern, date) is not None:
+        #    return True
+        # return False
         try:
-            #date_str = "30-10-2016 16:18"
-            #format_str = "%d-%m-%Y %H:%M"
+            # date_str = "30-10-2016 16:18"
+            # format_str = "%d-%m-%Y %H:%M"
             format_str = "%Y-%m-%d"
             return datetime.strptime(date, format_str)
         except ValueError:
             return False
+
     @jwt_required()
     def get(self, id=None, name=None, date=None):
         date = self._pars_date(date)
@@ -92,15 +94,17 @@ class RankDayList(Resource):
     def get(self, date=None):
         result = PageModel.query.filter(PageModel.scan == date).first()
         if result:
-            return {
+            return {  # bad choise, key shouldn't change!
                 'base_rank_day statistic - ' + date: [
                     RankModel.find_by_id_day(
-                        el.id, date).json_day(
-                            date) for el in SiteModel.query.all(
-                                ) if RankModel.find_by_id_day(
-                                    el.id, date)]
-                }, 200
-        return {'message': 'not found base_rank_day statistic for this day'}, 404
+                        el.id, date
+                    ).json_day(date) for el in SiteModel.query.all(
+                        ) if RankModel.find_by_id_day(el.id, date)
+                ]
+            }, 200
+        return {
+            'message': 'not found base_rank_day statistic for this day'
+        }, 404
 
 
 class RankTime(Resource):
@@ -139,9 +143,12 @@ class RankTimeList(Resource):
                 'base_rank_time statistic - ' + date1 + '/' + date2: [
                     RankModel.find_by_id_time(
                         el.id, date1, date2
-                        ).json_time(
-                            date1, date2
-                            ) for el in SiteModel.query.all() if RankModel.find_by_id_time(
-                                el.id, date1, date2)]
-                }, 200
-        return {'message': 'not found base_rank_time statistic for this time'}, 404
+                    ).json_time(
+                        date1, date2
+                    ) for el in SiteModel.query.all(
+                    ) if RankModel.find_by_id_time(el.id, date1, date2)
+                ]
+            }, 200
+        return {
+            'message': 'not found base_rank_time statistic for this time'
+        }, 404
