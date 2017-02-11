@@ -38,7 +38,7 @@ def send_mail(email, name, username, password):
             subj,
             date,
             message_text
-        )
+        ).encode('utf-8')
         smtp.sendmail(from_addr, to_addr, msg)
         smtp.quit()
 
