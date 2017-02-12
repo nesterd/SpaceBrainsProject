@@ -2,23 +2,27 @@ package database;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 /**
- * Created by oldfox on 21.01.17.
+ * Created by oldfox on 11.02.17.
  */
+
 @Entity
-@Table(name = "Pages", schema = "ratepersons", catalog = "")
+@Table(name = "pages", schema = "ratepersons", catalog = "")
 public class PagesEntity {
+
+    @AttributeOverride(name="pageId", column=@Column(name="id"))
+    @EmbeddedId CompositeKeyPersonspagerank id2;
+
     private int id;
     private String url;
+    private int siteId;
     private Timestamp foundDateTime;
     private Timestamp lastScanDate;
     private SitesEntity sitesById;
-    private Collection<PersonPageRankEntity> personPageRanksById;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -28,7 +32,7 @@ public class PagesEntity {
     }
 
     @Basic
-    @Column(name = "Url", nullable = false, length = 2048)
+    @Column(name = "Url")
     public String getUrl() {
         return url;
     }
@@ -38,7 +42,17 @@ public class PagesEntity {
     }
 
     @Basic
-    @Column(name = "FoundDateTime", nullable = true)
+    @Column(name = "SiteID")
+    public int getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(int siteId) {
+        this.siteId = siteId;
+    }
+
+    @Basic
+    @Column(name = "FoundDateTime")
     public Timestamp getFoundDateTime() {
         return foundDateTime;
     }
@@ -48,7 +62,7 @@ public class PagesEntity {
     }
 
     @Basic
-    @Column(name = "LastScanDate", nullable = true)
+    @Column(name = "LastScanDate")
     public Timestamp getLastScanDate() {
         return lastScanDate;
     }
@@ -65,6 +79,7 @@ public class PagesEntity {
         PagesEntity that = (PagesEntity) o;
 
         if (id != that.id) return false;
+        if (siteId != that.siteId) return false;
         if (url != null ? !url.equals(that.url) : that.url != null) return false;
         if (foundDateTime != null ? !foundDateTime.equals(that.foundDateTime) : that.foundDateTime != null)
             return false;
@@ -77,6 +92,7 @@ public class PagesEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + siteId;
         result = 31 * result + (foundDateTime != null ? foundDateTime.hashCode() : 0);
         result = 31 * result + (lastScanDate != null ? lastScanDate.hashCode() : 0);
         return result;
@@ -90,14 +106,5 @@ public class PagesEntity {
 
     public void setSitesById(SitesEntity sitesById) {
         this.sitesById = sitesById;
-    }
-
-    @OneToMany(mappedBy = "pagesByPageId")
-    public Collection<PersonPageRankEntity> getPersonPageRanksById() {
-        return personPageRanksById;
-    }
-
-    public void setPersonPageRanksById(Collection<PersonPageRankEntity> personPageRanksById) {
-        this.personPageRanksById = personPageRanksById;
     }
 }

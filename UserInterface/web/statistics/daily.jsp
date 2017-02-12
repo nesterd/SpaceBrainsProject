@@ -112,38 +112,31 @@
             </table>
         </form>
         <%  List result;
-            String queryText = "FROM PersonPageRankEntity ppr WHERE pagesByPageId.foundDateTime != null ";
+            String queryText = "SELECT ppr.PersonID, ppr.PageID, ppr.Rank, pers.Name AS pn, page.Url, site.name AS sn" +
+                    " FROM ratepersons.personpagerank AS ppr" +
+                    " LEFT JOIN ratepersons.persons AS pers ON ppr.PersonId = pers.ID" +
+                    " LEFT JOIN ratepersons.pages AS page ON ppr.PageId = page.ID" +
+                    " LEFT JOIN ratepersons.sites AS site ON page.SiteID = site.ID" +
+                    " WHERE page.FoundDateTime > 0";
             if (begin != null) {
-                queryText += " AND pagesByPageId.foundDateTime >= :begindate";
+                queryText += " AND page.FoundDateTime >= '" + begin + "'";
             }
             if (end != null) {
-                queryText += " AND pagesByPageId.foundDateTime <= :enddate";
+                queryText += " AND page.FoundDateTime <= '" + end + "'";
             }
             if (siteId > 0 ) {
-                queryText += " AND pagesByPageId.sitesById.id = :siteId";
+                queryText += " AND site.id = " + siteId;
             }
             if (personId > 0 ) {
-                queryText += " AND personsByPersonId.id = :personId";
+                queryText += " AND pers.id = " + personId;
             }
             ORMSession = HibernateUtil.getSessionFactory().openSession();
-            query = ORMSession.createQuery(queryText);
-            if (begin != null) {
-                query.setParameter("begindate", begin);
-            }
-            if (end != null) {
-                query.setParameter("enddate", end);
-            }
-            if (siteId > 0) {
-                query.setParameter("siteId", siteId);
-            }
-            if (personId > 0 ) {
-                query.setParameter("personId", personId);
-            }
+            query = ORMSession.createSQLQuery(queryText);
             result = query.list();
             ORMSession.close();
             HibernateUtil.closeSessionFactory();
 
-            int pagesCount = result.size() / 10 + 1;
+            int pagesCount = result.size() / 18 + 1;
             int currentPage;
             if (request.getParameter("page") == null) {
                 currentPage = 1;

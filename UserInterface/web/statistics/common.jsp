@@ -43,13 +43,18 @@
         </form>
         <%  List result;
             Session ORMSession = HibernateUtil.getSessionFactory().openSession();
-            Query query = ORMSession.createQuery("FROM PersonPageRankEntity ppr");
+            String queryText = "SELECT ppr.PersonID, ppr.PageID, ppr.Rank, pers.Name AS pn, page.Url, site.name AS sn" +
+                    " FROM ratepersons.personpagerank AS ppr" +
+                    " LEFT JOIN ratepersons.persons AS pers ON ppr.PersonId = pers.ID" +
+                    " LEFT JOIN ratepersons.pages AS page ON ppr.PageId = page.ID" +
+                    " LEFT JOIN ratepersons.sites AS site ON page.SiteID = site.ID" +
+                    " WHERE page.FoundDateTime > 0";
+            Query query = ORMSession.createSQLQuery(queryText);
             result = query.list();
-            session.setAttribute("commonlist", result);
             ORMSession.close();
             HibernateUtil.closeSessionFactory();
 
-            int pagesCount = result.size() / 10 + 1;
+            int pagesCount = result.size() / 18 + 1;
             int currentPage;
             if (request.getParameter("page") == null) {
                 currentPage = 1;

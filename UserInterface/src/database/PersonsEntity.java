@@ -4,18 +4,22 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by oldfox on 21.01.17.
+ * Created by oldfox on 11.02.17.
  */
+
 @Entity
-@Table(name = "Persons", schema = "ratepersons", catalog = "")
+@Table(name = "persons", schema = "ratepersons", catalog = "")
 public class PersonsEntity {
+
+    @AttributeOverride(name="personId", column=@Column(name="id"))
+    @EmbeddedId CompositeKeyPersonspagerank id1;
+
     private int id;
     private String name;
-    private Collection<KeywordsEntity> keywordssById;
-    private Collection<PersonPageRankEntity> personPageRanksById;
+    private int adminId;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -25,13 +29,23 @@ public class PersonsEntity {
     }
 
     @Basic
-    @Column(name = "Name", nullable = false, length = 1024)
+    @Column(name = "Name")
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "AdminID")
+    public int getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     @Override
@@ -42,6 +56,7 @@ public class PersonsEntity {
         PersonsEntity that = (PersonsEntity) o;
 
         if (id != that.id) return false;
+        if (adminId != that.adminId) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
         return true;
@@ -51,24 +66,7 @@ public class PersonsEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + adminId;
         return result;
-    }
-
-    @OneToMany(mappedBy = "personsByPersonId")
-    public Collection<KeywordsEntity> getKeywordssById() {
-        return keywordssById;
-    }
-
-    public void setKeywordssById(Collection<KeywordsEntity> keywordssById) {
-        this.keywordssById = keywordssById;
-    }
-
-    @OneToMany(mappedBy = "personsByPersonId")
-    public Collection<PersonPageRankEntity> getPersonPageRanksById() {
-        return personPageRanksById;
-    }
-
-    public void setPersonPageRanksById(Collection<PersonPageRankEntity> personPageRanksById) {
-        this.personPageRanksById = personPageRanksById;
     }
 }

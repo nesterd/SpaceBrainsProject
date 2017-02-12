@@ -3,17 +3,17 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by oldfox on 21.01.17.
+ * Created by oldfox on 11.02.17.
  */
 @Entity
-@Table(name = "Keywords", schema = "ratepersons", catalog = "")
+@Table(name = "keywords", schema = "ratepersons", catalog = "")
 public class KeywordsEntity {
     private int id;
     private String name;
-    private PersonsEntity personsByPersonId;
+    private int personId;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -23,13 +23,23 @@ public class KeywordsEntity {
     }
 
     @Basic
-    @Column(name = "Name", nullable = false, length = 1024)
+    @Column(name = "Name")
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "PersonID")
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     @Override
@@ -40,6 +50,7 @@ public class KeywordsEntity {
         KeywordsEntity that = (KeywordsEntity) o;
 
         if (id != that.id) return false;
+        if (personId != that.personId) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
         return true;
@@ -49,16 +60,7 @@ public class KeywordsEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + personId;
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "PersonID", referencedColumnName = "ID", nullable = false)
-    public PersonsEntity getPersonsByPersonId() {
-        return personsByPersonId;
-    }
-
-    public void setPersonsByPersonId(PersonsEntity personsByPersonId) {
-        this.personsByPersonId = personsByPersonId;
     }
 }

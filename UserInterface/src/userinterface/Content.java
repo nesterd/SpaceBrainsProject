@@ -1,9 +1,9 @@
 package userinterface;
 
-import database.PersonPageRankEntity;
+import database.PersonpagerankEntity;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +15,7 @@ public class Content {
 
     public static String returnTable(String type, List result, int pagesCount, int currentPage, Date begin, Date end, String siteId, String personId) {
 
+        System.out.println(result.toString());
         String table = "<table class=\"table_content\">\n" +
                 "            <tr>\n" +
                 "                <th class=\"th_content\">\n" +
@@ -29,42 +30,67 @@ public class Content {
                 "                    Ранг\n" +
                 "                </th>\n" +
                 "            </tr>\n";
-        for (int i = 10 * (currentPage - 1) + 1; i <= 10 * currentPage; i++) {
+        for (int i = 18 * (currentPage - 1) + 1; i <= 18 * currentPage; i++) {
 
             if (i > result.size()) {
                 continue;
             }
             Object element = result.get(i-1);
+            System.out.println(element.getClass().getName());
             table +="<tr>\n" +
                 "       <td class=\"td_content\">\n" +
             i +
                 "       </td>\n" +
                 "       <td class=\"td_content\">\n" +
-            ((PersonPageRankEntity) element).getPersonsByPersonId().getName() +
+                    ((Object[])element)[3] +
                 "       </td>\n" +
                 "       <td class=\"td_content\">\n" +
-            ((PersonPageRankEntity) element).getPagesByPageId().getUrl() +
+                    ((Object[])element)[5] +
                 "       </td>\n" +
                 "       <td class=\"td_content\">\n" +
-            ((PersonPageRankEntity) element).getRank() +
+                    ((Object[])element)[2] +
                 "       </td>\n" +
                 "    </tr>\n";
         }
         table +=    "</table>\n" +
                 "   Страницы:\n";
-        for (int i = 1; i <= pagesCount; i++) {
+        if (currentPage > 6) {
+            if (type.equals("common")) {
+                table += "<a href=\"common.jsp?page=" + 1 + "\">" + 1 + "</a>";
+            } else {
+                table += "<a href=\"daily.jsp?page=" + 1 +
+                        "&begindate=" + (begin==null ? "" : begin.toString()) +
+                        "&enddate=" + (end==null ? "" : end.toString()) +
+                        "&siteId=" + siteId +
+                        "&personId=" + personId + "\">" + 1 + "</a>";
+            }
+            table += "...";
+        }
+        for (int i = (currentPage > 6 && currentPage <= pagesCount)? currentPage - 5 : 1; i <= ((currentPage <= pagesCount - 6)? currentPage + 5 : pagesCount); i++) {
             if (currentPage == i) {
-                table += i;
+                table += i + "&nbsp;";
             } else {
                 if (type.equals("common")) {
-                    table += "<a href=\"common.jsp?page=" + i + "\">" + i + "</a>";
+                    table += "<a href=\"common.jsp?page=" + i + "\">" + i + "</a>&nbsp;";
                 } else {
                     table += "<a href=\"daily.jsp?page=" + i +
                             "&begindate=" + (begin==null ? "" : begin.toString()) +
                             "&enddate=" + (end==null ? "" : end.toString()) +
                             "&siteId=" + siteId +
-                            "&personId=" + personId + "\">" + i + "</a>";
+                            "&personId=" + personId + "\">" + i + "</a>&nbsp;";
                 }
+            }
+        }
+        if (currentPage < pagesCount - 5) {
+            table += "...";
+            if (type.equals("common")) {
+                table += "<a href=\"common.jsp?page=" + pagesCount + "\">" + pagesCount + "</a>";
+            } else {
+                table += "<a href=\"daily.jsp?page=" + pagesCount +
+                        "&begindate=" + (begin==null ? "" : begin.toString()) +
+                        "&enddate=" + (end==null ? "" : end.toString()) +
+                        "&siteId=" + siteId +
+                        "&personId=" + personId + "\">" + pagesCount + "</a>";
             }
         }
 
@@ -79,9 +105,9 @@ public class Content {
         for (Object element:result) {
             String name = "";
             if (variant.equals("persons")) {
-                name = ((PersonPageRankEntity) element).getPersonsByPersonId().getName();
+                name = String.valueOf(((Object[]) element)[3]);
             } else {
-                name = ((PersonPageRankEntity) element).getPagesByPageId().getSitesById().getName();
+                name = String.valueOf(((Object[]) element)[5]);
             }
             parameter1.add(name);
             Integer mapElement = parameter2.get(name);
