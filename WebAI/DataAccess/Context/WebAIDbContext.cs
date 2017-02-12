@@ -1,0 +1,30 @@
+﻿using Domain.Entities;
+using Domain.Entities.Users;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccess.Context
+{
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
+    public class WebAIDbContext
+        : DbContext
+    {
+        public WebAIDbContext()
+            : base("webConnection")
+        {
+
+        }
+
+        public virtual DbSet<Person> Persons { get; set; }
+        public virtual DbSet<KeyWord> KeyWords { get; set; }
+        public virtual DbSet<Site> Sites { get; set; }
+        public virtual DbSet<Page> Pages { get; set; }
+        public virtual DbSet<PersonPageRank> PersonPageRanks { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+    }
+}

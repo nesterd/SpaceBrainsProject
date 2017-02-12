@@ -1,0 +1,105 @@
+﻿@using WebAI.Models;
+@using BusinessLogic.DTO
+@model PersonViewModel
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
+@{
+    ViewBag.Title = "KeyWord";
+    IEnumerable<PersonViewModel> personList = ViewBag.Persons;
+    IEnumerable<KeyWordViewModel> keyWordList = ViewBag.KeyWords;
+    bool isPersonListEmpty = personList.Count() == 0;
+
+}
+
+@Html.Partial("_AIMenu")
+<div class="col-md-8" >
+    <div style="text-align:center">
+        <h3> Справочник "Ключевые Слова"</h3>
+        <p>Для редактирования и удаления записи - нажмите на неё</p>
+    </div>
+    
+
+    @if (isPersonListEmpty)
+    {
+        <h2>Сначала добавьте хотя бы одну персону!</h2>
+    }
+    else
+    {
+        <div class="form-inline">
+            @using (Ajax.BeginForm("FIlteredKeyWord", "Person", new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "product-container"
+
+            }))
+
+            {
+
+                <div class="form-inline">
+                    @Html.Label("Выберите Персону")
+                    @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name", personList.FirstOrDefault(x => x.Id == PersonIdRemember.Id)), new { @class = "form-control" })
+
+                    <input type="submit" class="btn btn-info" value="Фильтр" />
+                </div>
+
+            }
+
+        </div>
+
+        <hr />
+        
+        <div id="product-container">
+            @Html.Partial("_KeyWordList", keyWordList)
+        </div>
+
+    }
+</div>
+
+
+
+    
+    @*<hr />
+    <div class="list-group">
+
+        @foreach (var site in Model)
+            {
+            <a href=@Url.Action("Edit", new { id = site.Id }) class="list-group-item">@site.Name</a>
+        }
+    </div>
+    <a class="btn btn-info" href="@Url.Action("AddPerson")">Добавить новую запись</a>
+</div>*@
+
+
+@*<div style="text-align:center">
+    <h3> Справочник "Ключевые Слова"</h3>
+    <p>Для редактирования и удаления записи - нажмите на неё</p>
+</div>
+
+<div class="form-inline">
+        @using (Ajax.BeginForm("FIlteredKeyWord", "Person", new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "product-container"
+
+        }))
+
+        {
+
+            <div class="form-inline">
+                @Html.Label("Выберите Персону")
+                @Html.DropDownList("id", new SelectList(personList.ToList(), "Id", "Name", personList.FirstOrDefault(x => x.Id == PersonIdRemember.Id)), new { @class = "form-control" })
+
+                    <input type="submit" class="btn btn-info" value="Фильтр" />
+            </div>
+
+         }
+
+</div>
+
+<hr />
+<div id="product-container">
+     @Html.Partial("_KeyWordList", keyWordList)
+</div>*@
+
+
+   

@@ -1,0 +1,40 @@
+﻿@model WebAI.Models.Account.UserRegistrationViewModel
+@{
+    ViewBag.Title = "AdminRegistration";
+    string actionName = ViewBag.ActionName;
+}
+
+<h2>Форма регистрации @ViewBag.FormName</h2>
+
+@using (Html.BeginForm(actionName, "Account", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Login)
+        @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Login)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(x => x.Password)
+        @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.PasswordConfirm)
+        @Html.PasswordFor(x => x.PasswordConfirm, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.PasswordConfirm)
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Регистрация</button>
+}
+

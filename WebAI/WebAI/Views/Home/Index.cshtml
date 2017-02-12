@@ -1,0 +1,33 @@
+﻿@model bool
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@*<div style="text-align:center">
+	<h3>Управление справочниками</h3>
+	<p>
+		Для выбора справочника пройдите по определенной ссылке.
+	</p>
+</div>*@
+
+
+@if (Model)
+{
+    @Html.Partial("_SuperAIMenu");
+}
+else
+{
+    @Html.Partial("_AIMenu");
+}
+    
+    
+    
+    <div class="col-md-8" style="text-align:center">
+        <h3>Управление справочниками</h3>
+        <p>
+            Для выбора справочника пройдите по определенной ссылке.
+        </p>
+    </div>
+    @*<div class="col-md-8">
+        @Html.Partial()
+    </div>*@ 

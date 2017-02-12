@@ -1,0 +1,4 @@
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`) VALUES ('2', 'rambler.ru');
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`) VALUES ('3', 'geekbrains.ru');
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`) VALUES ('4', 'yandex.ru');
+INSERT INTO `ratepersons`.`sites` (`ID`, `Name`) VALUES ('5', 'mail.ru');
