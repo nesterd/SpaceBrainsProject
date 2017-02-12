@@ -4,9 +4,11 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Конструирует строку HTTP-запроса перед отправкой в web-сервис
+ */
 public class RestURIBuilder {
     public static URI buildURI(String requestString) {
         URI uri = null;

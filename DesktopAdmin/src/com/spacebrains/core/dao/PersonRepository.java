@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Обеспечивает хранение и обработку данных о личностях,
+ * полученных от RESTful web-сервиса
+ */
 public class PersonRepository {
     private ArrayList<Person> persons;
     private RESTApiProvider rest;
@@ -62,6 +66,10 @@ public class PersonRepository {
         return persons.iterator();
     }
 
+    /**
+     * Внутренний класс-обёртка для объектов DbObject
+     * позволяет использовать унифицированные вызовы при обращении к REST
+     */
     private static class PersonDao extends DbObject {
 
         PersonDao(String jsonString) {

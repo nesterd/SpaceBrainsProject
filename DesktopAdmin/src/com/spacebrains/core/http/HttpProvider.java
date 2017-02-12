@@ -13,6 +13,11 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
+/**
+ * Класс применяется для вызова стандартных методов http: GET, PUT, POST, DELETE
+ * с учетом специфики реализации RESTful web-сервиса
+ * реализует паттерн синглтон
+ */
 public class HttpProvider {
 	private String innerJSONstring = null;
 	private String statusLine = null;
@@ -30,22 +35,28 @@ public class HttpProvider {
 		return statusLine;
 	}
 
+	/**
+	 * Читает внутреннюю строку, которая должна соответствовать спецификации JSON
+	 * для корректной работы конвертеров
+	 * @return возвращает String с содержимым внутренней строки
+	 */
 	public String getJSONString() {
 		return innerJSONstring;
 	}
 
 	/*
-	 *  Unsafe method - it's better to add JSON parsing ability to be sure
+	 *  Mostly unsafe method - it's better to add JSON parsing ability to be sure
 	 *  that innerJSONString complies to JSON specification
-	 *  Use only for debug
 	 */
 	public void setJSONString(String inputJSONString) {
 		innerJSONstring = inputJSONString;
 		System.out.println(inputJSONString);
 	}
-	
-	/*
-	 * Prepares HttpEntity object from given JSON string
+
+	/**
+	 * Подготавливает сущность StringEntity для запроса с параметрами 
+	 * @param inputJSONString строка с подготовленным JSON для преобразования
+	 * @return строковая сущность, которая отправляется затем в теле запроса
 	 */
 	private StringEntity prepareEntity(String inputJSONString) {
 		StringEntity entity = null;
@@ -137,7 +148,7 @@ public class HttpProvider {
 
 	/**
 	 * Set up Authorization token it httpRequest
-	 * @param token
+	 * @param token string value of secret JWT token
 	 */
 	public void authorize(String token) {
 		this.token = token;

@@ -5,6 +5,10 @@ import com.spacebrains.model.Site;
 
 import java.util.*;
 
+/**
+ * Обеспечивает хранение и обработку данных о сайтах,
+ * полученных от RESTful web-сервиса
+ */
 public class SiteRepository {
     private ArrayList<Site> sites;
     private RESTApiProvider rest;
@@ -60,6 +64,10 @@ public class SiteRepository {
         return sites.iterator();
     }
 
+    /**
+     * Внутренний класс-обёртка для объектов DbObject
+     * позволяет использовать унифицированные вызовы при обращении к REST
+     */
     private static class SiteDao extends DbObject {
 
         SiteDao(String jsonString) {
