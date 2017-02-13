@@ -16,8 +16,14 @@
     <script type="text/javascript" src="../calendar/tcal.js"></script>
 </head>
 <body>
+    <% if (session.getAttribute("status") == null || !session.getAttribute("status").equals("Вы авторизованы")) {
+            String site = new String("../index.jsp");
+            response.setStatus(response.SC_MOVED_TEMPORARILY);
+            response.setHeader("Location", site);
+        }
+    %>
     <div class="top">
-        <div class="header_footer">Space Brains</div>
+        <a href="../index.jsp"><div class="header_footer">Space Brains</div></a>
     </div>
     <div class="left">
         <span class="menu"><a href="common.jsp">Общая статистика</a></span>

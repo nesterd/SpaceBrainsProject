@@ -34,6 +34,11 @@ a {
     text-decoration: none;
 }
 
+p {
+    text-align: right;
+    vertical-align: middle;
+}
+
 input {
     font-family: Arial;
     font-weight: normal;
