@@ -112,7 +112,7 @@
             </table>
         </form>
         <%  List result;
-            String queryText = "SELECT ppr.PersonID, ppr.PageID, ppr.Rank, pers.Name AS pn, page.Url, site.name AS sn" +
+            String queryText = "SELECT SUM(ppr.Rank), pers.Name AS pn, site.name AS sn" +
                     " FROM ratepersons.personpagerank AS ppr" +
                     " LEFT JOIN ratepersons.persons AS pers ON ppr.PersonId = pers.ID" +
                     " LEFT JOIN ratepersons.pages AS page ON ppr.PageId = page.ID" +
@@ -130,6 +130,7 @@
             if (personId > 0 ) {
                 queryText += " AND pers.id = " + personId;
             }
+            queryText += " GROUP BY pn, sn";
             ORMSession = HibernateUtil.getSessionFactory().openSession();
             query = ORMSession.createSQLQuery(queryText);
             result = query.list();

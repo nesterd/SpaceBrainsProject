@@ -43,12 +43,12 @@
         </form>
         <%  List result;
             Session ORMSession = HibernateUtil.getSessionFactory().openSession();
-            String queryText = "SELECT ppr.PersonID, ppr.PageID, ppr.Rank, pers.Name AS pn, page.Url, site.name AS sn" +
+            String queryText = "SELECT SUM(ppr.Rank), pers.Name AS pn, site.name AS sn" +
                     " FROM ratepersons.personpagerank AS ppr" +
                     " LEFT JOIN ratepersons.persons AS pers ON ppr.PersonId = pers.ID" +
                     " LEFT JOIN ratepersons.pages AS page ON ppr.PageId = page.ID" +
                     " LEFT JOIN ratepersons.sites AS site ON page.SiteID = site.ID" +
-                    " WHERE page.FoundDateTime > 0";
+                    " GROUP BY pn, sn";
             Query query = ORMSession.createSQLQuery(queryText);
             result = query.list();
             ORMSession.close();

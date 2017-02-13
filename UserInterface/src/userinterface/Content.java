@@ -42,13 +42,13 @@ public class Content {
             i +
                 "       </td>\n" +
                 "       <td class=\"td_content\">\n" +
-                    ((Object[])element)[3] +
-                "       </td>\n" +
-                "       <td class=\"td_content\">\n" +
-                    ((Object[])element)[5] +
+                    ((Object[])element)[1] +
                 "       </td>\n" +
                 "       <td class=\"td_content\">\n" +
                     ((Object[])element)[2] +
+                "       </td>\n" +
+                "       <td class=\"td_content\">\n" +
+                    ((Object[])element)[0] +
                 "       </td>\n" +
                 "    </tr>\n";
         }
@@ -105,16 +105,16 @@ public class Content {
         for (Object element:result) {
             String name = "";
             if (variant.equals("persons")) {
-                name = String.valueOf(((Object[]) element)[3]);
+                name = String.valueOf(((Object[]) element)[1]);
             } else {
-                name = String.valueOf(((Object[]) element)[5]);
+                name = String.valueOf(((Object[]) element)[2]);
             }
             parameter1.add(name);
             Integer mapElement = parameter2.get(name);
             if (mapElement == null) {
-                parameter2.put(name, 1);
+                parameter2.put(name, Integer.parseInt(String.valueOf(((Object[]) element)[0])) + 1);
             } else {
-                parameter2.put(name, mapElement + 1);
+                parameter2.put(name, mapElement + Integer.parseInt(String.valueOf(((Object[]) element)[0])) + 1);
             }
         }
 
