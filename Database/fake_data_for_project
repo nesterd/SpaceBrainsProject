@@ -1,6 +1,6 @@
 INSERT INTO `ratepersons`.`roles` (`ID`, `Name`) VALUES ('1', 'root');
 
-INSERT INTO `ratepersons`.`users` (`ID`, `Name`, `Login`, `Password`, `AdminID`, `RoleID`) VALUES ('1', 'Супер администратор', 'root', 'password', '1', '1');
+INSERT INTO `ratepersons`.`users` (`ID`, `Name`, `Login`, `Password`, `AdminID`, `RoleID`, `Email`) VALUES ('1', 'Супер администратор', 'root', 'password', '1', '1', 'mail@mail.ru');
 
 INSERT INTO `ratepersons`.`sites` (`ID`, `Name`, `AdminID`) VALUES ('1', 'lenta.ru', '1');
 INSERT INTO `ratepersons`.`sites` (`ID`, `Name`, `AdminID`) VALUES ('2', 'rambler.ru', '1');
