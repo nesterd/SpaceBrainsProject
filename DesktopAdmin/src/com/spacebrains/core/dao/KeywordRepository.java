@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Обеспечивает хранение и обработку данных о ключевых словах,
+ * полученных от RESTful web-сервиса
+ */
 public class KeywordRepository {
     private ArrayList<Keyword> keywords;
     private RESTApiProvider rest;
@@ -77,6 +81,10 @@ public class KeywordRepository {
         return keywords.iterator();
     }
 
+    /**
+     * Внутренний класс-обёртка для объектов DbObject
+     * позволяет использовать унифицированные вызовы при обращении к REST
+     */
     private class KeywordDao extends DbObject {
         KeywordDao(String jsonString) {
             super();

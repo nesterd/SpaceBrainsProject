@@ -35,7 +35,7 @@ public class HttpTest {
 		System.out.print("Введите пароль: ");
 		String password = sc.nextLine();
 		User currentUSer = userRepo.login(login, password);
-		System.out.println(userRepo.getToken());
+//		System.out.println(userRepo.getToken());
 
 //		userRepo.get(currentUSer.getRole());
 		userRepo.get(Role.SUPER_ADMIN);

@@ -16,7 +16,7 @@ public abstract class DbObject implements JSONAware {
         fields = new LinkedHashMap<>();
     }
 
-    /**
+    /*
      * Пример реализации конструктора в субклассах
      * @param jsonString
      *
@@ -51,6 +51,10 @@ public abstract class DbObject implements JSONAware {
         return fields.keySet();
     }
 
+    /**
+     * Конструирует объект из строки с JSON
+     * @param jsonString исходная строка в формате JSON
+     */
     public void buildFromJSONString(String jsonString) {
         JSONParser parser = new JSONParser();
         try {
@@ -61,6 +65,10 @@ public abstract class DbObject implements JSONAware {
         }
     }
 
+    /**
+     * Конструирует объект из JSONObject (org.json.simple.JSONObject)
+     * @param jsonObject исходный объект JSONObject
+     */
     public void buildFromJSON(JSONObject jsonObject) {
         for (String key: fields.keySet()) {
             Object value = jsonObject.get(key);
@@ -68,7 +76,12 @@ public abstract class DbObject implements JSONAware {
         }
     }
 
-    public String propertyToJSON(String key) {
+    /**
+     * Выводит параметр объекта в формате "ключ":"значение"
+     * @param key наименование ключа для вывода в строку
+     * @return String
+     */
+    public String propertyToJSONString(String key) {
         StringBuilder sb = new StringBuilder();
         sb.append("\"");
         sb.append(JSONObject.escape(key));
@@ -86,7 +99,7 @@ public abstract class DbObject implements JSONAware {
         Iterator<String> iterator = properties.iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
-            sb.append(propertyToJSON(key));
+            sb.append(propertyToJSONString(key));
             if(iterator.hasNext()) {
                 sb.append(',');
             }

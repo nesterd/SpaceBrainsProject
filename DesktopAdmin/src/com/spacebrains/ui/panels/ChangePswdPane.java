@@ -205,5 +205,6 @@ public class ChangePswdPane extends BasePane {
     @Override
     public void refreshData() {
         System.out.println("[ChangePswdPane] Active");
+        setErrorMsg(DARK_GREEN, AuthConstants.SUCCESS);
     }
 }
